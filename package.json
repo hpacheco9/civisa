@@ -9,13 +9,23 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@firebase/firestore": "^4.6.4",
+    "@react-native-community/datetimepicker": "^8.1.1",
+    "@react-native-firebase/app": "^20.1.0",
+    "@react-navigation/native": "^6.1.17",
+    "@react-navigation/native-stack": "^6.10.0",
+    "@react-navigation/stack": "^6.4.0",
     "expo": "~51.0.18",
     "expo-status-bar": "~1.12.1",
+    "firebase": "^10.12.3",
     "react": "18.2.0",
-    "react-native": "0.74.3"
+    "react-native": "0.74.3",
+    "react-native-datepicker": "^1.7.2",
+    "react-native-modal-datetime-picker": "^17.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "react-native-dotenv": "^3.4.11"
   },
   "private": true
 }
