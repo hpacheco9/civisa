@@ -47,7 +47,7 @@ const CustomDateTimePicker = () => {
         onChange={handleTimeChange}
         style={styles.input}
       />
-      <Button title='Next' onPress={() => navigation.navigate('Perguntas')}></Button>
+      <Button title='Next' onPress={() => navigation.navigate('Perguntas')} style={styles.button}></Button>
     </View>
   );
 };
@@ -55,24 +55,27 @@ const CustomDateTimePicker = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: '#FFFFFF',
+    paddingTop: '20%'
   },
   input: {
-    marginRight: '40%',
-    color: 'white',
-    backgroundColor: 'white',
-    color: '#FFFFFF', 
-    borderColor: 'red',
-    opacity: 1,  
+    marginVertical: 10,
+    color: '#000000',
     width: 250
   },
   title: {
     fontWeight: 'bold',
     fontSize: 30,
     marginLeft: '7%',
-    marginTop: '7%'
-  }
+    paddingTop: '20%'
+  },
+  button: {
+    marginTop: 20,
+    backgroundColor: '#3498db',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 5,
+  },
 });
 
 export default CustomDateTimePicker;

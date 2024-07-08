@@ -69,8 +69,11 @@ const Perguntas = () => {
   };
 
   const handleOnPress = () => {
-    setCurrentIndex(prevIndex => prevIndex + 1);
-    console.log(form);
+    if (selectedOption != null){
+      setCurrentIndex(prevIndex => prevIndex + 1);
+    }
+    
+    
   };
 
   const handleOptionSelect = (title, option) => {
@@ -90,7 +93,7 @@ const Perguntas = () => {
         {pergunta.questoes.map((val, index) => (
           <TouchableOpacity
             key={index}
-            style={[styles.radioButton, selectedOption === val && styles.radioButtonSelected]}
+            style={[styles.radioButton, selectedOption === val && styles.radioButtonSelected]} // A melhorar 
             onPress={() => handleOptionSelect(pergunta.title, val)}
           >
             <Text style={styles.textItem}>{val}</Text>
@@ -115,7 +118,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 50,
   },
   textContainer: {
     marginVertical: 20,
