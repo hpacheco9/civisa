@@ -34,8 +34,8 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-# andorid
+# android
 android
 
-#android studio
+# android studio
 .idea

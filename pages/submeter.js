@@ -108,10 +108,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
-    fontFamily: 'Inter-Bold'
+    fontWeight: 'bold'
   },
   header: {
-    fontFamily: 'Inter-Bold',
+    fontWeight: 'bold',
     fontSize: 32,
     marginRight: '40%',
     marginBottom: '5%'

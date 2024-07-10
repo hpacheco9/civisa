@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
   header : {
     marginRight: '65%',
     fontWeight: 'bold',
-    fontFamily: 'Inter-Bold',
     paddingBottom: '2%',
     paddingTop: '5%',
     fontSize: 14
