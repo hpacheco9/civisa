@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import DateInput from './pages/data_hora.js';
 import Perguntas from './pages/Inquerito.js';
 import Submeter from './pages/submeter.js';
+import Rgpd from './pages/consentimento.js';
+
 const Stack = createStackNavigator();
 const App = () => {
   return (
@@ -19,17 +21,28 @@ const App = () => {
           backgroundColor: '#FFFFFF',
         },
         cardStyle: {
-          backgroundColor: '#FFFFFF', 
+          backgroundColor: '#FFFFFF',
         },
       }}>
+        <Stack.Screen
+          name="RGPD"
+          component={Rgpd}
+          options={{
+            title: 'RGPD',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: '#000000',
+            },
+          }}
+        />
         <Stack.Screen
           name="Data e Hora"
           component={DateInput}
           options={{
-            title: 'Data e Hora', 
+            title: 'Data e Hora',
             headerTitleStyle: {
-              fontWeight: 'bold', 
-              color: '#000000', 
+              fontWeight: 'bold',
+              color: '#000000',
             },
           }}
         />
@@ -37,21 +50,21 @@ const App = () => {
           name="Perguntas"
           component={Perguntas}
           options={{
-            title: 'Perguntas', 
+            title: 'Perguntas',
             headerTitleStyle: {
-              fontWeight: 'bold', 
-              color: '#000000', 
+              fontWeight: 'bold',
+              color: '#000000',
             },
           }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="Submeter"
           component={Submeter}
           options={{
-            title: 'Submeter', 
+            title: 'Submeter',
             headerTitleStyle: {
-              fontWeight: 'bold', 
-              color: '#000000', 
+              fontWeight: 'bold',
+              color: '#000000',
             },
           }}
         />

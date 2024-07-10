@@ -20,13 +20,13 @@ const CustomDateTimePicker = () => {
 
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShowDatePicker();
+    setShowDatePicker(Platform.OS === 'ios');
     setDate(currentDate);
   };
 
   const handleTimeChange = (event, selectedTime) => {
     const currentTime = selectedTime || time;
-    setShowTimePicker();
+    setShowTimePicker(Platform.OS === 'ios');
     setTime(currentTime);
   };
 
@@ -34,9 +34,11 @@ const CustomDateTimePicker = () => {
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.title}>Data</Text>
-        <TouchableOpacity onPress={showDatepicker} style={styles.radioButton}>
-          <Text style={styles.selectedValue}>{date.toLocaleDateString()}</Text>
-        </TouchableOpacity>
+        {Platform.OS === 'ios' && (<>
+          <TouchableOpacity onPress={showDatepicker} style={styles.radioButton}>
+            <Text style={styles.selectedValue}>{date.toLocaleDateString()}</Text>
+          </TouchableOpacity>
+        </>)}
         {showDatePicker && (
           <DateTimePicker
             testID="dateTimePicker"
@@ -48,10 +50,11 @@ const CustomDateTimePicker = () => {
         )}
 
         <Text style={styles.title}>Hora</Text>
-
-        <TouchableOpacity onPress={showTimepicker} style={styles.radioButton}>
-          <Text style={styles.selectedValue}>{date.toLocaleTimeString()}</Text>
-        </TouchableOpacity>
+        {Platform.OS === 'ios' && (<>
+          <TouchableOpacity onPress={showTimepicker} style={styles.radioButton}>
+            <Text style={styles.selectedValue}>{date.toLocaleTimeString()}</Text>
+          </TouchableOpacity>
+        </>)}
         {showTimePicker && (
           <DateTimePicker
             testID="dateTimePicker"
