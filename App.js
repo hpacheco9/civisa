@@ -3,28 +3,33 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import DateInput from './pages/data_hora.js';
 import Perguntas from './pages/Inquerito.js';
-
+import Submeter from './pages/submeter.js';
 const Stack = createStackNavigator();
-
 const App = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer >
       <Stack.Navigator screenOptions={{
+        headerShown: false,
+        gestureEnabled: true,
+        transitionSpec: {
+          open: { animation: 'timing', config: { duration: 300 } },
+          close: { animation: 'timing', config: { duration: 300 } },
+        },
         headerStyle: {
-          backgroundColor: '#FFFFFF', // Set header background color
+          backgroundColor: '#FFFFFF',
         },
         cardStyle: {
-          backgroundColor: '#FFFFFF', // Set screen background color
+          backgroundColor: '#FFFFFF', 
         },
       }}>
         <Stack.Screen
           name="Data e Hora"
           component={DateInput}
           options={{
-            title: 'Data e Hora', // Set screen title
+            title: 'Data e Hora', 
             headerTitleStyle: {
-              fontWeight: 'bold', // Set title font weight
-              color: '#000000', // Set title text color
+              fontWeight: 'bold', 
+              color: '#000000', 
             },
           }}
         />
@@ -32,10 +37,21 @@ const App = () => {
           name="Perguntas"
           component={Perguntas}
           options={{
-            title: 'Perguntas', // Set screen title
+            title: 'Perguntas', 
             headerTitleStyle: {
-              fontWeight: 'bold', // Set title font weight
-              color: '#000000', // Set title text color
+              fontWeight: 'bold', 
+              color: '#000000', 
+            },
+          }}
+        />
+         <Stack.Screen
+          name="Submeter"
+          component={Submeter}
+          options={{
+            title: 'Submeter', 
+            headerTitleStyle: {
+              fontWeight: 'bold', 
+              color: '#000000', 
             },
           }}
         />

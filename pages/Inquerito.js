@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View, TouchableOpacity, Animated, Easing } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Animated, Easing, Button } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
 import database from '../services/Database.js';
+import { useNavigation } from '@react-navigation/native';
 
 const Perguntas = () => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -12,7 +13,9 @@ const Perguntas = () => {
   });
   const [form, setForm] = useState({});
   const slideAnim = useRef(new Animated.Value(-500)).current;  
-  const fadeAnim = useRef(new Animated.Value(0)).current;     
+  const fadeAnim = useRef(new Animated.Value(0)).current; 
+  const navigator = useNavigation();    
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,31 +52,32 @@ const Perguntas = () => {
     fetchData();
   }, [currentIndex]);
 
-  const resetAnimation = () => {
-    slideAnim.setValue(200); 
-    fadeAnim.setValue(0);     
-    Animated.parallel([
-      Animated.timing(slideAnim, {
-        toValue: 0,
-        duration: 1000,
-        easing: Easing.out(Easing.exp), 
-        useNativeDriver: true,
-      }),
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 1000,
-        easing: Easing.in(Easing.exp),
-        useNativeDriver: true,
-      })
-    ]).start();
-  };
+    const resetAnimation = () => {
+      slideAnim.setValue(200); 
+      fadeAnim.setValue(0);     
+      Animated.parallel([
+        Animated.timing(slideAnim, {
+          toValue: 0,
+          duration: 300,
+          easing: Easing.out(Easing.exp), 
+          useNativeDriver: true,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 300,
+          easing: Easing.in(Easing.exp),
+          useNativeDriver: true,
+        })
+      ]).start();
+    };
 
   const handleOnPress = () => {
     if (selectedOption != null){
       setCurrentIndex(prevIndex => prevIndex + 1);
+      if (currentIndex === perguntas.length -1 ){
+        navigator.navigate('Submeter');
+      }
     }
-    
-    
   };
 
   const handleOptionSelect = (title, option) => {
@@ -83,17 +87,30 @@ const Perguntas = () => {
       [title]: option
     }));
   };
-
-  return (
-  <Animated.View style={[styles.container, { transform: [{ translateX: slideAnim }], opacity: fadeAnim }]}>
-      <Text style={styles.title} >
+  
+  
+return (
+  <>
+    <Animated.View style={[styles.voltar, { transform: [{ translateX: slideAnim }], opacity: fadeAnim }]}>
+    {currentIndex === 0 && (
+         <TouchableOpacity
+         style={styles.customButton}
+         onPress={() => navigator.navigate('Data e Hora')}
+       >
+         <Text style={styles.voltar} >{"< voltar"}</Text>
+        </TouchableOpacity>
+      )}
+    </Animated.View>
+     
+    <Animated.View style={[styles.container, { transform: [{ translateX: slideAnim }], opacity: fadeAnim }]}>
+      <Text style={styles.title}>
         {pergunta.title}
       </Text>
       <View>
         {pergunta.questoes.map((val, index) => (
           <TouchableOpacity
             key={index}
-            style={[styles.radioButton, selectedOption === val && styles.radioButtonSelected]} // A melhorar 
+            style={[styles.radioButton, selectedOption === val && styles.radioButtonSelected]}
             onPress={() => handleOptionSelect(pergunta.title, val)}
           >
             <Text style={styles.textItem}>{val}</Text>
@@ -104,7 +121,9 @@ const Perguntas = () => {
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
     </Animated.View>
-  );
+  </>
+ 
+)
 };
 
 const styles = StyleSheet.create({
@@ -136,22 +155,31 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 5,
     padding: 10,
+    width: 300
   },
   radioButtonSelected: {
     backgroundColor: '#e0f0ff',
   },
   button: {
-    backgroundColor: '#3498db',
+    backgroundColor: '#000000',
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 5,
     marginTop: 20,
+    color: '#FFFFFF'
   },
   buttonText: {
     color: '#ffffff',
     fontSize: 16,
     fontWeight: 'bold',
   },
+  voltar : {
+    marginTop: "15%",
+    marginLeft: "2%",
+    textDecorationLine: 'underline',
+    fontWeight: 'bold',
+    paddingBottom: 2
+  }
 });
 
 export default Perguntas;

@@ -3,19 +3,19 @@ import { View, TextInput, StyleSheet, Text, Button } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 
-
 const CustomDateTimePicker = () => {
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const navigation = useNavigation();
+
   const showDatepicker = () => {
     setShowPicker(true);
   };
 
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShowPicker(false); // Hide the date picker after selection
+    setShowPicker(false); 
     setDate(currentDate);
   };
 
@@ -23,11 +23,6 @@ const CustomDateTimePicker = () => {
     const currentTime = selectedTime || time;
     setTime(currentTime);
   };
-
- 
-   
-
-
 
   return (
     <View style={styles.container}>

@@ -11,14 +11,13 @@ const firebaseConfig = {
   measurementId: "G-GJLSMQBQZE"
 };
 
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-
 const perguntasRef = collection(db, 'Perguntas');
 
 export default async function database(){
   return await getDocs(perguntasRef);
 }
+
+
  

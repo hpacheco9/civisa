@@ -1,0 +1,103 @@
+"wP6Vny1TAnsKRRQ1FOcH": {
+  "1": {
+    "Sentiu o sismo? ": [
+      "Não senti",
+      "Estava sozinho e senti",
+      "Estava acompanhado e só alguns sentiram",
+      "Estava acompanhado e todos sentiram"
+    ]
+  },
+  "2": {
+    "Eu estava": [
+      "Parado",
+      "Em movimento",
+      "A dormir e acordei"
+    ]
+  },
+  "3": {
+    "Senti uma vibração": [
+      "Igual à da passagem de uma viatura ligeira",
+      "Igual à da passagem de uma viatura pesada",
+      "Maior do que a da passagem de uma viatura pesada",
+      "Tão forte que não conseguia manter o equilibrio"
+    ]
+  },
+  "4": {
+    "Os candeeiros": [
+      "Não reparei",
+      "Não oscilaram",
+      "Oscilaram"
+    ]
+  },
+  "5": {
+    "Os quadros": [
+      "Não reparei",
+      "Não se mexeram",
+      "Mexeram-se",
+      "Caíram"
+    ]
+  },
+  "6": {
+    "As loiças e vidros": [
+      "Não reparei",
+      "Não tilintaram",
+      "Tilintaram",
+      "Partiram-se"
+    ]
+  },
+  "7": {
+    "As portas e janelas ": [
+      "Não reparei",
+      "Não tremeram ",
+      "Tremeram"
+    ]
+  },
+  "8": {
+    "O travejamento": [
+      "Não reparei",
+      "Não rangeu",
+      "Rangeu"
+    ]
+  },
+  "9": {
+    "Os livros e biblots": [
+      "Não reparei",
+      "Não se mexeram",
+      "Deslocaram-se",
+      "Caíram"
+    ]
+  },
+  "10": {
+    "Os moveis": [
+      "Não reparei",
+      "Não se mexeram",
+      "Deslocaram-se",
+      "Partiram-se ou ficaram danificados"
+    ]
+  },
+  "11": {
+    "Os liquidos": [
+      "Não reparei",
+      "Não se agitaram",
+      "Agitaram-se ligeiramente",
+      "Transbordaram"
+    ]
+  },
+  "12": {
+    "As viaturas": [
+      "Não reparei",
+      "Que estavam paradas, balançaram",
+      "Que estavam em movimento, estremeceram ",
+      "Que estavam em movimento, desgovernaram-se "
+    ]
+  },
+  "13": {
+    "O edificio onde estava": [
+      "Não sofreu danos",
+      "Ficou com pequenas fissuras nas paredes e estuques",
+      "Teve chaminés, varandas ou alpendres que caíram",
+      "Teve telhados e/ou paredes que caíram parcialmente",
+      "Ficou em ruinas "
+    ]
+  }
+}
