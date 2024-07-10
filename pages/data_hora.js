@@ -34,7 +34,7 @@ const CustomDateTimePicker = () => {
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.title}>Data</Text>
-        {Platform.OS === 'ios' && (<>
+        {Platform.OS === 'android' && (<>
           <TouchableOpacity onPress={showDatepicker} style={styles.radioButton}>
             <Text style={styles.selectedValue}>{date.toLocaleDateString()}</Text>
           </TouchableOpacity>
@@ -50,7 +50,7 @@ const CustomDateTimePicker = () => {
         )}
 
         <Text style={styles.title}>Hora</Text>
-        {Platform.OS === 'ios' && (<>
+        {Platform.OS === 'android' && (<>
           <TouchableOpacity onPress={showTimepicker} style={styles.radioButton}>
             <Text style={styles.selectedValue}>{date.toLocaleTimeString()}</Text>
           </TouchableOpacity>
