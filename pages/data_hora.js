@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Platform, ScrollView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CustomDateTimePicker = () => {
   const [date, setDate] = useState(new Date());
@@ -28,6 +29,24 @@ const CustomDateTimePicker = () => {
     const currentTime = selectedTime || time;
     setShowTimePicker(Platform.OS === 'ios');
     setTime(currentTime);
+  };
+
+  const handleNext = async () => {
+    // Save the date and time to AsyncStorage
+    const selectedDateTime = {
+      date: date.toLocaleDateString(),
+      time: time.toLocaleTimeString(),
+    };
+    
+    try {
+      await AsyncStorage.setItem('@selectedDateTime', JSON.stringify(selectedDateTime));
+      console.log('Selected Date and Time saved:', selectedDateTime);
+    } catch (e) {
+      console.error('Failed to save the data to AsyncStorage', e);
+    }
+
+    // Navigate to the next screen
+    navigation.navigate('Perguntas');
   };
 
   return (
@@ -65,7 +84,7 @@ const CustomDateTimePicker = () => {
           />
         )}
         <TouchableOpacity
-          onPress={() => navigation.navigate('Perguntas')}
+          onPress={handleNext}
           style={styles.button}
         >
           <Text style={styles.buttonText}>Next</Text>

@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, TouchableOpacity, Animated, Easing, Button, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Animated, Easing, ScrollView } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
 import data from '../services/dataset.json';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Perguntas = () => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -68,10 +69,20 @@ const Perguntas = () => {
     ]).start();
   };
 
-  const handleOnPress = () => {
+  const handleOnPress = async () => {
     if (selectedOption != null) {
-      setCurrentIndex(prevIndex => prevIndex + 1);
-      if (currentIndex === perguntas.length - 1) {
+      const newIndex = currentIndex + 1;
+      setCurrentIndex(newIndex);
+      
+      // Save the form answers to AsyncStorage
+      try {
+        await AsyncStorage.setItem('@formAnswers', JSON.stringify(form));
+        console.log('Form:', form);
+      } catch (e) {
+        console.error('Failed to save the data to AsyncStorage', e);
+      }
+
+      if (newIndex >= perguntas.length) {
         navigator.navigate('Submeter');
       }
     }
@@ -85,10 +96,8 @@ const Perguntas = () => {
     }));
   };
 
-
   return (
-    <>
-      <ScrollView>
+    <ScrollView>
         <Animated.View style={[styles.container, { transform: [{ translateX: slideAnim }], opacity: fadeAnim }]}>
           <Text style={styles.title}>
             {pergunta.title}
@@ -116,12 +125,8 @@ const Perguntas = () => {
               <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
           </View>
-
         </Animated.View>
-      </ScrollView>
-
-    </>
-
+    </ScrollView>
   )
 };
 
@@ -194,5 +199,3 @@ const styles = StyleSheet.create({
 });
 
 export default Perguntas;
-
-

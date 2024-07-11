@@ -5,6 +5,7 @@ import DateInput from './pages/data_hora.js';
 import Perguntas from './pages/Inquerito.js';
 import Submeter from './pages/submeter.js';
 import Rgpd from './pages/consentimento.js';
+import Result from './pages/result.js';
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -62,6 +63,17 @@ const App = () => {
           component={Submeter}
           options={{
             title: 'Submeter',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: '#000000',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Result"
+          component={Result}
+          options={{
+            title: 'Result',
             headerTitleStyle: {
               fontWeight: 'bold',
               color: '#000000',
