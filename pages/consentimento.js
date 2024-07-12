@@ -48,12 +48,12 @@ const Rgpd = () => {
         <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} color={isChecked ? '#000000' : undefined} />
         <Text> Li e aceito</Text>
         {isChecked && (
-        <TouchableOpacity style={styles.button} onPress={() => {
-          navigator.navigate("Data e Hora")
-        }}>
-          <Text style={styles.buttonText}>Next</Text>
-        </TouchableOpacity>
-      )}
+          <TouchableOpacity style={styles.button} onPress={() => {
+            navigator.navigate("Data e Hora")
+          }}>
+            <Text style={styles.buttonText}>Next</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft:"10%"
+    marginLeft: "10%"
   },
   button: {
     backgroundColor: '#000000',
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     borderRadius: 5,
     color: '#FFFFFF',
-    marginLeft:"30%"
+    marginLeft: "30%"
   },
   buttonText: {
     color: '#ffffff',

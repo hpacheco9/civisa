@@ -9,16 +9,8 @@ import { initializeApp } from "firebase/app";
 import { Formik } from 'formik';
 import locais from '../services/Locais.json';
 import * as Yup from 'yup';
+import firebaseConfig from '../services/Database';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBbr5ZT5RFqRCBE3oXR-UlsaLMW0McuxeQ",
-  authDomain: "teste-e8fc1.firebaseapp.com",
-  projectId: "teste-e8fc1",
-  storageBucket: "teste-e8fc1.appspot.com",
-  messagingSenderId: "636947299691",
-  appId: "1:636947299691:web:89eec25d8a113bb961602e",
-  measurementId: "G-GJLSMQBQZE"
-};
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -30,7 +22,8 @@ const Submeter = () => {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
-    phone: Yup.string().required('Phone is required'),
+    phone: Yup.string().required('Phone is required').min(9, 'Phone must be at least 9 characters')
+      .max(9, 'Phone must be at most 9 characters'),
     email: Yup.string().email('Invalid email format'),
     concelho: Yup.string().required('Concelho is required'),
     freguesia: Yup.string().required('Freguesia is required'),
