@@ -21,23 +21,38 @@ const CustomDateTimePicker = () => {
 
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShowDatePicker(Platform.OS === 'ios');
-    setDate(currentDate);
+    setShowDatePicker(false);
+    if (currentDate <= new Date()) {
+      setDate(currentDate);
+    }
   };
 
   const handleTimeChange = (event, selectedTime) => {
     const currentTime = selectedTime || time;
-    setShowTimePicker(Platform.OS === 'ios');
+    setShowTimePicker(false);
     setTime(currentTime);
   };
 
+  const formatDate = (date) => {
+    const day = (`0${date.getDate()}`).slice(-2);
+    const month = (`0${date.getMonth() + 1}`).slice(-2);
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  const formatTime = (time) => {
+    const hours = (`0${time.getHours()}`).slice(-2);
+    const minutes = (`0${time.getMinutes()}`).slice(-2);
+    return `${hours}:${minutes}`;
+  };
+
   const handleNext = async () => {
-    // Save the date and time to AsyncStorage
+
     const selectedDateTime = {
-      date: date.toLocaleDateString(),
-      time: time.toLocaleTimeString(),
+      date: formatDate(date),
+      time: formatTime(time),
     };
-    
+
     try {
       await AsyncStorage.setItem('@selectedDateTime', JSON.stringify(selectedDateTime));
       console.log('Selected Date and Time saved:', selectedDateTime);
@@ -45,52 +60,55 @@ const CustomDateTimePicker = () => {
       console.error('Failed to save the data to AsyncStorage', e);
     }
 
-    // Navigate to the next screen
     navigation.navigate('Perguntas');
   };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.title}>Data</Text>
-        {Platform.OS === 'android' && (<>
-          <TouchableOpacity onPress={showDatepicker} style={styles.radioButton}>
-            <Text style={styles.selectedValue}>{date.toLocaleDateString()}</Text>
-          </TouchableOpacity>
-        </>)}
-        {showDatePicker && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode="date"
-            display="default"
-            onChange={handleDateChange}
-          />
-        )}
+    <>
+      <Text style={styles.header}>Data & Hora</Text>
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.title}>Data</Text>
 
-        <Text style={styles.title}>Hora</Text>
-        {Platform.OS === 'android' && (<>
-          <TouchableOpacity onPress={showTimepicker} style={styles.radioButton}>
-            <Text style={styles.selectedValue}>{date.toLocaleTimeString()}</Text>
+          <>
+            <TouchableOpacity onPress={showDatepicker} style={styles.radioButton}>
+              <Text style={styles.selectedValue}>{formatDate(date)}</Text>
+            </TouchableOpacity>
+          </>
+          {showDatePicker && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode="date"
+              display="default"
+              onChange={handleDateChange}
+              maximumDate={new Date()}
+            />
+          )}
+
+          <Text style={styles.title}>Hora</Text>
+          <>
+            <TouchableOpacity onPress={showTimepicker} style={styles.radioButton}>
+              <Text style={styles.selectedValue}>{formatTime(time)}</Text>
+            </TouchableOpacity>
+          </>
+          {showTimePicker && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={time}
+              mode="time"
+              display="default"
+              onChange={handleTimeChange}
+              is24Hour={true}
+            />
+          )}
+          <TouchableOpacity onPress={handleNext} style={styles.button}>
+            <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>
-        </>)}
-        {showTimePicker && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={time}
-            mode="time"
-            display="default"
-            onChange={handleTimeChange}
-          />
-        )}
-        <TouchableOpacity
-          onPress={handleNext}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Next</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </>
+
   );
 };
 
@@ -98,16 +116,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingTop: '20%',
+    paddingTop: '10%',
     alignItems: 'center',
     overflow: 'scroll',
   },
   title: {
     fontWeight: 'bold',
-    fontSize: 30,
-    marginLeft: '7%',
+    fontSize: 16,
+    marginLeft: '12%',
     paddingTop: '12%',
-    paddingBottom: '10%',
     alignSelf: 'flex-start',
   },
   selectedValue: {
@@ -120,8 +137,8 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 5,
-    marginTop: "50%",
-    color: '#FFFFFF'
+    marginTop: '15%',
+    color: '#FFFFFF',
   },
   buttonText: {
     color: '#FFFFFF',
@@ -136,8 +153,14 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 5,
     padding: 10,
-    width: 300
+    width: 300,
   },
+  header: {
+    marginTop: '30%',
+    fontWeight: 'bold',
+    fontSize: 32,
+    marginLeft: '12%',
+  }
 });
 
 export default CustomDateTimePicker;

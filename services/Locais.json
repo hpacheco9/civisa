@@ -1,0 +1,744 @@
+{
+    "concelhos": [
+        {
+            "label": "Vila do Corvo",
+            "value": "Vila do Corvo"
+        },
+        {
+            "label": "Horta",
+            "value": "Horta"
+        },
+        {
+            "label": "Lajes das Flores",
+            "value": "Lajes das Flores"
+        },
+        {
+            "label": "Santa Cruz das Flores",
+            "value": "Santa Cruz das Flores"
+        },
+        {
+            "label": "Santa Cruz da Graciosa",
+            "value": "Santa Cruz da Graciosa"
+        },
+        {
+            "label": "Lajes do Pico",
+            "value": "Lajes do Pico"
+        },
+        {
+            "label": "Madalena",
+            "value": "Madalena"
+        },
+        {
+            "label": "São Roque do Pico",
+            "value": "São Roque do Pico"
+        },
+        {
+            "label": "Vila do Porto",
+            "value": "Vila do Porto"
+        },
+        {
+            "label": "Calheta",
+            "value": "Calheta"
+        },
+        {
+            "label": "Velas",
+            "value": "Velas"
+        },
+        {
+            "label": "Lagoa",
+            "value": "Lagoa"
+        },
+        {
+            "label": "Nordeste",
+            "value": "Nordeste"
+        },
+        {
+            "label": "Ponta Delgada",
+            "value": "Ponta Delgada"
+        },
+        {
+            "label": "Povoação",
+            "value": "Povoação"
+        },
+        {
+            "label": "Ribeira Grande",
+            "value": "Ribeira Grande"
+        },
+        {
+            "label": "Vila Franca do Campo",
+            "value": "Vila Franca do Campo"
+        },
+        {
+            "label": "Angra do Heroísmo",
+            "value": "Angra do Heroísmo"
+        },
+        {
+            "label": "Praia da Vitória",
+            "value": "Praia da Vitória"
+        }
+    ],
+    "freguesias": {
+        "Vila do Corvo": [
+            {
+                "label": "Não tem qualquer freguesia (artigo 86.° do EPARAA)",
+                "value": "Não tem qualquer freguesia (artigo 86.° do EPARAA)"
+            }
+        ],
+        "Horta": [
+            {
+                "label": "Angústias",
+                "value": "Angústias"
+            },
+            {
+                "label": "Capelo",
+                "value": "Capelo"
+            },
+            {
+                "label": "Castelo Branco",
+                "value": "Castelo Branco"
+            },
+            {
+                "label": "Cedros",
+                "value": "Cedros"
+            },
+            {
+                "label": "Conceição",
+                "value": "Conceição"
+            },
+            {
+                "label": "Feteira",
+                "value": "Feteira"
+            },
+            {
+                "label": "Flamengos",
+                "value": "Flamengos"
+            },
+            {
+                "label": "Matriz",
+                "value": "Matriz"
+            },
+            {
+                "label": "Pedro Miguel",
+                "value": "Pedro Miguel"
+            },
+            {
+                "label": "Praia do Almoxarife",
+                "value": "Praia do Almoxarife"
+            },
+            {
+                "label": "Praia do Norte",
+                "value": "Praia do Norte"
+            },
+            {
+                "label": "Ribeirinha",
+                "value": "Ribeirinha"
+            },
+            {
+                "label": "Salão",
+                "value": "Salão"
+            }
+        ],
+        "Lajes das Flores": [
+            {
+                "label": "Fajã Grande",
+                "value": "Fajã Grande"
+            },
+            {
+                "label": "Fajãzinha",
+                "value": "Fajãzinha"
+            },
+            {
+                "label": "Fazenda",
+                "value": "Fazenda"
+            },
+            {
+                "label": "Lajedo",
+                "value": "Lajedo"
+            },
+            {
+                "label": "Lajes",
+                "value": "Lajes"
+            },
+            {
+                "label": "Lomba",
+                "value": "Lomba"
+            },
+            {
+                "label": "Mosteiro",
+                "value": "Mosteiro"
+            }
+        ],
+        "Santa Cruz das Flores": [
+            {
+                "label": "Caveira",
+                "value": "Caveira"
+            },
+            {
+                "label": "Cedros",
+                "value": "Cedros"
+            },
+            {
+                "label": "Ponta Delgada",
+                "value": "Ponta Delgada"
+            },
+            {
+                "label": "Santa Cruz",
+                "value": "Santa Cruz"
+            }
+        ],
+        "Santa Cruz da Graciosa": [
+            {
+                "label": "Guadalupe",
+                "value": "Guadalupe"
+            },
+            {
+                "label": "Luz",
+                "value": "Luz"
+            },
+            {
+                "label": "Santa Cruz",
+                "value": "Santa Cruz"
+            },
+            {
+                "label": "São Mateus",
+                "value": "São Mateus"
+            }
+        ],
+        "Lajes do Pico": [
+            {
+                "label": "Calheta de Nesquim",
+                "value": "Calheta de Nesquim"
+            },
+            {
+                "label": "Lajes do Pico",
+                "value": "Lajes do Pico"
+            },
+            {
+                "label": "Piedade",
+                "value": "Piedade"
+            },
+            {
+                "label": "Ribeiras",
+                "value": "Ribeiras"
+            },
+            {
+                "label": "Ribeirinha",
+                "value": "Ribeirinha"
+            },
+            {
+                "label": "São João",
+                "value": "São João"
+            }
+        ],
+        "Madalena": [
+            {
+                "label": "Bandeiras",
+                "value": "Bandeiras"
+            },
+            {
+                "label": "Candelária",
+                "value": "Candelária"
+            },
+            {
+                "label": "Criação Velha",
+                "value": "Criação Velha"
+            },
+            {
+                "label": "Madalena",
+                "value": "Madalena"
+            },
+            {
+                "label": "São Caetano",
+                "value": "São Caetano"
+            },
+            {
+                "label": "São Mateus",
+                "value": "São Mateus"
+            }
+        ],
+        "São Roque do Pico": [
+            {
+                "label": "Prainha",
+                "value": "Prainha"
+            },
+            {
+                "label": "Santa Luzia",
+                "value": "Santa Luzia"
+            },
+            {
+                "label": "Santo Amaro",
+                "value": "Santo Amaro"
+            },
+            {
+                "label": "Santo António",
+                "value": "Santo António"
+            },
+            {
+                "label": "São Roque",
+                "value": "São Roque"
+            }
+        ],
+        "Vila do Porto": [
+            {
+                "label": "Almagreira",
+                "value": "Almagreira"
+            },
+            {
+                "label": "Santa Bárbara",
+                "value": "Santa Bárbara"
+            },
+            {
+                "label": "Santo Espírito",
+                "value": "Santo Espírito"
+            },
+            {
+                "label": "São Pedro",
+                "value": "São Pedro"
+            },
+            {
+                "label": "Vila do Porto",
+                "value": "Vila do Porto"
+            }
+        ],
+        "Calheta": [
+            {
+                "label": "Calheta",
+                "value": "Calheta"
+            },
+            {
+                "label": "Norte Pequeno",
+                "value": "Norte Pequeno"
+            },
+            {
+                "label": "Ribeira Seca",
+                "value": "Ribeira Seca"
+            },
+            {
+                "label": "Santo Antão",
+                "value": "Santo Antão"
+            },
+            {
+                "label": "Topo",
+                "value": "Topo"
+            }
+        ],
+        "Velas": [
+            {
+                "label": "Manadas",
+                "value": "Manadas"
+            },
+            {
+                "label": "Norte Grande",
+                "value": "Norte Grande"
+            },
+            {
+                "label": "Rosais",
+                "value": "Rosais"
+            },
+            {
+                "label": "Santo Amaro",
+                "value": "Santo Amaro"
+            },
+            {
+                "label": "Urzelina",
+                "value": "Urzelina"
+            },
+            {
+                "label": "Velas",
+                "value": "Velas"
+            }
+        ],
+        "Lagoa": [
+            {
+                "label": "Água de Pau",
+                "value": "Água de Pau"
+            },
+            {
+                "label": "Cabouco",
+                "value": "Cabouco"
+            },
+            {
+                "label": "Nossa Senhora do Rosário",
+                "value": "Nossa Senhora do Rosário"
+            },
+            {
+                "label": "Ribeira Chã",
+                "value": "Ribeira Chã"
+            },
+            {
+                "label": "Santa Cruz",
+                "value": "Santa Cruz"
+            }
+        ],
+        "Nordeste": [
+            {
+                "label": "Achada",
+                "value": "Achada"
+            },
+            {
+                "label": "Achadinha",
+                "value": "Achadinha"
+            },
+            {
+                "label": "Algarvia",
+                "value": "Algarvia"
+            },
+            {
+                "label": "Lomba da Fazenda",
+                "value": "Lomba da Fazenda"
+            },
+            {
+                "label": "Nordeste",
+                "value": "Nordeste"
+            },
+            {
+                "label": "Salga",
+                "value": "Salga"
+            },
+            {
+                "label": "Santana",
+                "value": "Santana"
+            },
+            {
+                "label": "Santo António de Nordestinho",
+                "value": "Santo António de Nordestinho"
+            },
+            {
+                "label": "São Pedro de Nordestinho",
+                "value": "São Pedro de Nordestinho"
+            }
+        ],
+        "Ponta Delgada": [
+            {
+                "label": "Ajuda da Bretanha",
+                "value": "Ajuda da Bretanha"
+            },
+            {
+                "label": "Arrifes",
+                "value": "Arrifes"
+            },
+            {
+                "label": "Candelária",
+                "value": "Candelária"
+            },
+            {
+                "label": "Capelas",
+                "value": "Capelas"
+            },
+            {
+                "label": "Covoada",
+                "value": "Covoada"
+            },
+            {
+                "label": "Fajã de Baixo",
+                "value": "Fajã de Baixo"
+            },
+            {
+                "label": "Fajã de Cima",
+                "value": "Fajã de Cima"
+            },
+            {
+                "label": "Fenais da Luz",
+                "value": "Fenais da Luz"
+            },
+            {
+                "label": "Feteiras",
+                "value": "Feteiras"
+            },
+            {
+                "label": "Ginetes",
+                "value": "Ginetes"
+            },
+            {
+                "label": "Livramento",
+                "value": "Livramento"
+            },
+            {
+                "label": "Mosteiros",
+                "value": "Mosteiros"
+            },
+            {
+                "label": "Pilar da Bretanha",
+                "value": "Pilar da Bretanha"
+            },
+            {
+                "label": "Relva",
+                "value": "Relva"
+            },
+            {
+                "label": "Remédios",
+                "value": "Remédios"
+            },
+            {
+                "label": "Santa Bárbara",
+                "value": "Santa Bárbara"
+            },
+            {
+                "label": "Santa Clara",
+                "value": "Santa Clara"
+            },
+            {
+                "label": "Santo António",
+                "value": "Santo António"
+            },
+            {
+                "label": "São José",
+                "value": "São José"
+            },
+            {
+                "label": "São Pedro",
+                "value": "São Pedro"
+            },
+            {
+                "label": "São Roque",
+                "value": "São Roque"
+            },
+            {
+                "label": "São Sebastião",
+                "value": "São Sebastião"
+            },
+            {
+                "label": "São Vicente Ferreira",
+                "value": "São Vicente Ferreira"
+            },
+            {
+                "label": "Sete Cidades",
+                "value": "Sete Cidades"
+            }
+        ],
+        "Povoação": [
+            {
+                "label": "Água Retorta",
+                "value": "Água Retorta"
+            },
+            {
+                "label": "Faial da Terra",
+                "value": "Faial da Terra"
+            },
+            {
+                "label": "Furnas",
+                "value": "Furnas"
+            },
+            {
+                "label": "Nossa Senhora dos Remédios",
+                "value": "Nossa Senhora dos Remédios"
+            },
+            {
+                "label": "Povoação",
+                "value": "Povoação"
+            },
+            {
+                "label": "Ribeira Quente",
+                "value": "Ribeira Quente"
+            }
+        ],
+        "Ribeira Grande": [
+            {
+                "label": "Calhetas",
+                "value": "Calhetas"
+            },
+            {
+                "label": "Conceição",
+                "value": "Conceição"
+            },
+            {
+                "label": "Fenais da Ajuda",
+                "value": "Fenais da Ajuda"
+            },
+            {
+                "label": "Lomba da Maia",
+                "value": "Lomba da Maia"
+            },
+            {
+                "label": "Lomba de São Pedro",
+                "value": "Lomba de São Pedro"
+            },
+            {
+                "label": "Maia",
+                "value": "Maia"
+            },
+            {
+                "label": "Matriz",
+                "value": "Matriz"
+            },
+            {
+                "label": "Pico da Pedra",
+                "value": "Pico da Pedra"
+            },
+            {
+                "label": "Porto Formoso",
+                "value": "Porto Formoso"
+            },
+            {
+                "label": "Rabo de Peixe",
+                "value": "Rabo de Peixe"
+            },
+            {
+                "label": "Ribeira Seca",
+                "value": "Ribeira Seca"
+            },
+            {
+                "label": "Ribeirinha",
+                "value": "Ribeirinha"
+            },
+            {
+                "label": "Santa Bárbara",
+                "value": "Santa Bárbara"
+            },
+            {
+                "label": "São Brás",
+                "value": "São Brás"
+            }
+        ],
+        "Vila Franca do Campo": [
+            {
+                "label": "Água D'Alto",
+                "value": "Água D'Alto"
+            },
+            {
+                "label": "Ponta Garça",
+                "value": "Ponta Garça"
+            },
+            {
+                "label": "Ribeira das Taínhas",
+                "value": "Ribeira das Taínhas"
+            },
+            {
+                "label": "Ribeira Seca",
+                "value": "Ribeira Seca"
+            },
+            {
+                "label": "São Miguel",
+                "value": "São Miguel"
+            },
+            {
+                "label": "São Pedro",
+                "value": "São Pedro"
+            }
+        ],
+        "Angra do Heroísmo": [
+            {
+                "label": "Altares",
+                "value": "Altares"
+            },
+            {
+                "label": "Cinco Ribeiras",
+                "value": "Cinco Ribeiras"
+            },
+            {
+                "label": "Conceição",
+                "value": "Conceição"
+            },
+            {
+                "label": "Doze Ribeiras",
+                "value": "Doze Ribeiras"
+            },
+            {
+                "label": "Feteira",
+                "value": "Feteira"
+            },
+            {
+                "label": "Porto Judeu",
+                "value": "Porto Judeu"
+            },
+            {
+                "label": "Posto Santo",
+                "value": "Posto Santo"
+            },
+            {
+                "label": "Raminho",
+                "value": "Raminho"
+            },
+            {
+                "label": "Ribeirinha",
+                "value": "Ribeirinha"
+            },
+            {
+                "label": "Santa Bárbara",
+                "value": "Santa Bárbara"
+            },
+            {
+                "label": "Santa Luzia",
+                "value": "Santa Luzia"
+            },
+            {
+                "label": "São Bartolomeu",
+                "value": "São Bartolomeu"
+            },
+            {
+                "label": "São Bento",
+                "value": "São Bento"
+            },
+            {
+                "label": "São Mateus",
+                "value": "São Mateus"
+            },
+            {
+                "label": "São Pedro",
+                "value": "São Pedro"
+            },
+            {
+                "label": "São Sebastião",
+                "value": "São Sebastião"
+            },
+            {
+                "label": "Sé",
+                "value": "Sé"
+            },
+            {
+                "label": "Serreta",
+                "value": "Serreta"
+            },
+            {
+                "label": "Terra Chã",
+                "value": "Terra Chã"
+            }
+        ],
+        "Praia da Vitória": [
+            {
+                "label": "Agualva",
+                "value": "Agualva"
+            },
+            {
+                "label": "Biscoitos",
+                "value": "Biscoitos"
+            },
+            {
+                "label": "Cabo da Praia",
+                "value": "Cabo da Praia"
+            },
+            {
+                "label": "Fonte do Bastardo",
+                "value": "Fonte do Bastardo"
+            },
+            {
+                "label": "Fontinhas",
+                "value": "Fontinhas"
+            },
+            {
+                "label": "Porto Martins",
+                "value": "Porto Martins"
+            },
+            {
+                "label": "Quatro Ribeiras",
+                "value": "Quatro Ribeiras"
+            },
+            {
+                "label": "Santa Cruz",
+                "value": "Santa Cruz"
+            },
+            {
+                "label": "São Brás",
+                "value": "São Brás"
+            },
+            {
+                "label": "Vila das Lajes",
+                "value": "Vila das Lajes"
+            },
+            {
+                "label": "Vila Nova",
+                "value": "Vila Nova"
+            }
+        ]
+    }
+}

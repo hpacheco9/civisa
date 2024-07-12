@@ -73,8 +73,9 @@ const Perguntas = () => {
     if (selectedOption != null) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
-      
-      // Save the form answers to AsyncStorage
+      if (selectedOption == 'Não senti') {
+        navigator.navigate('Submeter');
+      }
       try {
         await AsyncStorage.setItem('@formAnswers', JSON.stringify(form));
         console.log('Form:', form);
@@ -98,34 +99,34 @@ const Perguntas = () => {
 
   return (
     <ScrollView>
-        <Animated.View style={[styles.container, { transform: [{ translateX: slideAnim }], opacity: fadeAnim }]}>
-          <Text style={styles.title}>
-            {pergunta.title}
-          </Text>
-          <View>
-            {pergunta.questoes.map((val, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[styles.radioButton, selectedOption === val && styles.radioButtonSelected]}
-                onPress={() => handleOptionSelect(pergunta.title, val)}
-              >
-                <Text style={styles.textItem}>{val}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-          <View style={styles.cont_butt}>
-            {
-              currentIndex == 0 && (<TouchableOpacity style={styles.button} onPress={() => {
-                navigator.navigate('Data e Hora')
-              }}>
-                <Text style={styles.buttonText}>Back</Text>
-              </TouchableOpacity>)
-            }
-            <TouchableOpacity style={styles.button} onPress={handleOnPress}>
-              <Text style={styles.buttonText}>Next</Text>
+      <Animated.View style={[styles.container, { transform: [{ translateX: slideAnim }], opacity: fadeAnim }]}>
+        <Text style={styles.title}>
+          {pergunta.title}
+        </Text>
+        <View>
+          {pergunta.questoes.map((val, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[styles.radioButton, selectedOption === val && styles.radioButtonSelected]}
+              onPress={() => handleOptionSelect(pergunta.title, val)}
+            >
+              <Text style={styles.textItem}>{val}</Text>
             </TouchableOpacity>
-          </View>
-        </Animated.View>
+          ))}
+        </View>
+        <View style={styles.cont_butt}>
+          {
+            currentIndex == 0 && (<TouchableOpacity style={styles.button} onPress={() => {
+              navigator.navigate('Data e Hora')
+            }}>
+              <Text style={styles.buttonText}>Back</Text>
+            </TouchableOpacity>)
+          }
+          <TouchableOpacity style={styles.button} onPress={handleOnPress}>
+            <Text style={styles.buttonText}>Next</Text>
+          </TouchableOpacity>
+        </View>
+      </Animated.View>
     </ScrollView>
   )
 };

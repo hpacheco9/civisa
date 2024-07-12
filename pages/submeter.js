@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import InputText from '../components/inputText';
@@ -6,8 +6,10 @@ import InputDropdown from '../components/dropDown';
 import { useNavigation } from '@react-navigation/native';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { initializeApp } from "firebase/app";
+import { Formik } from 'formik';
+import locais from '../services/Locais.json';
+import * as Yup from 'yup';
 
-// Initialize Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBbr5ZT5RFqRCBE3oXR-UlsaLMW0McuxeQ",
   authDomain: "teste-e8fc1.firebaseapp.com",
@@ -22,45 +24,42 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const Submeter = () => {
-  const [concelho, setConcelho] = useState("");
-  const [selectedFreguesia, setSelectedFreguesia] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
   const navigation = useNavigation();
+  const concelhos = locais.concelhos;
+  const freguesias = locais.freguesias;
 
-  const onChangeConcelho = (value) => {
-    setSelectedFreguesia(null);
-    setConcelho(value);
-  };
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    phone: Yup.string().required('Phone is required'),
+    email: Yup.string().email('Invalid email format'),
+    concelho: Yup.string().required('Concelho is required'),
+    freguesia: Yup.string().required('Freguesia is required'),
+  });
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (values, actions) => {
     const contacts = {
-      name,
-      phone,
-      email,
-      concelho,
-      freguesia: selectedFreguesia
+      name: values.name,
+      phone: values.phone,
+      email: values.email,
+      concelho: values.concelho,
+      freguesia: values.freguesia
     };
 
     try {
       await AsyncStorage.setItem('@contacts', JSON.stringify(contacts));
-
-      // Fetching other answers from AsyncStorage
       const selectedDateTime = await AsyncStorage.getItem('@selectedDateTime');
       const formAnswers = await AsyncStorage.getItem('@formAnswers');
 
-      // Prepare data for Firestore
       const inquiryData = {
         selectedDateTime: selectedDateTime ? JSON.parse(selectedDateTime) : {},
         formAnswers: formAnswers ? JSON.parse(formAnswers) : {},
         contacts
       };
 
-      // Save data to Firestore
       const docRef = await addDoc(collection(db, 'inquiries'), inquiryData);
 
       Alert.alert("Success", "Answers saved and exported to Firebase");
+      actions.resetForm();
       navigation.navigate('Result');
     } catch (error) {
       console.error('Error saving data', error);
@@ -68,95 +67,73 @@ const Submeter = () => {
     }
   };
 
-  const concelhos = [
-    { label: 'Lagoa', value: 'Lagoa' },
-    { label: 'Ponta Delgada', value: 'Ponta Delgada' },
-    { label: 'Ribeira Grande', value: 'Ribeira Grande' },
-    { label: 'Vila Franca do Campo', value: 'Vila Franca do Campo' },
-    { label: 'Nordeste', value: 'Nordeste' },
-    { label: 'Povoação', value: 'Povoação' },
-    { label: 'Angra do Heroísmo', value: 'Angra do Heroísmo' },
-    { label: 'Calheta', value: 'Calheta' },
-    { label: 'Corvo', value: 'Corvo' },
-    { label: 'Horta', value: 'Horta' },
-    { label: 'Lajes das Flores', value: 'Lajes das Flores' },
-    { label: 'Lajes do Pico', value: 'Lajes do Pico' },
-    { label: 'Madalena', value: 'Madalena' },
-    { label: 'Praia da Vitória', value: 'Praia da Vitória' },
-    { label: 'Santa Cruz da Graciosa', value: 'Santa Cruz da Graciosa' },
-    { label: 'Santa Cruz das Flores', value: 'Santa Cruz das Flores' },
-    { label: 'São Roque do Pico', value: 'São Roque do Pico' },
-    { label: 'Velas', value: 'Velas' },
-    { label: 'Vila do Porto', value: 'Vila do Porto' },
-  ];
-
-  const freguesias = {
-    'Lagoa': [
-      { label: 'Água de Pau', value: 'Água de Pau' },
-      { label: 'Rosário', value: 'Rosário' },
-      { label: 'Rosto do Cão (Livramento)', value: 'Rosto do Cão (Livramento)' },
-    ],
-    'Ponta Delgada': [
-      { label: 'Ponta Delgada (São Sebastião)', value: 'Ponta Delgada (São Sebastião)' },
-      { label: 'Ponta Delgada (São José)', value: 'Ponta Delgada (São José)' },
-    ],
-    'Ribeira Grande': [
-      { label: 'Ribeira Grande (Matriz)', value: 'Ribeira Grande (Matriz)' },
-      { label: 'Ribeira Grande (Rabo de Peixe)', value: 'Ribeira Grande (Rabo de Peixe)' },
-    ],
-    'Vila Franca do Campo': [
-      { label: 'Água de Alto', value: 'Água de Alto' },
-      { label: 'Ribeira Seca', value: 'Ribeira Seca' },
-    ],
-    'Nordeste': [
-      { label: 'Nordeste (São Pedro)', value: 'Nordeste (São Pedro)' },
-      { label: 'Nordeste (Santana)', value: 'Nordeste (Santana)' },
-    ],
-    'Povoação': [
-      { label: 'Povoação (Nossa Senhora dos Remédios)', value: 'Povoação (Nossa Senhora dos Remédios)' },
-      { label: 'Povoação (São Pedro)', value: 'Povoação (São Pedro)' },
-    ],
-  };
-
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Contacts</Text>
-      <InputText
-        label="Introduza seu Nome"
-        keyboardType="default"
-        placeholder="Name"
-        onChangeText={setName}
-      />
-      <InputText
-        label="Introduza seu contato"
-        keyboardType="phone-pad"
-        placeholder="Phone"
-        onChangeText={setPhone}
-      />
-      <InputText
-        label="Introduza seu email"
-        keyboardType="email-address"
-        placeholder="Email"
-        onChangeText={setEmail}
-      />
-      <InputDropdown
-        label="Concelho"
-        items={concelhos}
-        placeholder={{ label: 'Selecione um Concelho...', value: null }}
-        onValueChange={(value) => onChangeConcelho(value)}
-      />
-      <InputDropdown
-        label="Freguesia"
-        items={concelho ? freguesias[concelho] || [] : []}
-        value={selectedFreguesia}
-        placeholder={{ label: 'Selecione uma freguesia...', value: null }}
-        onValueChange={(value) => {
-          setSelectedFreguesia(value === null ? null : value);
-        }}
-      />
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Submeter</Text>
-      </TouchableOpacity>
+      <Formik
+        initialValues={{ name: '', phone: '', email: '', concelho: '', freguesia: '' }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
+          <>
+            <InputText
+              label="Introduza seu Nome"
+              keyboardType="default"
+              placeholder="Name"
+              onChangeText={handleChange('name')}
+              onBlur={handleBlur('name')}
+              value={values.name}
+            />
+            {touched.name && errors.name ? <Text style={styles.errorText}>{errors.name}</Text> : null}
+
+            <InputText
+              label="Introduza seu contato"
+              keyboardType="phone-pad"
+              placeholder="Phone"
+              onChangeText={handleChange('phone')}
+              onBlur={handleBlur('phone')}
+              value={values.phone}
+            />
+            {touched.phone && errors.phone ? <Text style={styles.errorText}>{errors.phone}</Text> : null}
+
+            <InputText
+              label="Introduza seu email"
+              keyboardType="email-address"
+              placeholder="Email"
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
+              value={values.email}
+            />
+            {touched.email && errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
+
+            <InputDropdown
+              label="Concelho"
+              items={concelhos}
+              placeholder={{ label: 'Selecione um Concelho...', value: null }}
+              onValueChange={(value) => {
+                setFieldValue('concelho', value);
+                setFieldValue('freguesia', null);
+              }}
+              value={values.concelho}
+            />
+            {touched.concelho && errors.concelho ? <Text style={styles.errorText}>{errors.concelho}</Text> : null}
+
+            <InputDropdown
+              label="Freguesia"
+              items={values.concelho ? freguesias[values.concelho] || [] : []}
+              value={values.freguesia}
+              placeholder={{ label: 'Selecione uma freguesia...', value: null }}
+              onValueChange={(value) => setFieldValue('freguesia', value)}
+            />
+            {touched.freguesia && errors.freguesia ? <Text style={styles.errorText}>{errors.freguesia}</Text> : null}
+
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.buttonText}>Submeter</Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </Formik>
     </View>
   );
 };
@@ -166,7 +143,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: '30%',
+    marginTop: '5%',
     overflow: 'scroll'
   },
   button: {
@@ -174,7 +151,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 5,
-    marginTop: 30,
+    marginTop: '10%',
   },
   buttonText: {
     color: '#FFFFFF',
@@ -185,6 +162,11 @@ const styles = StyleSheet.create({
     fontSize: 32,
     marginRight: '40%',
     marginBottom: '5%'
+  },
+  errorText: {
+    color: "#8B0000",
+    marginTop: '1%',
+    marginRight: '45%',
   }
 });
 

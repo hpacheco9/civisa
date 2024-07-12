@@ -4,7 +4,7 @@ import RNPickerSelect from 'react-native-picker-select';
 
 const InputDropdown = ({ label, items, placeholder, onValueChange, ...pickerProps }) => {
   return (
-    <View style={styles.container}>
+    <>
       <Text style={styles.header}>{label}</Text>
       <RNPickerSelect
         placeholder={placeholder}
@@ -13,18 +13,14 @@ const InputDropdown = ({ label, items, placeholder, onValueChange, ...pickerProp
         style={pickerSelectStyles}
         {...pickerProps}
       />
-    </View>
+    </>
+    
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: '9%',
-  },
   header: {
-    marginRight: '75%',
+    marginRight: '60%',
     fontWeight: 'bold',
     paddingBottom: '2%',
     paddingTop: '5%',
@@ -41,19 +37,22 @@ const pickerSelectStyles = StyleSheet.create({
     borderRadius: 4,
     color: 'black',
     paddingRight: 30,
-    paddingLeft: '2%',
+    marginLeft: '11%',
     width: 300,
     height: 50,
   },
   inputAndroid: {
     fontSize: 16,
     paddingHorizontal: 10,
-    paddingVertical: 8,
+    paddingVertical: 12,
     borderWidth: 1,
     borderColor: 'gray',
     borderRadius: 8,
     color: 'black',
     paddingRight: 30,
+    marginLeft: '11%',
+    width: 300,
+    height: 50,
   },
 });
 
