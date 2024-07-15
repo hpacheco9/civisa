@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Alert, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import InputText from '../components/inputText';
 import InputDropdown from '../components/dropDown';
@@ -61,73 +61,81 @@ const Submeter = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Contacts</Text>
-      <Formik
-        initialValues={{ name: '', phone: '', email: '', concelho: '', freguesia: '' }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
-          <>
-            <InputText
-              label="Introduza seu Nome"
-              keyboardType="default"
-              placeholder="Name"
-              onChangeText={handleChange('name')}
-              onBlur={handleBlur('name')}
-              value={values.name}
-            />
-            {touched.name && errors.name ? <Text style={styles.errorText}>{errors.name}</Text> : null}
+    <>
+      <TouchableOpacity style={styles.voltar} onPress={() => {
+        navigation.navigate('Perguntas', { resetIndex: 0 });
+      }}>
+        <Text style={styles.voltarText}>{'< voltar'}</Text>
+      </TouchableOpacity>
+      <View style={styles.container}>
+        <Text style={styles.header}>Contacts</Text>
+        <Formik
+          initialValues={{ name: '', phone: '', email: '', concelho: '', freguesia: '' }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
+            <>
+              <InputText
+                label="Introduza seu Nome"
+                keyboardType="default"
+                placeholder="Name"
+                onChangeText={handleChange('name')}
+                onBlur={handleBlur('name')}
+                value={values.name}
+              />
+              {touched.name && errors.name ? <Text style={styles.errorText}>{errors.name}</Text> : null}
 
-            <InputText
-              label="Introduza seu contato"
-              keyboardType="phone-pad"
-              placeholder="Phone"
-              onChangeText={handleChange('phone')}
-              onBlur={handleBlur('phone')}
-              value={values.phone}
-            />
-            {touched.phone && errors.phone ? <Text style={styles.errorText}>{errors.phone}</Text> : null}
+              <InputText
+                label="Introduza seu contato"
+                keyboardType="phone-pad"
+                placeholder="Phone"
+                onChangeText={handleChange('phone')}
+                onBlur={handleBlur('phone')}
+                value={values.phone}
+              />
+              {touched.phone && errors.phone ? <Text style={styles.errorText}>{errors.phone}</Text> : null}
 
-            <InputText
-              label="Introduza seu email"
-              keyboardType="email-address"
-              placeholder="Email"
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('email')}
-              value={values.email}
-            />
-            {touched.email && errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
+              <InputText
+                label="Introduza seu email"
+                keyboardType="email-address"
+                placeholder="Email"
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+              />
+              {touched.email && errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
 
-            <InputDropdown
-              label="Concelho"
-              items={concelhos}
-              placeholder={{ label: 'Selecione um Concelho...', value: null }}
-              onValueChange={(value) => {
-                setFieldValue('concelho', value);
-                setFieldValue('freguesia', null);
-              }}
-              value={values.concelho}
-            />
-            {touched.concelho && errors.concelho ? <Text style={styles.errorText}>{errors.concelho}</Text> : null}
+              <InputDropdown
+                label="Concelho"
+                items={concelhos}
+                placeholder={{ label: 'Selecione um Concelho...', value: null }}
+                onValueChange={(value) => {
+                  setFieldValue('concelho', value);
+                  setFieldValue('freguesia', null);
+                }}
+                value={values.concelho}
+              />
+              {touched.concelho && errors.concelho ? <Text style={styles.errorText}>{errors.concelho}</Text> : null}
 
-            <InputDropdown
-              label="Freguesia"
-              items={values.concelho ? freguesias[values.concelho] || [] : []}
-              value={values.freguesia}
-              placeholder={{ label: 'Selecione uma freguesia...', value: null }}
-              onValueChange={(value) => setFieldValue('freguesia', value)}
-            />
-            {touched.freguesia && errors.freguesia ? <Text style={styles.errorText}>{errors.freguesia}</Text> : null}
+              <InputDropdown
+                label="Freguesia"
+                items={values.concelho ? freguesias[values.concelho] || [] : []}
+                value={values.freguesia}
+                placeholder={{ label: 'Selecione uma freguesia...', value: null }}
+                onValueChange={(value) => setFieldValue('freguesia', value)}
+              />
+              {touched.freguesia && errors.freguesia ? <Text style={styles.errorText}>{errors.freguesia}</Text> : null}
 
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-              <Text style={styles.buttonText}>Submeter</Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </Formik>
-    </View>
+              <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                <Text style={styles.buttonText}>Submeter</Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </Formik>
+      </View>
+    </>
+
   );
 };
 
@@ -136,8 +144,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: '5%',
-    overflow: 'scroll'
+    overflow: 'scroll',
+    marginBottom: '15%'
   },
   button: {
     backgroundColor: '#000000',
@@ -160,6 +168,15 @@ const styles = StyleSheet.create({
     color: "#8B0000",
     marginTop: '1%',
     marginRight: '45%',
+  },
+  voltar: {
+    marginTop: '22%',
+    marginLeft: '7%'
+  },
+  voltarText: {
+    fontWeight: 'bold',
+    fontSize: 15,
+    textDecorationLine: 'underline',
   }
 });
 

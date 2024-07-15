@@ -1,12 +1,13 @@
-import { StyleSheet, Text, View, TouchableOpacity, Animated, Easing, ScrollView } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Animated, Easing, ScrollView } from 'react-native';
 import data from '../services/dataset.json';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Perguntas = () => {
+const Perguntas = ({ route }) => {
+  const resetIndex = route.params?.resetIndex ?? 0;
   const [selectedOption, setSelectedOption] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(resetIndex);
   const [perguntas, setPerguntas] = useState([]);
   const [pergunta, setPergunta] = useState({
     title: "",
@@ -15,7 +16,7 @@ const Perguntas = () => {
   const [form, setForm] = useState({});
   const slideAnim = useRef(new Animated.Value(-500)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const navigator = useNavigation();
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,6 +51,12 @@ const Perguntas = () => {
     }
   }, [perguntas, currentIndex]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setCurrentIndex(resetIndex);
+    }, [resetIndex])
+  );
+
   const resetAnimation = () => {
     slideAnim.setValue(200);
     fadeAnim.setValue(0);
@@ -74,7 +81,7 @@ const Perguntas = () => {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
       if (selectedOption == 'Não senti') {
-        navigator.navigate('Submeter');
+        navigation.navigate('Submeter');
       }
       try {
         await AsyncStorage.setItem('@formAnswers', JSON.stringify(form));
@@ -84,7 +91,7 @@ const Perguntas = () => {
       }
 
       if (newIndex >= perguntas.length) {
-        navigator.navigate('Submeter');
+        navigation.navigate('Submeter');
       }
     }
   };
@@ -116,11 +123,13 @@ const Perguntas = () => {
         </View>
         <View style={styles.cont_butt}>
           {
-            currentIndex == 0 && (<TouchableOpacity style={styles.button} onPress={() => {
-              navigator.navigate('Data e Hora')
-            }}>
-              <Text style={styles.buttonText}>Back</Text>
-            </TouchableOpacity>)
+            currentIndex === 0 && (
+              <TouchableOpacity style={styles.button} onPress={() => {
+                navigation.navigate('Data e Hora');
+              }}>
+                <Text style={styles.buttonText}>Back</Text>
+              </TouchableOpacity>
+            )
           }
           <TouchableOpacity style={styles.button} onPress={handleOnPress}>
             <Text style={styles.buttonText}>Next</Text>
@@ -140,7 +149,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     marginTop: '40%',
     overflow: 'scroll'
-
   },
   title: {
     fontSize: 30,
