@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Inicio from './pages/inicio.js';
 import DateInput from './pages/data_hora.js';
 import Perguntas from './pages/Inquerito.js';
 import Submeter from './pages/submeter.js';
@@ -29,6 +30,17 @@ const App = () => {
             backgroundColor: '#FFFFFF',
           },
         }}>
+          <Stack.Screen
+            name="Inicio"
+            component={Inicio}
+            options={{
+              title: 'Inicio',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+                color: '#000000',
+              },
+            }}
+          />
           <Stack.Screen
             name="RGPD"
             component={Rgpd}

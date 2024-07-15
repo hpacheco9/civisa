@@ -78,7 +78,8 @@ const styles = StyleSheet.create({
     overflow: 'scroll'
   },
   texto: {
-    fontSize: 20,
+    fontSize: 18,
+    textAlign: 'justify',
   },
   section: {
     flex: 1,
