@@ -22,7 +22,7 @@ const Inicio = () => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => navigator.navigate("RGPD")}
+                    onPress={() => navigator.navigate("Lista")}
                 >
                     <Image
                         source={require('../assets/vulcao.jpg')}
