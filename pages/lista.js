@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import axios from 'axios';
 import { parseString } from 'react-native-xml2js';
+import { useNavigation } from '@react-navigation/native';
 
 const FetchXmlExample = () => {
   const [events, setEvents] = useState([]);
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const navigator = useNavigation();
 
   useEffect(() => {
     const fetchXmlData = async () => {
@@ -17,7 +21,6 @@ const FetchXmlExample = () => {
           } else {
             const eventsArray = result.EventGroup?.Event || [];
             const uniqueEvents = filterUniqueEvents(eventsArray);
-
             setEvents(uniqueEvents);
           }
         });
@@ -25,24 +28,42 @@ const FetchXmlExample = () => {
         console.error('Error fetching XML:', error);
       }
     };
-
     fetchXmlData();
   }, []);
 
   useEffect(() => {
-    const formattedEvents = events.map(event => ({
-      eventDate: event.Origin[0].originTime[0].split(' ')[0],
-      utcTime: event.Origin[0].originTime[0].split(' ')[1],
-      region: event.CommentCommand.find(comment => comment.$.Parameter === 'REGIAO:')?.value[0] || 'Não especificada',
-      magnitude: event.Magnitude[0].value[0],
-      intensidade: (event.CommentCommand.find(comment => comment.$.Parameter === 'SENTIDO:')?.value[0]?.split(' -')[0]) || 'Não sentido',
-      regiao: event.CommentCommand.find(comment => comment.$.Parameter === 'SENTIDO:')?.value[0]?.split(' -')[1] || 'Não especificada'
-    }));
+    const formattedEvents = events.map(event => {
+      const eventDate = event.Origin[0].originTime[0].split(' ')[0];
+      const utcTime = event.Origin[0].originTime[0].split(' ')[1].slice(0, 8);
+      const region = event.CommentCommand.find(comment => comment.$.Parameter === 'REGIAO:')?.value[0] || 'Não especificada';
+      const magnitude = parseFloat(event.Magnitude[0].value[0]);
+      const intensidade = (event.CommentCommand.find(comment => comment.$.Parameter === 'SENTIDO:')?.value[0]?.split(' -')[0]) || 'Não sentido';
+      const regiao = event.CommentCommand.find(comment => comment.$.Parameter === 'SENTIDO:')?.value[0]?.split(' -')[1] || 'Não especificada';
+
+      let latitude = '--';
+      let longitude = '--';
+
+      if (event.Origin[0].location && typeof event.Origin[0].location[0] === 'string') {
+        const locationParts = event.Origin[0].location[0].split(', ');
+        latitude = locationParts[0];
+        longitude = locationParts[1];
+      }
+
+      return {
+        eventDate,
+        utcTime,
+        region,
+        magnitude,
+        intensidade,
+        regiao,
+        latitude,
+        longitude,
+      };
+    });
 
     setForm(formattedEvents);
-    console.log(form);
+    setFilteredEvents(formattedEvents);
   }, [events]);
-
 
   const filterUniqueEvents = (eventsArray) => {
     eventsArray.sort((a, b) => {
@@ -65,15 +86,33 @@ const FetchXmlExample = () => {
     return uniqueEvents;
   };
 
+  const showAllEvents = () => {
+    setFilteredEvents(form);
+  };
 
-  function backGround(value) {
+  const showFeltEvents = () => {
+    const feltEvents = form.filter(event => event.intensidade !== 'Não sentido');
+    setFilteredEvents(feltEvents);
+  };
+
+  const showMagGreaterThanThree = () => {
+    const magGreaterThanThree = form.filter(event => event.magnitude >= 3);
+    setFilteredEvents(magGreaterThanThree);
+  };
+
+  const showMagGreaterThanFour = () => {
+    const magGreaterThanFour = form.filter(event => event.magnitude > 4);
+    setFilteredEvents(magGreaterThanFour);
+  };
+
+  const backGround = (value) => {
     let n = value;
     if (n && n.includes('/')) {
       n = n.split('/')[1];
     }
     switch (n) {
       case 'II':
-        return '#BFCCFF'
+        return '#BFCCFF';
       case 'III':
         return '#9B9BFF';
       case 'IV':
@@ -97,46 +136,100 @@ const FetchXmlExample = () => {
       default:
         return '#FFFFFF';
     }
-  }
+  };
 
-
-
-
-
+  const toggleEventDetails = (eventIndex) => {
+    if (selectedEvent === eventIndex) {
+      setSelectedEvent(null);
+    } else {
+      setSelectedEvent(eventIndex);
+      console.log('Selected Event:', filteredEvents[eventIndex]);
+    }
+  };
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', marginTop: '30%' }}>
-      {form.length > 0 ? (
-        <View>
-          {form.map((event, index) => (
-            <View key={index} style={styles.container}>
-              <View style={styles.info}>
-                <Text style={{ fontWeight: 'bold' }}>Event Date: {event.eventDate}</Text>
-                <Text>UTC Time: {event.utcTime}</Text>
-                <Text>Region: {event.region}</Text>
-                <Text>{event.intensidade === 'Não sentido' ? '' : event.intensidade}</Text>
-              </View>
-              <View style={{ backgroundColor: backGround(event.intensidade?.trim()), width: 40, height: 40, alignItems: 'center', justifyContent: 'center', marginTop: '9%', marginLeft: '5%' }}>
-                <Text style={styles.magnitude}>{event.magnitude}</Text>
-              </View>
+    <>
+      <TouchableOpacity style={{ marginTop: '20%', marginLeft: '5%', fontSize: 15 }} onPress={() => {
+        navigator.navigate('Inicio');
+      }}>
+        <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold' }}>{'< voltar'}</Text>
+      </TouchableOpacity>
+      <View style={styles.contButton}>
+        <TouchableOpacity style={styles.button} onPress={showAllEvents}>
+          <Text>ALL</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={showFeltEvents}>
+          <Text>SENTIDOS</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={showMagGreaterThanThree}>
+          <Text>{'MAG > 3'}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={showMagGreaterThanFour}>
+          <Text>{'MAG > 4'}</Text>
+        </TouchableOpacity>
+      </View>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }} >
+        {
+          filteredEvents.length > 0 ? (
+            <View>
+              {filteredEvents.map((event, index) => (
+                <TouchableOpacity key={index} onPress={() => toggleEventDetails(index)} >
+                  <View style={styles.container}>
+                    <View style={styles.info}>
+                      <View style={{ flexDirection: 'row', marginBottom: '3%' }}>
+                        <Image
+                          source={require('../assets/cal.png')}
+                          style={{ width: 15, height: 15, marginRight: '3%' }}
+                        />
+                        <Text style={{ fontWeight: 'bold' }}>{event.eventDate}</Text>
+                        <Image
+                          source={require('../assets/clock.png')}
+                          style={{ width: 15, height: 15, marginRight: '3%', marginLeft: '5%' }}
+                        />
+                        <Text style={{ fontWeight: 'bold' }}>UTC{event.utcTime}</Text>
+                      </View>
 
+                      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: '3%' }} >
+                        <Image
+                          source={require('../assets/marker.png')}
+                          style={{ width: 15, height: 15, marginRight: '3%' }}
+                        />
+                        <Text>{event.region}</Text>
+                      </View >
+                      <View style={{ flexDirection: 'row' }}>
+                        {event.intensidade != 'Não sentido' && (
+                          <Image
+                            source={require('../assets/shake.png')}
+                            style={{ width: 15, height: 15, marginRight: '3%' }}
+                          />
+                        )}
+                        <Text>{event.intensidade === 'Não sentido' ? '' : event.intensidade}</Text>
+                      </View>
+                    </View>
+                    <View style={{ backgroundColor: backGround(event.intensidade?.trim()), width: 40, height: 40, alignItems: 'center', justifyContent: 'center', marginLeft: '4%' }}>
+                      <Text style={styles.magnitude}>{event.magnitude}</Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              ))}
             </View>
-          ))}
-        </View>
-      ) : (
-        <Text>No events found</Text>
-      )}
-    </ScrollView>
+          ) : (
+            <Text>No events found</Text>
+          )
+        }
+      </ScrollView >
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'row',
-    marginBottom: 20,
+    marginBottom: '5%',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderWidth: 1,
-    width: 300,
+    width: 330,
     height: 100,
     borderRadius: 5,
   },
@@ -148,14 +241,34 @@ const styles = StyleSheet.create({
   magContainer: {
     width: 40,
     height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
     marginLeft: 10,
-    marginTop: '10%'
   },
   info: {
     width: '70%',
-    margin: '3%',
+    marginTop: '2%',
+    marginRight: '5%'
+  },
+  contButton: {
+    marginTop: '5%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: '5%',
+    height: 50,
+  },
+  button: {
+    marginLeft: '4%',
+    borderWidth: 0.5,
+    width: 80,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 4,
+  },
+  touchable: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
