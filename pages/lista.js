@@ -39,15 +39,10 @@ const FetchXmlExample = () => {
       const magnitude = parseFloat(event.Magnitude[0].value[0]);
       const intensidade = (event.CommentCommand.find(comment => comment.$.Parameter === 'SENTIDO:')?.value[0]?.split(' -')[0]) || 'Não sentido';
       const regiao = event.CommentCommand.find(comment => comment.$.Parameter === 'SENTIDO:')?.value[0]?.split(' -')[1] || 'Não especificada';
-
-      let latitude = '--';
-      let longitude = '--';
-
-      if (event.Origin[0].location && typeof event.Origin[0].location[0] === 'string') {
-        const locationParts = event.Origin[0].location[0].split(', ');
-        latitude = locationParts[0];
-        longitude = locationParts[1];
-      }
+      const locationString = event.Origin[0].location[0]._;
+      const locationParts = locationString.split(',');
+      const latitude = locationParts[0].trim();
+      const longitude = locationParts[1].trim();
 
       return {
         eventDate,
@@ -61,8 +56,14 @@ const FetchXmlExample = () => {
       };
     });
 
-    setForm(formattedEvents);
-    setFilteredEvents(formattedEvents);
+    const sortedEvents = formattedEvents.sort((a, b) => {
+      const dateA = new Date(`${a.eventDate}T${a.utcTime}`);
+      const dateB = new Date(`${b.eventDate}T${b.utcTime}`);
+      return dateB - dateA;
+    });
+
+    setForm(sortedEvents);
+    setFilteredEvents(sortedEvents);
   }, [events]);
 
   const filterUniqueEvents = (eventsArray) => {
@@ -101,7 +102,7 @@ const FetchXmlExample = () => {
   };
 
   const showMagGreaterThanFour = () => {
-    const magGreaterThanFour = form.filter(event => event.magnitude > 4);
+    const magGreaterThanFour = form.filter(event => event.magnitude >= 4);
     setFilteredEvents(magGreaterThanFour);
   };
 
@@ -186,7 +187,7 @@ const FetchXmlExample = () => {
                           source={require('../assets/clock.png')}
                           style={{ width: 15, height: 15, marginRight: '3%', marginLeft: '5%' }}
                         />
-                        <Text style={{ fontWeight: 'bold' }}>UTC{event.utcTime}</Text>
+                        <Text style={{ fontWeight: 'bold' }}>UTC {event.utcTime}</Text>
                       </View>
 
                       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: '3%' }} >
@@ -264,11 +265,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
-  },
-  touchable: {
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
 
