@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Animated, Easing, ScrollView 
 import data from '../services/dataset.json';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Voltar from '../components/Voltar';
 
 const Perguntas = ({ route }) => {
   const resetIndex = route.params?.resetIndex ?? 0;
@@ -40,8 +41,8 @@ const Perguntas = ({ route }) => {
 
   useEffect(() => {
     if (perguntas.length > 0 && currentIndex < perguntas.length) {
-      const title = Object.keys(perguntas[currentIndex])[0]
-      const questoes = perguntas[currentIndex][title]
+      const title = Object.keys(perguntas[currentIndex])[0];
+      const questoes = perguntas[currentIndex][title];
       setSelectedOption(null);
       setPergunta({
         title: title,
@@ -54,6 +55,7 @@ const Perguntas = ({ route }) => {
   useFocusEffect(
     React.useCallback(() => {
       setCurrentIndex(resetIndex);
+      setForm({}); // Clear form state when component focuses
     }, [resetIndex])
   );
 
@@ -80,7 +82,7 @@ const Perguntas = ({ route }) => {
     if (selectedOption != null) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
-      if (selectedOption == 'Não senti') {
+      if (selectedOption === 'Não senti') {
         navigation.navigate('Submeter');
       }
       try {
@@ -106,6 +108,11 @@ const Perguntas = ({ route }) => {
 
   return (
     <ScrollView>
+      {currentIndex === 0 && (
+        <Animated.View style={{ marginTop: '20%', marginBottom: '-20%', transform: [{ translateX: slideAnim }], opacity: fadeAnim }}>
+          <Voltar destino={'Data e Hora'} />
+        </Animated.View>
+      )}
       <Animated.View style={[styles.container, { transform: [{ translateX: slideAnim }], opacity: fadeAnim }]}>
         <Text style={styles.title}>
           {pergunta.title}
@@ -122,15 +129,6 @@ const Perguntas = ({ route }) => {
           ))}
         </View>
         <View style={styles.cont_butt}>
-          {
-            currentIndex === 0 && (
-              <TouchableOpacity style={styles.button} onPress={() => {
-                navigation.navigate('Data e Hora');
-              }}>
-                <Text style={styles.buttonText}>Back</Text>
-              </TouchableOpacity>
-            )
-          }
           <TouchableOpacity style={styles.button} onPress={handleOnPress}>
             <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>
@@ -142,13 +140,11 @@ const Perguntas = ({ route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 20,
     backgroundColor: '#ffffff',
+    overflow: 'scroll',
     marginTop: '40%',
-    overflow: 'scroll'
   },
   title: {
     fontSize: 30,

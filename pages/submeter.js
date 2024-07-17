@@ -10,6 +10,7 @@ import { Formik } from 'formik';
 import locais from '../services/Locais.json';
 import * as Yup from 'yup';
 import firebaseConfig from '../services/Database';
+import Voltar from '../components/Voltar';
 
 
 const app = initializeApp(firebaseConfig);
@@ -62,11 +63,10 @@ const Submeter = () => {
 
   return (
     <>
-      <TouchableOpacity style={styles.voltar} onPress={() => {
-        navigation.navigate('Perguntas', { resetIndex: 0 });
-      }}>
-        <Text style={styles.voltarText}>{'< voltar'}</Text>
-      </TouchableOpacity>
+      <View style={{ marginTop: '20%' }}>
+        <Voltar />
+      </View>
+
       <View style={styles.container}>
         <Text style={styles.header}>Contacts</Text>
         <Formik

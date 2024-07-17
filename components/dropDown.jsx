@@ -14,7 +14,6 @@ const InputDropdown = ({ label, items, placeholder, onValueChange, ...pickerProp
         {...pickerProps}
       />
     </>
-    
   );
 }
 

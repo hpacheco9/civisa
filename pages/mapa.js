@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import MapView, { Marker, UrlTile } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
+import Voltar from '../components/Voltar';
 
 const Mapa = () => {
   const navigation = useNavigation();
@@ -12,43 +13,44 @@ const Mapa = () => {
   ];
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.voltar} onPress={() => {
-        navigation.navigate('Inicio');
-      }}>
-        <Text style={styles.voltarText}>{'< voltar'}</Text>
-      </TouchableOpacity>
-      <MapView
-        provider={undefined}
-        style={styles.map}
-        region={{
-          latitude: 38,
-          longitude: -28.2,
-          latitudeDelta: 9,
-          longitudeDelta: 9,
-        }}
-        mapType='hybrid'
-        showsCompass={false}
-        rotateEnabled={false}
-        toolbarEnabled={false}
-      >
-        {markers.map(marker => (
-          <Marker
-            key={marker.id}
-            coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-            image={require('../assets/map_marker.png')}
-            onPress={e => console.log(e.nativeEvent)}
-          />
-        ))}
-      </MapView>
-    </View>
+    <>
+      <View style={{ marginTop: '20%' }}>
+        <Voltar />
+      </View>
+      <View style={styles.container}>
+        <MapView
+          provider={undefined}
+          style={styles.map}
+          region={{
+            latitude: 38,
+            longitude: -28.2,
+            latitudeDelta: 9,
+            longitudeDelta: 9,
+          }}
+          mapType='hybrid'
+          showsCompass={false}
+          rotateEnabled={false}
+          toolbarEnabled={false}
+        >
+          {markers.map(marker => (
+            <Marker
+              key={marker.id}
+              coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+              image={require('../assets/map_marker.png')}
+              onPress={e => console.log(e.nativeEvent)}
+            />
+          ))}
+        </MapView>
+      </View>
+    </>
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: "15%"
+    marginTop: "5%"
   },
   map: {
     width: '100%',
