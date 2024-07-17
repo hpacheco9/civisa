@@ -8,6 +8,7 @@ import Submeter from './pages/submeter.js';
 import Rgpd from './pages/consentimento.js';
 import Result from './pages/result.js';
 import FetchXmlExample from './pages/lista.js';
+import Mapa from './pages/mapa.js';
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -99,6 +100,17 @@ const App = () => {
           component={FetchXmlExample}
           options={{
             title: 'Result',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: '#000000',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Mapa"
+          component={Mapa}
+          options={{
+            title: 'Mapa',
             headerTitleStyle: {
               fontWeight: 'bold',
               color: '#000000',

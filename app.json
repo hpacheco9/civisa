@@ -4,7 +4,7 @@
     "slug": "CIVISA",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/CIVISA_azores.png",
+    "icon": "./assets/ic_launcher.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash_civisa.png",

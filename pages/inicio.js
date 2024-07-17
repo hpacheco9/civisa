@@ -33,7 +33,7 @@ const Inicio = () => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => navigator.navigate("RGPD")}
+                    onPress={() => navigator.navigate("Mapa")}
                 >
                     <Image
                         source={require('../assets/planeta.jpg')}
