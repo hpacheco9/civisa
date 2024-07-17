@@ -7,8 +7,8 @@ const Mapa = () => {
   const navigation = useNavigation();
 
   const markers = [
-    { id: 1, title: 'Marker 1', description: 'This is marker 1', latitude: 38, longitude: -28.2 },
-    { id: 2, title: 'Marker 2', description: 'This is marker 2', latitude: 38, longitude: -29.2 },
+    { id: 1, latitude: 38, longitude: -28.2 },
+    { id: 2, latitude: 38, longitude: -29.2 },
   ];
 
   return (
@@ -19,20 +19,25 @@ const Mapa = () => {
         <Text style={styles.voltarText}>{'< voltar'}</Text>
       </TouchableOpacity>
       <MapView
+        provider={undefined}
         style={styles.map}
-        initialRegion={{
+        region={{
           latitude: 38,
           longitude: -28.2,
           latitudeDelta: 9,
           longitudeDelta: 9,
         }}
+        mapType='hybrid'
+        showsCompass={false}
+        rotateEnabled={false}
+        toolbarEnabled={false}
       >
         {markers.map(marker => (
           <Marker
             key={marker.id}
             coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-            title={marker.title}
-            description={marker.description}
+            image={require('../assets/map_marker.png')}
+            onPress={e => console.log(e.nativeEvent)}
           />
         ))}
       </MapView>
@@ -47,7 +52,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: '100%',
-    height: '90%',
+    height: '100%',
   },
   voltar: {
     marginBottom: '5%',

@@ -2,13 +2,17 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'rea
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-
 const Inicio = () => {
     const navigator = useNavigation();
     return (
         <ScrollView>
+            <View style={styles.containerLogo}>
+                <Image
+                    source={require('../assets/CIVISA_logo.png')}
+                    style={styles.logo}
+                />
+            </View>
             <View style={styles.container}>
-                <Text style={styles.title}>App Sismos</Text>
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => navigator.navigate("RGPD")}
@@ -50,10 +54,21 @@ const Inicio = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: '20%',
+        paddingTop: '10%',
         paddingHorizontal: 30,
         backgroundColor: '#ffffff',
         overflow: 'scroll',
+    },
+    containerLogo: {
+        flex: 1,
+        alignItems: 'center',
+        paddingTop: '20%',
+        backgroundColor: '#ffffff',
+    },
+    logo: {
+        width: '100%',
+        height: 40,
+        resizeMode: 'contain',
     },
     title: {
         fontSize: 40,
