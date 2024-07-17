@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import axios from 'axios';
 import { parseString } from 'react-native-xml2js';
+import Voltar from '../components/Voltar';
 import { useNavigation } from '@react-navigation/native';
 
 const OverlayComponent = (props) => (
@@ -51,7 +52,8 @@ const Mapa = () => {
   const [form, setForm] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const navigator = useNavigation();
+  const navigator = useNavigation()
+
 
   useEffect(() => {
     const fetchXmlData = async () => {
@@ -207,11 +209,6 @@ const Mapa = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.voltar} onPress={() => {
-        navigation.goBack();
-      }}>
-        <Text style={styles.voltarText}>{'< voltar'}</Text>
-      </TouchableOpacity>
       <MapView
         provider={undefined}
         style={styles.map}
@@ -226,6 +223,8 @@ const Mapa = () => {
         rotateEnabled={false}
         toolbarEnabled={false}
       >
+
+
         {filteredEvents.map((event, index) => (
           <Marker
             key={index}
@@ -234,7 +233,9 @@ const Mapa = () => {
             onPress={e => toggleEventDetails(index)}
           />
         ))}
+
       </MapView>
+      <Voltar />
       <OverlayComponent style={styles.overlayComponent} />
     </View>
   );
@@ -243,6 +244,7 @@ const Mapa = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: '100%'
   },
   map: {
     flex: 1,

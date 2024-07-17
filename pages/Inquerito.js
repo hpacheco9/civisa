@@ -109,10 +109,11 @@ const Perguntas = ({ route }) => {
   return (
     <ScrollView>
       {currentIndex === 0 && (
-        <Animated.View style={{ marginTop: '20%', marginBottom: '-20%', transform: [{ translateX: slideAnim }], opacity: fadeAnim }}>
-          <Voltar destino={'Data e Hora'} />
+        <Animated.View style={{ marginBottom: '10%', transform: [{ translateX: slideAnim }], opacity: fadeAnim }}>
+          <Voltar />
         </Animated.View>
-      )}
+      )
+      }
       <Animated.View style={[styles.container, { transform: [{ translateX: slideAnim }], opacity: fadeAnim }]}>
         <Text style={styles.title}>
           {pergunta.title}
@@ -134,7 +135,7 @@ const Perguntas = ({ route }) => {
           </TouchableOpacity>
         </View>
       </Animated.View>
-    </ScrollView>
+    </ScrollView >
   )
 };
 

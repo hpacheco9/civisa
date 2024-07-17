@@ -158,7 +158,7 @@ const FetchXmlExample = () => {
 
   return (
     <>
-      <View style={{ marginTop: '20%' }}>
+      <View style={{ marginBottom: '25%' }}>
         <Voltar />
       </View>
       <View style={styles.contButton}>

@@ -63,10 +63,9 @@ const Submeter = () => {
 
   return (
     <>
-      <View style={{ marginTop: '20%' }}>
+      <View style={{ marginBottom: '15%' }}>
         <Voltar />
       </View>
-
       <View style={styles.container}>
         <Text style={styles.header}>Contacts</Text>
         <Formik
@@ -145,7 +144,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'scroll',
-    marginBottom: '15%'
+    marginTop: '10%',
+    marginBottom: '5%'
   },
   button: {
     backgroundColor: '#000000',

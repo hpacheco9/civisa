@@ -65,7 +65,7 @@ const CustomDateTimePicker = () => {
 
   return (
     <>
-      <View style={{ marginTop: '20%' }}>
+      <View style={{ marginBottom: '20%' }}>
         <Voltar />
       </View>
       <Text style={styles.header}>Data & Hora</Text>

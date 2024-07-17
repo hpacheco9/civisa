@@ -12,7 +12,9 @@ const Rgpd = () => {
   return (
     <>
       <View style={{ flexDirection: 'row', marginTop: '20%' }}>
-        <Voltar destino={'Inicio'} />
+        <View style={{ marginBottom: '10%', marginLeft: '5%' }}>
+          <Voltar />
+        </View>
         <Text style={styles.title}>RGPD</Text>
       </View>
       <View style={styles.container}>
@@ -75,7 +77,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    marginLeft: '20%'
+    marginLeft: '20%',
+    marginLeft: '35%'
   },
   containerTexto: {
     flex: 6,
