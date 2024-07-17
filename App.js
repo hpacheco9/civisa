@@ -9,6 +9,7 @@ import Rgpd from './pages/consentimento.js';
 import Result from './pages/result.js';
 import FetchXmlExample from './pages/lista.js';
 import Mapa from './pages/mapa.js';
+import Sismo from './pages/sismo.js';
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -111,6 +112,17 @@ const App = () => {
           component={Mapa}
           options={{
             title: 'Mapa',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: '#000000',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Sismo"
+          component={Sismo}
+          options={{
+            title: 'Sismo',
             headerTitleStyle: {
               fontWeight: 'bold',
               color: '#000000',

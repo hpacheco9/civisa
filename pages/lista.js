@@ -144,7 +144,17 @@ const FetchXmlExample = () => {
       setSelectedEvent(null);
     } else {
       setSelectedEvent(eventIndex);
-      console.log('Selected Event:', filteredEvents[eventIndex]);
+      navigator.navigate('Sismo',
+        {
+          latitude: filteredEvents[eventIndex]['latitude'],
+          longitude: filteredEvents[eventIndex]['longitude'],
+          region: filteredEvents[eventIndex]['region'],
+          date: filteredEvents[eventIndex]['eventDate'],
+          time: filteredEvents[eventIndex]['utcTime'],
+          intensidade: filteredEvents[eventIndex]['intensidade'],
+          mag: filteredEvents[eventIndex]['magnitude'],
+          backGround: backGround(filteredEvents[eventIndex]['intensidade']?.trim()),
+        });
     }
   };
 
