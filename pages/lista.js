@@ -3,6 +3,8 @@ import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image } from 'rea
 import axios from 'axios';
 import { parseString } from 'react-native-xml2js';
 import { useNavigation } from '@react-navigation/native';
+import InfoContainer from '../components/infoContainer.jsx';
+import Voltar from '../components/Voltar.jsx';
 
 const FetchXmlExample = () => {
   const [events, setEvents] = useState([]);
@@ -140,31 +142,25 @@ const FetchXmlExample = () => {
   };
 
   const toggleEventDetails = (eventIndex) => {
-    if (selectedEvent === eventIndex) {
-      setSelectedEvent(null);
-    } else {
-      setSelectedEvent(eventIndex);
-      navigator.navigate('Sismo',
-        {
-          latitude: filteredEvents[eventIndex]['latitude'],
-          longitude: filteredEvents[eventIndex]['longitude'],
-          region: filteredEvents[eventIndex]['region'],
-          date: filteredEvents[eventIndex]['eventDate'],
-          time: filteredEvents[eventIndex]['utcTime'],
-          intensidade: filteredEvents[eventIndex]['intensidade'],
-          mag: filteredEvents[eventIndex]['magnitude'],
-          backGround: backGround(filteredEvents[eventIndex]['intensidade']?.trim()),
-        });
-    }
+    const event = filteredEvents[eventIndex];
+    setSelectedEvent(eventIndex);
+    navigator.navigate('Sismo', {
+      latitude: event.latitude,
+      longitude: event.longitude,
+      region: event.region,
+      date: event.eventDate,
+      time: event.utcTime,
+      intensidade: event.intensidade,
+      mag: event.magnitude,
+      backGround: backGround(event.intensidade?.trim()),
+    });
   };
 
   return (
     <>
-      <TouchableOpacity style={{ marginTop: '20%', marginLeft: '5%', fontSize: 15 }} onPress={() => {
-        navigator.navigate('Inicio');
-      }}>
-        <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold' }}>{'< voltar'}</Text>
-      </TouchableOpacity>
+      <View style={{ marginTop: '20%' }}>
+        <Voltar />
+      </View>
       <View style={styles.contButton}>
         <TouchableOpacity style={styles.button} onPress={showAllEvents}>
           <Text>ALL</Text>
@@ -185,42 +181,15 @@ const FetchXmlExample = () => {
             <View>
               {filteredEvents.map((event, index) => (
                 <TouchableOpacity key={index} onPress={() => toggleEventDetails(index)} >
-                  <View style={styles.container}>
-                    <View style={styles.info}>
-                      <View style={{ flexDirection: 'row', marginBottom: '3%' }}>
-                        <Image
-                          source={require('../assets/cal.png')}
-                          style={{ width: 15, height: 15, marginRight: '3%' }}
-                        />
-                        <Text style={{ fontWeight: 'bold' }}>{event.eventDate}</Text>
-                        <Image
-                          source={require('../assets/clock.png')}
-                          style={{ width: 15, height: 15, marginRight: '3%', marginLeft: '5%' }}
-                        />
-                        <Text style={{ fontWeight: 'bold' }}>UTC {event.utcTime}</Text>
-                      </View>
-
-                      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: '3%' }} >
-                        <Image
-                          source={require('../assets/marker.png')}
-                          style={{ width: 15, height: 15, marginRight: '3%' }}
-                        />
-                        <Text>{event.region}</Text>
-                      </View >
-                      <View style={{ flexDirection: 'row' }}>
-                        {event.intensidade != 'Não sentido' && (
-                          <Image
-                            source={require('../assets/shake.png')}
-                            style={{ width: 15, height: 15, marginRight: '3%' }}
-                          />
-                        )}
-                        <Text>{event.intensidade === 'Não sentido' ? '' : event.intensidade}</Text>
-                      </View>
-                    </View>
-                    <View style={{ backgroundColor: backGround(event.intensidade?.trim()), width: 40, height: 40, alignItems: 'center', justifyContent: 'center', marginLeft: '4%' }}>
-                      <Text style={styles.magnitude}>{event.magnitude}</Text>
-                    </View>
-                  </View>
+                  <InfoContainer
+                    data={event.eventDate}
+                    time={event.utcTime}
+                    region={event.region}
+                    mag={event.magnitude}
+                    intensidade={event.intensidade}
+                    bg={backGround(event.intensidade?.trim())}
+                    cords={false}
+                  />
                 </TouchableOpacity>
               ))}
             </View>
@@ -234,31 +203,6 @@ const FetchXmlExample = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    marginBottom: '5%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    width: 330,
-    height: 100,
-    borderRadius: 5,
-  },
-  magnitude: {
-    color: 'black',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  magContainer: {
-    width: 40,
-    height: 40,
-    marginLeft: 10,
-  },
-  info: {
-    width: '70%',
-    marginTop: '2%',
-    marginRight: '5%'
-  },
   contButton: {
     marginTop: '5%',
     flexDirection: 'row',

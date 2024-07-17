@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-nati
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Voltar from '../components/Voltar';
 
 const CustomDateTimePicker = () => {
   const [date, setDate] = useState(new Date());
@@ -59,12 +60,14 @@ const CustomDateTimePicker = () => {
     } catch (e) {
       console.error('Failed to save the data to AsyncStorage', e);
     }
-
     navigation.navigate('Perguntas');
   };
 
   return (
     <>
+      <View style={{ marginTop: '20%' }}>
+        <Voltar />
+      </View>
       <Text style={styles.header}>Data & Hora</Text>
       <ScrollView>
         <View style={styles.container}>
@@ -116,7 +119,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingTop: '10%',
+    paddingTop: '5%',
     alignItems: 'center',
     overflow: 'scroll',
   },
@@ -124,7 +127,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     marginLeft: '12%',
-    paddingTop: '12%',
+    paddingTop: '10%',
     alignSelf: 'flex-start',
   },
   selectedValue: {
@@ -156,7 +159,7 @@ const styles = StyleSheet.create({
     width: 300,
   },
   header: {
-    marginTop: '30%',
+    marginTop: '20%',
     fontWeight: 'bold',
     fontSize: 32,
     marginLeft: '12%',
