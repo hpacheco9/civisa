@@ -33,7 +33,7 @@ const Sismo = ({ route }) => {
       <Voltar style={styles.voltar} iswhite={true} />
       <View style={styles.infoContainerWrapper}>
         <InfoContainer
-          data={date}
+          date={date}
           time={time}
           region={region}
           mag={mag}
@@ -53,9 +53,6 @@ const Sismo = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    marginTop: '5%',
-    marginBottom: '-3%'
   },
   map: {
     flex: 1,
