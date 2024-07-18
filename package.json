@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@firebase/firestore": "^4.6.4",
-    "@react-native-async-storage/async-storage": "^1.23.1",
+    "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/datetimepicker": "8.0.1",
     "@react-native-firebase/app": "^20.1.0",
     "@react-navigation/native": "^6.1.17",
@@ -28,12 +28,12 @@
     "react-native-maps": "1.14.0",
     "react-native-modal-datetime-picker": "^17.1.0",
     "react-native-picker-select": "^9.1.3",
-    "react-native-svg": "^15.4.0",
+    "react-native-svg": "15.2.0",
     "react-native-xml2js": "^1.0.3",
     "yup": "^1.4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0",
+    "@babel/core": "^7.24.0",
     "metro-react-native-babel-preset": "^0.77.0",
     "react-native-dotenv": "^3.4.11",
     "react-native-svg-transformer": "^1.5.0"

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import axios from 'axios';
 import { parseString } from 'react-native-xml2js';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import InfoContainer from '../components/infoContainer.jsx';
 import Voltar from '../components/Voltar.jsx';
 import backGround from '../services/background.js';
@@ -11,10 +11,9 @@ const Lista = () => {
   const [events, setEvents] = useState([]);
   const [form, setForm] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState(null);
   const navigator = useNavigation();
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     const fetchXmlData = async () => {
       try {
         const response = await axios.get('http://www.ivar.azores.gov.pt/seismic/eventgroup.xml?1721035364517');
@@ -32,7 +31,8 @@ const Lista = () => {
       }
     };
     fetchXmlData();
-  }, []);
+  }, []));
+
 
   useEffect(() => {
     const formattedEvents = events.map(event => {
@@ -109,9 +109,8 @@ const Lista = () => {
     setFilteredEvents(magGreaterThanFour);
   };
 
-  const toggleEventDetails = (eventIndex) => {
+  const toggleEventDetails = useCallback((eventIndex) => {
     const event = filteredEvents[eventIndex];
-    setSelectedEvent(eventIndex);
     navigator.navigate('Sismo', {
       latitude: event.latitude,
       longitude: event.longitude,
@@ -123,7 +122,24 @@ const Lista = () => {
       regiao: event.regiao,
       backGround: backGround(event.intensidade?.trim()),
     });
-  };
+  }, [filteredEvents, navigator]);
+
+
+  const renderItem = useCallback(({ item, index }) => (
+    <TouchableOpacity onPress={() => toggleEventDetails(index)}>
+      <MemoizedInfoContainer
+        date={item.eventDate}
+        time={item.utcTime}
+        region={item.region}
+        mag={item.magnitude}
+        intensidade={item.intensidade}
+        bg={backGround(item.intensidade?.trim())}
+        cords={false}
+      />
+    </TouchableOpacity>
+  ), [toggleEventDetails]);
+
+  const MemoizedInfoContainer = React.memo(InfoContainer);
 
   return (
     <>
@@ -144,32 +160,17 @@ const Lista = () => {
           <Text>{'MAG > 4'}</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }} >
-        {
-          filteredEvents.length > 0 ? (
-            <View>
-              {filteredEvents.map((event, index) => (
-                <TouchableOpacity key={index} onPress={() => toggleEventDetails(index)} >
-                  <InfoContainer
-                    date={event.eventDate}
-                    time={event.utcTime}
-                    region={event.region}
-                    mag={event.magnitude}
-                    intensidade={event.intensidade}
-                    bg={backGround(event.intensidade?.trim())}
-                    cords={false}
-                  />
-                </TouchableOpacity>
-              ))}
-            </View>
-          ) : (
-            <Text>Eventos não encontrados</Text>
-          )
-        }
-      </ScrollView >
+      <FlatList
+        data={filteredEvents}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}
+        ListEmptyComponent={<Text style={styles.noEventsText}>Eventos não encontrados</Text>}
+      />
     </>
   );
 };
+
 
 const styles = StyleSheet.create({
   contButton: {
