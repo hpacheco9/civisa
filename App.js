@@ -18,10 +18,6 @@ const App = () => {
         screenOptions={{
           headerShown: false,
           gestureEnabled: true,
-          transitionSpec: {
-            open: { animation: "spring", config: { duration: 300 } },
-            close: { animation: "spring", config: { duration: 300 } },
-          },
           headerStyle: {
             backgroundColor: "#FFFFFF",
           },
