@@ -8,10 +8,11 @@ const Sismo = ({ route }) => {
   const { latitude, longitude, region, date, time, intensidade, mag, regiao, backGround } = route.params;
   const latitudeNum = parseFloat(latitude);
   const longitudeNum = parseFloat(longitude);
+
   return (
     <View style={styles.container}>
       <MapView
-        provider={undefined}
+        provider={undefined} // Use undefined for default provider
         style={styles.map}
         region={{
           latitude: latitudeNum,
@@ -43,12 +44,11 @@ const Sismo = ({ route }) => {
           longitude={longitude}
           cords={true}
           iswhite={true}
-          style={styles.infoContainerWrapper}
         />
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
 });
 
 export default Sismo;

@@ -11,6 +11,7 @@ import locais from "../services/Locais.json";
 import * as Yup from "yup";
 import firebaseConfig from "../services/Database";
 import Voltar from "../components/Voltar";
+import NetInfo from "@react-native-community/netinfo";
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -19,6 +20,7 @@ const Submeter = () => {
   const navigation = useNavigation();
   const concelhos = locais.concelhos;
   const freguesias = locais.freguesias;
+
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
@@ -39,11 +41,14 @@ const Submeter = () => {
       concelho: values.concelho,
       freguesia: values.freguesia,
     };
-
+    const netInfo = await NetInfo.fetch();
     try {
       await AsyncStorage.setItem("@contacts", JSON.stringify(contacts));
       const selectedDateTime = await AsyncStorage.getItem("@selectedDateTime");
       const formAnswers = await AsyncStorage.getItem("@formAnswers");
+      if (!netInfo.isConnected) {
+        throw new Error("Device is not connected to the internet.");
+      }
 
       const inquiryData = {
         selectedDateTime: selectedDateTime ? JSON.parse(selectedDateTime) : {},

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import axios from 'axios';
 import { parseString } from 'react-native-xml2js';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import InfoContainer from '../components/infoContainer.jsx';
 import Voltar from '../components/Voltar.jsx';
 import backGround from '../services/background.js';
@@ -11,10 +11,10 @@ const Lista = () => {
   const [events, setEvents] = useState([]);
   const [form, setForm] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState(null);
   const navigator = useNavigation();
 
-  useEffect(() => {
+  // Fetch XML data on component focus
+  useFocusEffect(useCallback(() => {
     const fetchXmlData = async () => {
       try {
         const response = await axios.get('http://www.ivar.azores.gov.pt/seismic/eventgroup.xml?1721035364517');
@@ -32,34 +32,22 @@ const Lista = () => {
       }
     };
     fetchXmlData();
-  }, []);
+  }, []));
 
+  // Process events when 'events' state updates
   useEffect(() => {
-    const formattedEvents = events.map(event => {
-      const eventDate = event.Origin[0].originTime[0].split(' ')[0];
-      const utcTime = event.Origin[0].originTime[0].split(' ')[1].slice(0, 8);
-      const region = event.CommentCommand.find(comment => comment.$.Parameter === 'REGIAO:')?.value[0] || 'Não especificada';
-      const magnitude = parseFloat(event.Magnitude[0].value[0]);
-      const intensidade = (event.CommentCommand.find(comment => comment.$.Parameter === 'SENTIDO:')?.value[0]?.split(' -')[0]) || 'Não sentido';
-      const regiao = event.CommentCommand.find(comment => comment.$.Parameter === 'SENTIDO:')?.value[0]?.split(' -')[1] || 'Não especificada';
-      const locationString = event.Origin[0].location[0]._;
-      const locationParts = locationString.split(',');
-      const latitude = locationParts[0].trim();
-      const longitude = locationParts[1].trim();
+    const formattedEvents = events.map(event => ({
+      eventDate: event.Origin[0].originTime[0].split(' ')[0],
+      utcTime: event.Origin[0].originTime[0].split(' ')[1].slice(0, 8),
+      region: event.CommentCommand.find(comment => comment.$.Parameter === 'REGIAO:')?.value[0] || 'Não especificada',
+      magnitude: parseFloat(event.Magnitude[0].value[0]),
+      intensidade: (event.CommentCommand.find(comment => comment.$.Parameter === 'SENTIDO:')?.value[0]?.split(' -')[0]) || 'Não sentido',
+      regiao: event.CommentCommand.find(comment => comment.$.Parameter === 'SENTIDO:')?.value[0]?.split(' -')[1] || 'Não especificada',
+      latitude: event.Origin[0].location[0]._.split(',')[0].trim(),
+      longitude: event.Origin[0].location[0]._.split(',')[1].trim(),
+    }));
 
-      return {
-        eventDate,
-        utcTime,
-        region,
-        magnitude,
-        intensidade,
-        regiao,
-        latitude,
-        longitude,
-      };
-    });
-
-    const sortedEvents = formattedEvents.sort((a, b) => {
+    const sortedEvents = [...formattedEvents].sort((a, b) => {
       const dateA = new Date(`${a.eventDate}T${a.utcTime}`);
       const dateB = new Date(`${b.eventDate}T${b.utcTime}`);
       return dateB - dateA;
@@ -69,49 +57,24 @@ const Lista = () => {
     setFilteredEvents(sortedEvents);
   }, [events]);
 
+  // Filter events based on intensity, magnitude, etc.
   const filterUniqueEvents = (eventsArray) => {
-    eventsArray.sort((a, b) => {
-      const dateA = new Date(a.Origin[0].originTime[0]);
-      const dateB = new Date(b.Origin[0].originTime[0]);
-      return dateB - dateA;
-    });
+    eventsArray.sort((a, b) => new Date(b.Origin[0].originTime[0]) - new Date(a.Origin[0].originTime[0]));
 
     const uniqueEventIds = new Set();
-    const uniqueEvents = [];
-
-    eventsArray.forEach(event => {
+    return eventsArray.filter(event => {
       const eventId = event.$.EventID;
       if (!uniqueEventIds.has(eventId)) {
         uniqueEventIds.add(eventId);
-        uniqueEvents.push(event);
+        return true;
       }
+      return false;
     });
-
-    return uniqueEvents;
   };
 
-  const showAllEvents = () => {
-    setFilteredEvents(form);
-  };
-
-  const showFeltEvents = () => {
-    const feltEvents = form.filter(event => event.intensidade !== 'Não sentido');
-    setFilteredEvents(feltEvents);
-  };
-
-  const showMagGreaterThanThree = () => {
-    const magGreaterThanThree = form.filter(event => event.magnitude >= 3);
-    setFilteredEvents(magGreaterThanThree);
-  };
-
-  const showMagGreaterThanFour = () => {
-    const magGreaterThanFour = form.filter(event => event.magnitude >= 4);
-    setFilteredEvents(magGreaterThanFour);
-  };
-
-  const toggleEventDetails = (eventIndex) => {
+  // Navigation callback for event details
+  const toggleEventDetails = useCallback((eventIndex) => {
     const event = filteredEvents[eventIndex];
-    setSelectedEvent(eventIndex);
     navigator.navigate('Sismo', {
       latitude: event.latitude,
       longitude: event.longitude,
@@ -123,6 +86,43 @@ const Lista = () => {
       regiao: event.regiao,
       backGround: backGround(event.intensidade?.trim()),
     });
+  }, [filteredEvents, navigator]);
+
+  // Render each item in FlatList
+  const renderItem = useCallback(({ item, index }) => (
+    <TouchableOpacity onPress={() => toggleEventDetails(index)}>
+      <MemoizedInfoContainer
+        date={item.eventDate}
+        time={item.utcTime}
+        region={item.region}
+        mag={item.magnitude}
+        intensidade={item.intensidade}
+        bg={backGround(item.intensidade?.trim())}
+        cords={false}
+      />
+    </TouchableOpacity>
+  ), [toggleEventDetails]);
+
+  const MemoizedInfoContainer = React.memo(InfoContainer);
+
+  // Functions to filter events
+  const showAllEvents = () => {
+    setFilteredEvents([...form]);
+  };
+
+  const showFeltEvents = () => {
+    const feltEvents = form.filter(event => event.intensidade !== 'Não sentido');
+    setFilteredEvents([...feltEvents]);
+  };
+
+  const showMagGreaterThanThree = () => {
+    const magGreaterThanThree = form.filter(event => event.magnitude >= 3);
+    setFilteredEvents([...magGreaterThanThree]);
+  };
+
+  const showMagGreaterThanFour = () => {
+    const magGreaterThanFour = form.filter(event => event.magnitude >= 4);
+    setFilteredEvents([...magGreaterThanFour]);
   };
 
   return (
@@ -144,29 +144,13 @@ const Lista = () => {
           <Text>{'MAG > 4'}</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }} >
-        {
-          filteredEvents.length > 0 ? (
-            <View>
-              {filteredEvents.map((event, index) => (
-                <TouchableOpacity key={index} onPress={() => toggleEventDetails(index)} >
-                  <InfoContainer
-                    date={event.eventDate}
-                    time={event.utcTime}
-                    region={event.region}
-                    mag={event.magnitude}
-                    intensidade={event.intensidade}
-                    bg={backGround(event.intensidade?.trim())}
-                    cords={false}
-                  />
-                </TouchableOpacity>
-              ))}
-            </View>
-          ) : (
-            <Text>Eventos não encontrados</Text>
-          )
-        }
-      </ScrollView >
+      <FlatList
+        data={filteredEvents}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}
+        ListEmptyComponent={<Text style={styles.noEventsText}>Eventos não encontrados</Text>}
+      />
     </>
   );
 };
@@ -188,6 +172,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
+  },
+  noEventsText: {
+    fontSize: 16,
+    color: 'black',
+    marginTop: 20,
   },
 });
 

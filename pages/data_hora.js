@@ -64,11 +64,11 @@ const CustomDateTimePicker = () => {
         "@selectedDateTime",
         JSON.stringify(selectedDateTime)
       );
+      navigation.navigate('Perguntas')
       console.log("Selected Date and Time saved:", selectedDateTime);
     } catch (e) {
       console.error("Failed to save the data to AsyncStorage", e);
     }
-    navigation.navigate("Perguntas");
   };
 
   return (
@@ -142,7 +142,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     borderRadius: 5,
     marginTop: "15%",
-    color: "#FFFFFF",
   },
   buttonText: {
     color: "#FFFFFF",

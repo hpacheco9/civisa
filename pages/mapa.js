@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, StyleSheet, Text, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import axios from 'axios';
 import { parseString } from 'react-native-xml2js';
@@ -53,9 +53,7 @@ const Mapa = () => {
   const [events, setEvents] = useState([]);
   const [form, setForm] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState(null);
   const navigator = useNavigation()
-
 
   useEffect(() => {
     const fetchXmlData = async () => {
@@ -76,6 +74,7 @@ const Mapa = () => {
     };
     fetchXmlData();
   }, []);
+
 
   useEffect(() => {
     const formattedEvents = events.map(event => {
@@ -133,27 +132,21 @@ const Mapa = () => {
     return uniqueEvents;
   };
 
+  const toggleEventDetails = useCallback((eventIndex) => {
+    const event = filteredEvents[eventIndex];
+    navigator.navigate('Sismo', {
+      latitude: event.latitude,
+      longitude: event.longitude,
+      region: event.region,
+      date: event.eventDate,
+      time: event.utcTime,
+      intensidade: event.intensidade,
+      mag: event.magnitude,
+      regiao: event.regiao,
+      backGround: backGround(event.intensidade?.trim()),
+    });
+  }, [filteredEvents, navigator]);
 
-
-  const toggleEventDetails = (eventIndex) => {
-    if (selectedEvent === eventIndex) {
-      setSelectedEvent(null);
-    } else {
-      setSelectedEvent(eventIndex);
-      navigator.navigate('Sismo',
-        {
-          latitude: filteredEvents[eventIndex]['latitude'],
-          longitude: filteredEvents[eventIndex]['longitude'],
-          region: filteredEvents[eventIndex]['region'],
-          date: filteredEvents[eventIndex]['eventDate'],
-          time: filteredEvents[eventIndex]['utcTime'],
-          intensidade: filteredEvents[eventIndex]['intensidade'],
-          mag: filteredEvents[eventIndex]['magnitude'],
-          regiao: filteredEvents[eventIndex]['regiao'],
-          backGround: backGround(filteredEvents[eventIndex]['intensidade']?.trim()),
-        });
-    }
-  };
 
   const getMarkerIcon = (event, index) => {
     const eventDate = new Date(`${event.eventDate}T${event.utcTime}`);
