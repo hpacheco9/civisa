@@ -7,7 +7,7 @@ import InfoContainer from '../components/infoContainer.jsx';
 import Voltar from '../components/Voltar.jsx';
 import backGround from '../services/background.js';
 
-const FetchXmlExample = () => {
+const Lista = () => {
   const [events, setEvents] = useState([]);
   const [form, setForm] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
@@ -150,7 +150,7 @@ const FetchXmlExample = () => {
               {filteredEvents.map((event, index) => (
                 <TouchableOpacity key={index} onPress={() => toggleEventDetails(index)} >
                   <InfoContainer
-                    data={event.eventDate}
+                    date={event.eventDate}
                     time={event.utcTime}
                     region={event.region}
                     mag={event.magnitude}
@@ -190,4 +190,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FetchXmlExample;
+export default Lista;
