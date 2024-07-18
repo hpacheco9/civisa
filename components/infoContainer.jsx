@@ -16,7 +16,7 @@ const InfoContainer = ({
 }) => {
   const textColor = iswhite ? "#FFFFFF" : "#000000";
   const containerBackgroundColor = iswhite
-    ? "rgba(0, 0, 0, 0.5)"
+    ? "rgba(0, 0, 0, 0.7)"
     : "rgba(255, 255, 255, 0.5)";
 
   return (

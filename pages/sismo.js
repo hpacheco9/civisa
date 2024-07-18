@@ -22,7 +22,7 @@ const Sismo = ({ route }) => {
   return (
     <View style={styles.container}>
       <MapView
-        provider={undefined} // Use undefined for default provider
+        provider={undefined} 
         style={styles.map}
         region={{
           latitude: latitudeNum,

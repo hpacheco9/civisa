@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
   View,
   Text,
@@ -19,7 +19,6 @@ const Lista = () => {
   const [filteredEvents, setFilteredEvents] = useState([]);
   const navigator = useNavigation();
 
-  // Fetch XML data on component focus
   useFocusEffect(
     useCallback(() => {
       const fetchXmlData = async () => {
@@ -44,7 +43,6 @@ const Lista = () => {
     }, [])
   );
 
-  // Process events when 'events' state updates
   useEffect(() => {
     const formattedEvents = events.map((event) => ({
       eventDate: event.Origin[0].originTime[0].split(" ")[0],
@@ -76,7 +74,6 @@ const Lista = () => {
     setFilteredEvents(sortedEvents);
   }, [events]);
 
-  // Filter events based on intensity, magnitude, etc.
   const filterUniqueEvents = (eventsArray) => {
     eventsArray.sort(
       (a, b) =>
@@ -95,7 +92,6 @@ const Lista = () => {
     });
   };
 
-  // Navigation callback for event details
   const toggleEventDetails = useCallback(
     (eventIndex) => {
       const event = filteredEvents[eventIndex];
@@ -114,7 +110,6 @@ const Lista = () => {
     [filteredEvents, navigator]
   );
 
-  // Render each item in FlatList
   const renderItem = useCallback(
     ({ item, index }) => (
       <TouchableOpacity onPress={() => toggleEventDetails(index)}>
@@ -132,7 +127,13 @@ const Lista = () => {
     [toggleEventDetails]
   );
 
-  const MemoizedInfoContainer = React.memo(InfoContainer);
+  const MemoizedInfoContainer = useMemo(() => InfoContainer, []);
+
+  // Memoized event filters
+  const feltEvents = useMemo(() => form.filter(
+    (event) => event.intensidade !== "Não sentido"), [form]);
+
+  const magGreaterThanThree = useMemo(() => form.filter((event) => event.magnitude >= 3), [form]);
 
   // Functions to filter events
   const showAllEvents = () => {
@@ -140,14 +141,10 @@ const Lista = () => {
   };
 
   const showFeltEvents = () => {
-    const feltEvents = form.filter(
-      (event) => event.intensidade !== "Não sentido"
-    );
     setFilteredEvents([...feltEvents]);
   };
 
   const showMagGreaterThanThree = () => {
-    const magGreaterThanThree = form.filter((event) => event.magnitude >= 3);
     setFilteredEvents([...magGreaterThanThree]);
   };
 
@@ -201,7 +198,7 @@ const Lista = () => {
 
 const styles = StyleSheet.create({
   contButton: {
-    marginTop: "5%",
+    marginTop: "10%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
