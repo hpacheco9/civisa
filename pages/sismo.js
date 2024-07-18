@@ -10,31 +10,15 @@ const Sismo = ({ route }) => {
   const longitudeNum = parseFloat(longitude);
 
   return (
-    <>
-      <View style={{ marginBottom: '25%' }}>
-        <Voltar />
-      </View>
-      <View style={styles.container}>
-        <InfoContainer
-          data={date}
-          time={time}
-          region={region}
-          mag={mag}
-          intensidade={intensidade}
-          bg={backGround}
-          latitude={latitude}
-          longitude={longitude}
-          cords={true}
-        />
-      </View>
+    <View style={styles.container}>
       <MapView
         provider={undefined}
         style={styles.map}
         region={{
           latitude: latitudeNum,
           longitude: longitudeNum,
-          latitudeDelta: 7,
-          longitudeDelta: 7,
+          latitudeDelta: 5,
+          longitudeDelta: 5,
         }}
         mapType='hybrid'
         showsCompass={false}
@@ -46,29 +30,48 @@ const Sismo = ({ route }) => {
           image={require('../assets/map_marker.png')}
         />
       </MapView>
-    </>
+      <Voltar style={styles.voltar} iswhite={true} />
+      <View style={styles.infoContainerWrapper}>
+        <InfoContainer
+          data={date}
+          time={time}
+          region={region}
+          mag={mag}
+          intensidade={intensidade}
+          bg={backGround}
+          latitude={latitude}
+          longitude={longitude}
+          cords={true}
+          iswhite={true}
+          style={styles.infoContainer}
+        />
+      </View>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
-  backButton: {
-    marginTop: '20%',
-    marginLeft: '5%',
-  },
-  backButtonText: {
-    textDecorationLine: 'underline',
-    fontWeight: 'bold',
-    fontSize: 15,
-  },
   container: {
-    alignItems: 'center',
-    marginTop: '5%'
+    flex: 1,
   },
   map: {
     flex: 1,
-    width: '100%',
-    height: '90%'
   },
+  voltar: {
+    position: 'absolute',
+    top: '7%',
+    left: '7%',
+    zIndex: 1,
+  },
+  infoContainerWrapper: {
+    position: 'absolute',
+    top: '15%',
+    right: '3%',
+    left: '3%',
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });
 
 export default Sismo;

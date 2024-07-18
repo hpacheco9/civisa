@@ -162,7 +162,7 @@ const FetchXmlExample = () => {
               ))}
             </View>
           ) : (
-            <Text>No events found</Text>
+            <Text>Eventos não encontrados</Text>
           )
         }
       </ScrollView >
