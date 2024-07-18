@@ -7,7 +7,7 @@ import Perguntas from './pages/Inquerito.js';
 import Submeter from './pages/submeter.js';
 import Rgpd from './pages/consentimento.js';
 import Result from './pages/result.js';
-import FetchXmlExample from './pages/lista.js';
+import Lista from './pages/lista.js';
 import Mapa from './pages/mapa.js';
 import Sismo from './pages/sismo.js';
 
@@ -98,7 +98,7 @@ const App = () => {
         />
         <Stack.Screen
           name="Lista"
-          component={FetchXmlExample}
+          component={Lista}
           options={{
             title: 'Result',
             headerTitleStyle: {
