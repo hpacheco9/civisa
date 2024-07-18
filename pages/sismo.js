@@ -16,7 +16,7 @@ const Sismo = ({ route }) => {
       </View>
       <View style={styles.container}>
         <InfoContainer
-          data={date}
+          date={date}
           time={time}
           region={region}
           mag={mag}
