@@ -53,6 +53,9 @@ const Sismo = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    marginTop: '5%',
+    marginBottom: '-3%'
   },
   map: {
     flex: 1,

@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginLeft: '10%',
     marginRight: '10%',
-    marginTop: '10%'
+    marginTop: '5%'
   },
   buttonText: {
     color: '#ffffff',
@@ -199,7 +199,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: '5%',
     marginBottom: '30%'
   }
 });
