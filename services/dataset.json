@@ -9,11 +9,7 @@
       ]
     },
     "2": {
-      "Eu estava": [
-        "Parado",
-        "Em movimento",
-        "A dormir e acordei"
-      ]
+      "Eu estava": ["Parado", "Em movimento", "A dormir e acordei"]
     },
     "3": {
       "Senti uma vibração": [
@@ -24,19 +20,10 @@
       ]
     },
     "4": {
-      "Os candeeiros": [
-        "Não reparei",
-        "Não oscilaram",
-        "Oscilaram"
-      ]
+      "Os candeeiros": ["Não reparei", "Não oscilaram", "Oscilaram"]
     },
     "5": {
-      "Os quadros": [
-        "Não reparei",
-        "Não se mexeram",
-        "Mexeram-se",
-        "Caíram"
-      ]
+      "Os quadros": ["Não reparei", "Não se mexeram", "Mexeram-se", "Caíram"]
     },
     "6": {
       "As loiças e vidros": [
@@ -47,18 +34,10 @@
       ]
     },
     "7": {
-      "As portas e janelas ": [
-        "Não reparei",
-        "Não tremeram ",
-        "Tremeram"
-      ]
+      "As portas e janelas ": ["Não reparei", "Não tremeram ", "Tremeram"]
     },
     "8": {
-      "O travejamento": [
-        "Não reparei",
-        "Não rangeu",
-        "Rangeu"
-      ]
+      "O travejamento": ["Não reparei", "Não rangeu", "Rangeu"]
     },
     "9": {
       "Os livros e biblots": [
