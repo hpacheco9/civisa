@@ -1,8 +1,14 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
+import React from "react";
+import { Text, StyleSheet } from "react-native";
+import RNPickerSelect from "react-native-picker-select";
 
-const InputDropdown = ({ label, items, placeholder, onValueChange, ...pickerProps }) => {
+const InputDropdown = ({
+  label,
+  items,
+  placeholder,
+  onValueChange,
+  ...pickerProps
+}) => {
   return (
     <>
       <Text style={styles.header}>{label}</Text>
@@ -15,15 +21,15 @@ const InputDropdown = ({ label, items, placeholder, onValueChange, ...pickerProp
       />
     </>
   );
-}
+};
 
 const styles = StyleSheet.create({
   header: {
-    marginRight: '60%',
-    fontWeight: 'bold',
-    paddingBottom: '2%',
-    paddingTop: '5%',
-    fontSize: 14
+    marginRight: "60%",
+    fontWeight: "bold",
+    paddingBottom: "2%",
+    paddingTop: "5%",
+    fontSize: 14,
   },
 });
 
@@ -32,11 +38,11 @@ const pickerSelectStyles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderRadius: 4,
-    color: 'black',
+    color: "black",
     paddingRight: 30,
-    marginLeft: '11%',
+    marginLeft: "11%",
     width: 300,
     height: 50,
   },
@@ -45,11 +51,11 @@ const pickerSelectStyles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 12,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderRadius: 8,
-    color: 'black',
+    color: "black",
     paddingRight: 30,
-    marginLeft: '11%',
+    marginLeft: "11%",
     width: 300,
     height: 50,
   },

@@ -1,9 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Animated, Easing, ScrollView } from 'react-native';
-import data from '../services/dataset.json';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Voltar from '../components/Voltar';
+import React, { useState, useEffect, useRef } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Animated,
+  Easing,
+  ScrollView,
+} from "react-native";
+import data from "../services/dataset.json";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Voltar from "../components/Voltar";
 
 const Perguntas = ({ route }) => {
   const resetIndex = route.params?.resetIndex ?? 0;
@@ -12,7 +20,7 @@ const Perguntas = ({ route }) => {
   const [perguntas, setPerguntas] = useState([]);
   const [pergunta, setPergunta] = useState({
     title: "",
-    questoes: []
+    questoes: [],
   });
   const [form, setForm] = useState({});
   const slideAnim = useRef(new Animated.Value(-500)).current;
@@ -25,14 +33,14 @@ const Perguntas = ({ route }) => {
         const dados = [];
         Object.entries(data.wP6Vny1TAnsKRRQ1FOcH).forEach(([index, value]) => {
           Object.entries(value).forEach(([question, answers]) => {
-            if (typeof answers !== 'undefined') {
+            if (typeof answers !== "undefined") {
               dados.push({ [question]: answers });
             }
           });
         });
         setPerguntas(dados);
       } catch (error) {
-        console.error('Erro ao carregar os documentos:', error);
+        console.error("Erro ao carregar os documentos:", error);
       }
     };
 
@@ -46,7 +54,7 @@ const Perguntas = ({ route }) => {
       setSelectedOption(null);
       setPergunta({
         title: title,
-        questoes: questoes
+        questoes: questoes,
       });
       resetAnimation();
     }
@@ -74,7 +82,7 @@ const Perguntas = ({ route }) => {
         duration: 300,
         easing: Easing.in(Easing.exp),
         useNativeDriver: true,
-      })
+      }),
     ]).start();
   };
 
@@ -82,47 +90,58 @@ const Perguntas = ({ route }) => {
     if (selectedOption != null) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
-      if (selectedOption === 'Não senti') {
-        navigation.navigate('Submeter');
+      if (selectedOption === "Não senti") {
+        navigation.navigate("Submeter");
       }
       try {
-        await AsyncStorage.setItem('@formAnswers', JSON.stringify(form));
-        console.log('Form:', form);
+        await AsyncStorage.setItem("@formAnswers", JSON.stringify(form));
+        console.log("Form:", form);
       } catch (e) {
-        console.error('Failed to save the data to AsyncStorage', e);
+        console.error("Failed to save the data to AsyncStorage", e);
       }
 
       if (newIndex >= perguntas.length) {
-        navigation.navigate('Submeter');
+        navigation.navigate("Submeter");
       }
     }
   };
 
   const handleOptionSelect = (title, option) => {
     setSelectedOption(option);
-    setForm(prevForm => ({
+    setForm((prevForm) => ({
       ...prevForm,
-      [title]: option
+      [title]: option,
     }));
   };
 
   return (
     <ScrollView>
       {currentIndex === 0 && (
-        <Animated.View style={{ marginBottom: '10%', transform: [{ translateX: slideAnim }], opacity: fadeAnim }}>
+        <Animated.View
+          style={{
+            marginBottom: "10%",
+            transform: [{ translateX: slideAnim }],
+            opacity: fadeAnim,
+          }}
+        >
           <Voltar />
         </Animated.View>
-      )
-      }
-      <Animated.View style={[styles.container, { transform: [{ translateX: slideAnim }], opacity: fadeAnim }]}>
-        <Text style={styles.title}>
-          {pergunta.title}
-        </Text>
+      )}
+      <Animated.View
+        style={[
+          styles.container,
+          { transform: [{ translateX: slideAnim }], opacity: fadeAnim },
+        ]}
+      >
+        <Text style={styles.title}>{pergunta.title}</Text>
         <View>
           {pergunta.questoes.map((val, index) => (
             <TouchableOpacity
               key={index}
-              style={[styles.radioButton, selectedOption === val && styles.radioButtonSelected]}
+              style={[
+                styles.radioButton,
+                selectedOption === val && styles.radioButtonSelected,
+              ]}
               onPress={() => handleOptionSelect(pergunta.title, val)}
             >
               <Text style={styles.textItem}>{val}</Text>
@@ -135,72 +154,72 @@ const Perguntas = ({ route }) => {
           </TouchableOpacity>
         </View>
       </Animated.View>
-    </ScrollView >
-  )
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ffffff',
-    overflow: 'scroll',
-    marginTop: '40%',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffffff",
+    overflow: "scroll",
+    marginTop: "40%",
   },
   title: {
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 50,
   },
   textContainer: {
     marginVertical: 20,
-    width: '100%',
+    width: "100%",
   },
   textItem: {
     fontSize: 16,
     marginBottom: 10,
   },
   radioButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: 10,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 5,
     padding: 10,
-    width: 300
+    width: 300,
   },
   radioButtonSelected: {
-    backgroundColor: '#f2f2f2',
+    backgroundColor: "#f2f2f2",
   },
   button: {
-    backgroundColor: '#000000',
+    backgroundColor: "#000000",
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 5,
-    color: '#FFFFFF',
-    marginLeft: '10%',
-    marginRight: '10%',
-    marginTop: '5%'
+    color: "#FFFFFF",
+    marginLeft: "10%",
+    marginRight: "10%",
+    marginTop: "5%",
   },
   buttonText: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   voltar: {
     marginTop: "15%",
     marginLeft: "2%",
-    textDecorationLine: 'underline',
-    fontWeight: 'bold',
-    paddingBottom: 2
+    textDecorationLine: "underline",
+    fontWeight: "bold",
+    paddingBottom: 2,
   },
   cont_butt: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: '30%'
-  }
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: "30%",
+  },
 });
 
 export default Perguntas;
