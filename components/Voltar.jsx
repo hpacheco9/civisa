@@ -1,9 +1,12 @@
 import React from "react";
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { Iconify } from "react-native-iconify";
 
-const Voltar = ({iswhite }) => {
+const Voltar = ({ iswhite }) => {
   const navigation = useNavigation();
+  const iconColor = iswhite ? "#FFFFFF" : "#000000";
+
   return (
     <TouchableOpacity
       style={{
@@ -16,16 +19,7 @@ const Voltar = ({iswhite }) => {
         navigation.goBack();
       }}
     >
-      <Text
-        style={{
-          fontWeight: "bold",
-          fontSize: 15,
-          zIndex: 1,
-          color: iswhite ? "#FFFFFF" : "#000000",
-        }}
-      >
-        {"< voltar"}
-      </Text>
+      <Iconify icon="ion:chevron-back" size={40} color={iconColor} />
     </TouchableOpacity>
   );
 };

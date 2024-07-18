@@ -64,7 +64,7 @@ const CustomDateTimePicker = () => {
         "@selectedDateTime",
         JSON.stringify(selectedDateTime)
       );
-      navigation.navigate('Perguntas')
+      navigation.navigate("Perguntas");
       console.log("Selected Date and Time saved:", selectedDateTime);
     } catch (e) {
       console.error("Failed to save the data to AsyncStorage", e);

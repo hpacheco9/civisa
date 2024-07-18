@@ -21,7 +21,6 @@ const Submeter = () => {
   const concelhos = locais.concelhos;
   const freguesias = locais.freguesias;
 
-
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     phone: Yup.string()

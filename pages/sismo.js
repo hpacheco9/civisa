@@ -1,11 +1,21 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
-import InfoContainer from '../components/infoContainer.jsx';
-import Voltar from '../components/Voltar.jsx';
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import MapView, { Marker } from "react-native-maps";
+import InfoContainer from "../components/infoContainer.jsx";
+import Voltar from "../components/Voltar.jsx";
 
 const Sismo = ({ route }) => {
-  const { latitude, longitude, region, date, time, intensidade, mag, regiao, backGround } = route.params;
+  const {
+    latitude,
+    longitude,
+    region,
+    date,
+    time,
+    intensidade,
+    mag,
+    regiao,
+    backGround,
+  } = route.params;
   const latitudeNum = parseFloat(latitude);
   const longitudeNum = parseFloat(longitude);
 
@@ -20,14 +30,14 @@ const Sismo = ({ route }) => {
           latitudeDelta: 5,
           longitudeDelta: 5,
         }}
-        mapType='hybrid'
+        mapType="hybrid"
         showsCompass={false}
         rotateEnabled={false}
         toolbarEnabled={false}
       >
         <Marker
           coordinate={{ latitude: latitudeNum, longitude: longitudeNum }}
-          image={require('../assets/map_marker.png')}
+          image={require("../assets/map_marker.png")}
         />
       </MapView>
       <Voltar style={styles.voltar} iswhite={true} />
@@ -58,19 +68,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   voltar: {
-    position: 'absolute',
-    top: '7%',
-    left: '7%',
+    position: "absolute",
+    top: "7%",
+    left: "7%",
     zIndex: 1,
   },
   infoContainerWrapper: {
-    position: 'absolute',
-    top: '15%',
-    right: '3%',
-    left: '3%',
+    position: "absolute",
+    top: "15%",
+    right: "3%",
+    left: "3%",
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
