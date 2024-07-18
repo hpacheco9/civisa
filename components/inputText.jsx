@@ -1,4 +1,4 @@
-import { TextInput, StyleSheet, Text } from 'react-native';
+import { TextInput, StyleSheet, Text } from "react-native";
 
 function InputText({ label, keyboardType, placeholder, onChangeText }) {
   return (
@@ -21,13 +21,13 @@ const styles = StyleSheet.create({
     paddingLeft: "2%",
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
   },
   header: {
-    marginRight: '65%',
-    fontWeight: 'bold',
-    paddingBottom: '2%',
-    paddingTop: '5%',
+    marginRight: "65%",
+    fontWeight: "bold",
+    paddingBottom: "2%",
+    paddingTop: "5%",
     fontSize: 14,
   },
 });

@@ -1,4 +1,12 @@
-import { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId } from '@env';
+import {
+  apiKey,
+  authDomain,
+  projectId,
+  storageBucket,
+  messagingSenderId,
+  appId,
+  measurementId,
+} from "@env";
 
 const firebaseConfig = {
   apiKey: apiKey,
@@ -7,8 +15,7 @@ const firebaseConfig = {
   storageBucket: storageBucket,
   messagingSenderId: messagingSenderId,
   appId: appId,
-  measurementId: measurementId
+  measurementId: measurementId,
 };
 
 export default firebaseConfig;
-
