@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const Voltar = ({ iswhite }) => {
+const Voltar = ({iswhite }) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity

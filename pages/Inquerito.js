@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -46,6 +46,13 @@ const Perguntas = ({ route }) => {
 
     fetchData();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentIndex(resetIndex);
+      setForm({});
+    }, [resetIndex])
+  );
 
   useEffect(() => {
     if (perguntas.length > 0 && currentIndex < perguntas.length) {
