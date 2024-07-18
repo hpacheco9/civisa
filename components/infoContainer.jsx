@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 
-const InfoContainer = ({ date, time, region, mag, intensidade, bg, latitude, longitude, cords, iswhite }) => {
+const InfoContainer = ({ date, time, region, mag, intensidade, regiao, bg, latitude, longitude, cords, iswhite }) => {
   const textColor = iswhite ? '#FFFFFF' : '#000000';
   const containerBackgroundColor = iswhite ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)';
 
@@ -34,25 +34,28 @@ const InfoContainer = ({ date, time, region, mag, intensidade, bg, latitude, lon
           </View>
         )}
         <View style={{ flexDirection: 'row' }}>
-          {cords ? (
-  <>
-    <Image
-       source={iswhite ? require('../assets/shake_white.png') : require('../assets/shake.png')}
-      style={{ width: 15, height: 15, marginRight: '3%' }}
-    />
-    <Text style={{color: textColor}}>{intensidade}</Text>
-  </>
-) : (
-  intensidade !== 'Não sentido' && (
-    <>
-      <Image
-        source={require('../assets/shake.png')}
-        style={{ width: 15, height: 15, marginRight: '3%' }}
-      />
-      <Text>{intensidade}</Text>
-    </>
-  )
-)}
+{cords ? (
+        <>
+          <Image
+            source={iswhite ? require('../assets/shake_white.png') : require('../assets/shake.png')}
+            style={{ width: 15, height: 15, marginRight: '3%' }}
+          />
+          <Text style={{ color: textColor }}>
+            {intensidade.trim() !== 'Não sentido' ? `${intensidade.trim()}  -${regiao}` : intensidade.trim()}
+          </Text>
+        </>
+      ) : (
+        intensidade.trim() !== 'Não sentido' && (
+          <>
+            <Image
+              source={require('../assets/shake.png')}
+              style={{ width: 15, height: 15, marginRight: '3%' }}
+            />
+            <Text style={{ color: textColor }}>{intensidade.trim()}</Text>
+          </>
+        )
+      )}
+
         </View>
       </View>
       <View style={{ backgroundColor: bg, width: 40, height: 40, alignItems: 'center', justifyContent: 'center', marginLeft: '4%' }}>

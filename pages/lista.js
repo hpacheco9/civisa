@@ -120,6 +120,7 @@ const Lista = () => {
       time: event.utcTime,
       intensidade: event.intensidade,
       mag: event.magnitude,
+      regiao: event.regiao,
       backGround: backGround(event.intensidade?.trim()),
     });
   };

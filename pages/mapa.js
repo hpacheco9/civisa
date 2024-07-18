@@ -149,6 +149,7 @@ const Mapa = () => {
           time: filteredEvents[eventIndex]['utcTime'],
           intensidade: filteredEvents[eventIndex]['intensidade'],
           mag: filteredEvents[eventIndex]['magnitude'],
+          regiao: filteredEvents[eventIndex]['regiao'],
           backGround: backGround(filteredEvents[eventIndex]['intensidade']?.trim()),
         });
     }

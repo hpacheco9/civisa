@@ -5,10 +5,9 @@ import InfoContainer from '../components/infoContainer.jsx';
 import Voltar from '../components/Voltar.jsx';
 
 const Sismo = ({ route }) => {
-  const { latitude, longitude, region, date, time, intensidade, mag, backGround } = route.params;
+  const { latitude, longitude, region, date, time, intensidade, mag, regiao, backGround } = route.params;
   const latitudeNum = parseFloat(latitude);
   const longitudeNum = parseFloat(longitude);
-
   return (
     <View style={styles.container}>
       <MapView
@@ -38,12 +37,13 @@ const Sismo = ({ route }) => {
           region={region}
           mag={mag}
           intensidade={intensidade}
+          regiao={regiao}
           bg={backGround}
           latitude={latitude}
           longitude={longitude}
           cords={true}
           iswhite={true}
-          style={styles.infoContainer}
+          style={styles.infoContainerWrapper}
         />
       </View>
     </View>
