@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginLeft: "10%",
+    marginBottom: '5%'
   },
   button: {
     backgroundColor: "#000000",

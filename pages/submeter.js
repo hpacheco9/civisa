@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Text, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import InputText from "../components/inputText";
@@ -21,6 +21,8 @@ const Submeter = () => {
   const concelhos = locais.concelhos;
   const freguesias = locais.freguesias;
 
+  const [isSubmitting, setIsSubmitting] = useState(false); // State to track submission status
+
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     phone: Yup.string()
@@ -42,9 +44,17 @@ const Submeter = () => {
     };
     const netInfo = await NetInfo.fetch();
     try {
+      // Prevent multiple submissions
+      if (isSubmitting) {
+        return;
+      }
+
+      setIsSubmitting(true); // Start submission process
+
       await AsyncStorage.setItem("@contacts", JSON.stringify(contacts));
       const selectedDateTime = await AsyncStorage.getItem("@selectedDateTime");
       const formAnswers = await AsyncStorage.getItem("@formAnswers");
+
       if (!netInfo.isConnected) {
         throw new Error("Device is not connected to the internet.");
       }
@@ -62,7 +72,9 @@ const Submeter = () => {
       navigation.navigate("Inicio");
     } catch (error) {
       console.error("Error saving data", error);
-      Alert.alert("Erro", "Falha ao enviar o inquérito");
+      Alert.alert("Erro", "Verifique a sua ligação à internet");
+    } finally {
+      setIsSubmitting(false); // Reset submission state
     }
   };
 
@@ -158,7 +170,11 @@ const Submeter = () => {
                 <Text style={styles.errorText}>{errors.freguesia}</Text>
               ) : null}
 
-              <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <TouchableOpacity
+                style={[styles.button, isSubmitting && styles.disabledButton]}
+                onPress={handleSubmit}
+                disabled={isSubmitting} // Disable the button based on isSubmitting state
+              >
                 <Text style={styles.buttonText}>Submeter</Text>
               </TouchableOpacity>
             </>
@@ -184,6 +200,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     borderRadius: 5,
     marginTop: "10%",
+  },
+  disabledButton: {
+    backgroundColor: "#999999", // Gray out the button when disabled
   },
   buttonText: {
     color: "#FFFFFF",
