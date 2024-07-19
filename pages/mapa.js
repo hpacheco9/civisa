@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   overlay: {
-    padding: 10,
+    marginTop:'5%',
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     borderRadius: 10,
     alignItems: "left",

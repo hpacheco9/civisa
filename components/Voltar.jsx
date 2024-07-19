@@ -14,6 +14,7 @@ const Voltar = ({ iswhite }) => {
         marginLeft: "5%",
         fontSize: 15,
         position: "absolute",
+        zIndex: 1,
       }}
       onPress={() => {
         navigation.goBack();

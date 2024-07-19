@@ -27,8 +27,8 @@ const Sismo = ({ route }) => {
         region={{
           latitude: latitudeNum,
           longitude: longitudeNum,
-          latitudeDelta: 1,
-          longitudeDelta: 1,
+          latitudeDelta: 0.5,
+          longitudeDelta: 0.5,
         }}
         mapType="hybrid"
         showsCompass={false}

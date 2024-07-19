@@ -13,9 +13,9 @@ function backGround(value) {
     case "V":
       return "#7EF895";
     case "VI":
-      return "#FDBE01";
+      return "#E9DC01";
     case "VII":
-      return "#7EF895";
+      return "#FDBE01";
     case "VIII":
       return "#FF711F";
     case "IX":

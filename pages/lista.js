@@ -11,7 +11,7 @@ import { parseString } from "react-native-xml2js";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import InfoContainer from "../components/infoContainer.jsx";
 import Voltar from "../components/Voltar.jsx";
-import Ajuda from "../components/Ajuda.jsx";
+import Ajuda from "../components/ajuda_icon.jsx";
 import backGround from "../services/background.js";
 
 const Lista = () => {

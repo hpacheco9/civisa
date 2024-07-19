@@ -15,7 +15,7 @@ const Ajuda = () => {
         position: "absolute",
       }}
       onPress={() => {
-        navigation.goBack();
+        navigation.navigate('Ajuda');
       }}
     >
       <Iconify icon="ion:help-sharp" size={36} color={"#000000"} />

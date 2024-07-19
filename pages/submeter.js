@@ -44,12 +44,11 @@ const Submeter = () => {
     };
     const netInfo = await NetInfo.fetch();
     try {
-      // Prevent multiple submissions
       if (isSubmitting) {
         return;
       }
 
-      setIsSubmitting(true); // Start submission process
+      setIsSubmitting(true); 
 
       await AsyncStorage.setItem("@contacts", JSON.stringify(contacts));
       const selectedDateTime = await AsyncStorage.getItem("@selectedDateTime");
@@ -74,13 +73,16 @@ const Submeter = () => {
       console.error("Error saving data", error);
       Alert.alert("Erro", "Verifique a sua ligação à internet");
     } finally {
-      setIsSubmitting(false); // Reset submission state
+      setIsSubmitting(false); 
     }
   };
 
   return (
     <>
-      <View style={{ marginBottom: "15%" }}>
+    
+      <View style={{ marginBottom: "15%", position: 'absolute',top: '10%',
+    left: 20,
+    zIndex: 10,}}>
         <Voltar />
       </View>
       <View style={styles.container}>
@@ -171,9 +173,9 @@ const Submeter = () => {
               ) : null}
 
               <TouchableOpacity
-                style={[styles.button, isSubmitting && styles.disabledButton]}
+                style={styles.button}
                 onPress={handleSubmit}
-                disabled={isSubmitting} // Disable the button based on isSubmitting state
+                disabled={isSubmitting}
               >
                 <Text style={styles.buttonText}>Submeter</Text>
               </TouchableOpacity>
@@ -191,8 +193,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     overflow: "scroll",
-    marginTop: "10%",
-    marginBottom: "5%",
+    marginTop: "20%",
   },
   button: {
     backgroundColor: "#000000",
@@ -200,9 +201,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     borderRadius: 5,
     marginTop: "10%",
-  },
-  disabledButton: {
-    backgroundColor: "#999999", // Gray out the button when disabled
   },
   buttonText: {
     color: "#FFFFFF",
@@ -212,22 +210,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 32,
     marginRight: "40%",
-    marginBottom: "5%",
   },
   errorText: {
     color: "#8B0000",
     marginTop: "1%",
-    marginRight: "45%",
-  },
-  voltar: {
-    marginTop: "22%",
-    marginLeft: "7%",
-  },
-  voltarText: {
-    fontWeight: "bold",
-    fontSize: 15,
-    textDecorationLine: "underline",
-  },
+    marginRight: '15%',
+    width: '60%'
+  }
 });
 
 export default Submeter;

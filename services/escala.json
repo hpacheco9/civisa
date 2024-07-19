@@ -1,0 +1,75 @@
+{
+    "escala" : [
+        {
+          "level": "I",
+          "title": "Imperceptível",
+          "description": "Não sentido. Apenas registado pelos sismógrafos."
+        },
+        {
+          "level": "II",
+          "title": "Muito fraco",
+          "description":
+            "Sentido por algumas pessoas em repouso, especialmente nos andares superiores dos edifícios."
+        },
+        {
+          "level": "III",
+          "title": "Fraco",
+          "description":
+            "Sentido especialmente nos andares superiores dos edifícios. As vibrações são semelhantes à passagem de um camião."
+        },
+        {
+          "level": "IV",
+          "title": "Moderado",
+          "description":
+            "Sentido dentro das habitações, podendo despertar do sono um pequeno número de pessoas. Nota-se a vibração de portas e janelas e das loiças dentro dos armários."
+        },
+        {
+          "level": "V",
+          "title": "Forte",
+          "description":
+            "Sentido por toda a população. Há queda de objetos menos estáveis e pode parar relógios de pêndulo. Abrem-se pequenas fendas nos estuques das paredes."
+        },
+        {
+          "level": "VI",
+          "title": "Bastante forte",
+          "description":
+            "Provoca início de pânico nas populações. Produzem-se leves danos nas habitações, podendo cair algumas chaminés. O mobiliário menos pesado é deslocado."
+        },
+        {
+          "level": "VII",
+          "title": "Muito forte",
+          "description":
+            "Estragos limitados em edifícios de boa construção, mas importantes e generalizados nas construções mais frágeis. Facilmente perceptível pelos condutores de veículos automóveis em trânsito. Desencadeia pânico geral nas populações."
+        },
+        {
+          "level": "VIII",
+          "title": "Ruínoso",
+          "description":
+            "Danos acentuados em construções mais resistentes. Os edifícios de muito boa construção sofrem alguns danos. Caem campanários e chaminés de fábricas."
+        },
+        {
+          "level": "IX",
+          "title": "Desastroso",
+          "description":
+            "Desmoronamento de alguns edifícios. Há danos consideráveis em construções muito sólidas."
+        },
+        {
+          "level": "X",
+          "title": "Destruidor",
+          "description":
+            "Abrem-se fendas no solo. Há cortes nas canalizações, torção nas vias de caminho de ferro e empolamento e fissuração nas estradas."
+        },
+        {
+          "level": "XI",
+          "title": "Catastrófico",
+          "description":
+            "Destruição da quase totalidade dos edifícios, mesmo os mais resistentes. Caem pontes, diques e barragens. Destruição das redes de canalização e das vias de comunicação. Formam-se grandes fendas no terreno. Há grandes movimentos de terrenos."
+        },
+        {
+          "level": "XII",
+          "title": "Cataclismo",
+          "description":
+            "Destruição total. Modificação da topografia. Nunca foi presenciado no período histórico."
+        }
+      ]
+}
