@@ -11,6 +11,7 @@ import { parseString } from "react-native-xml2js";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import InfoContainer from "../components/infoContainer.jsx";
 import Voltar from "../components/Voltar.jsx";
+import Ajuda from "../components/Ajuda.jsx";
 import backGround from "../services/background.js";
 
 const Lista = () => {
@@ -155,8 +156,9 @@ const Lista = () => {
 
   return (
     <>
-      <View style={{ marginBottom: "25%" }}>
+      <View style={styles.contHelp}>
         <Voltar />
+        <Ajuda />
       </View>
       <View style={styles.contButton}>
         <TouchableOpacity style={styles.button} onPress={showAllEvents}>
@@ -204,6 +206,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginRight: "5%",
     height: 50,
+  },
+  contHelp: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    paddingHorizontal: 20,
+    marginTop: "20%"
   },
   button: {
     marginLeft: "4%",
