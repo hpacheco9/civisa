@@ -46,14 +46,14 @@ const Rgpd = () => {
           </ScrollView>
         </View>
         <View style={styles.section}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigator.navigate("Data e Hora");
-              }}
-            >
-              <Text style={styles.buttonText}>Li e aceito</Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigator.navigate("Data e Hora");
+            }}
+          >
+            <Text style={styles.buttonText}>Li e aceito</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </>
@@ -86,8 +86,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: 'center',
-    marginBottom: '5%'
+    justifyContent: "center",
+    marginBottom: "5%",
   },
   button: {
     backgroundColor: "#000000",
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontSize: 16,
     fontWeight: "bold",
-    marginRight: '5%'
+    marginRight: "5%",
   },
 });
 export default Rgpd;

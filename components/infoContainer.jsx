@@ -122,7 +122,7 @@ const InfoContainer = ({
           marginLeft: "4%",
           borderRadius: 5,
           borderWidth: 1,
-          borderColor: 'black'
+          borderColor: "black",
         }}
       >
         <Text style={styles.magnitude}>{mag}</Text>

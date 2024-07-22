@@ -1,16 +1,16 @@
-import React from 'react';
-import { Dimensions, View, StyleSheet, Text } from 'react-native';
-import Carousel from 'react-native-reanimated-carousel';
-import Voltar from '../components/Voltar';
-import Azoresquake from './azoresquake';
-import Detalhes from './detalhes';
-import ListaEventos from './listaEventos';
-import MapaEventos from './mapaEventos';
-import Escala from './escala';
-import { ScrollView } from 'react-native-gesture-handler';
+import React from "react";
+import { Dimensions, View, StyleSheet, Text } from "react-native";
+import Carousel from "react-native-reanimated-carousel";
+import Voltar from "../components/Voltar";
+import Azoresquake from "./azoresquake";
+import Detalhes from "./detalhes";
+import ListaEventos from "./listaEventos";
+import MapaEventos from "./mapaEventos";
+import Escala from "./escala";
+import { ScrollView } from "react-native-gesture-handler";
 
 function Index() {
-  const { width, height } = Dimensions.get('window');
+  const { width, height } = Dimensions.get("window");
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
   return (
@@ -30,21 +30,23 @@ function Index() {
           renderItem={({ index }) => (
             <View style={styles.slide}>
               {index === 0 && <Azoresquake />}
-              {index === 1 && (<ScrollView
+              {index === 1 && (
+                <ScrollView
                   contentContainerStyle={styles.scrollContainer}
                   showsVerticalScrollIndicator={false}
                   showsHorizontalScrollIndicator={false}
                 >
-                  <ListaEventos/>
+                  <ListaEventos />
                 </ScrollView>
               )}
               {index === 2 && <MapaEventos />}
-              {index === 3 &&  (<ScrollView
+              {index === 3 && (
+                <ScrollView
                   contentContainerStyle={styles.scrollContainer}
                   showsVerticalScrollIndicator={false}
                   showsHorizontalScrollIndicator={false}
                 >
-                  <Detalhes/>
+                  <Detalhes />
                 </ScrollView>
               )}
               {index === 4 && (
@@ -65,7 +67,7 @@ function Index() {
               key={index}
               style={[
                 styles.dot,
-                { backgroundColor: index === currentIndex ? '#000' : '#888' },
+                { backgroundColor: index === currentIndex ? "#000" : "#888" },
               ]}
             />
           ))}
@@ -77,24 +79,24 @@ function Index() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fFfFff',
-    height: '100%'
+    backgroundColor: "#fFfFff",
+    height: "100%",
   },
   slide: {
     flex: 1,
-    backgroundColor: '#fff', 
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
   },
   pagination: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 5,
     left: 0,
     right: 0,
     paddingBottom: 20,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0)',
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor: "rgba(255,255,255,0)",
   },
   dot: {
     width: 10,
@@ -104,12 +106,12 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   voltarContainer: {
-    position: 'absolute',
-    top: '8%',
+    position: "absolute",
+    top: "8%",
     left: 20,
     zIndex: 1,
     paddingBottom: 20,
-    backgroundColor: '#FFFFFF'
+    backgroundColor: "#FFFFFF",
   },
   scrollContainer: {
     flexGrow: 1,

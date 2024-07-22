@@ -6,11 +6,9 @@ import escala from "../services/escala.json";
 const intensityData = escala.escala;
 
 const Escala = () => {
-
-
   return (
     <ScrollView>
-        <View style={styles.container}>
+      <View style={styles.container}>
         <Text style={styles.title}>Escala Mercalli Modificada</Text>
         {intensityData.map((item, index) => (
           <View key={index} style={styles.containerValor}>
@@ -29,9 +27,7 @@ const Escala = () => {
           </View>
         ))}
       </View>
-
     </ScrollView>
-      
   );
 };
 
@@ -39,14 +35,13 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#ffffff",
     padding: 16,
-    marginTop: '34%',
-    marginBottom: '25%'
+    marginTop: "34%",
+    marginBottom: "25%",
   },
   containerValor: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
-
   },
   magContainer: {
     width: 40,
@@ -54,6 +49,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginRight: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "black",
   },
   magnitude: {
     color: "black",
