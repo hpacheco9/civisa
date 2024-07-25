@@ -9,16 +9,21 @@ const Ajuda = () => {
   return (
     <TouchableOpacity
       style={{
-        marginTop: "10%",
-        marginLeft: "90%",
-        fontSize: 15,
+        marginTop: "20%",
+        marginRight: "5%",
+        right: 0,
         position: "absolute",
+        zIndex: 1,
       }}
       onPress={() => {
         navigation.navigate("Ajuda");
       }}
     >
-      <Iconify icon="ion:help-sharp" size={36} color={"#000000"} />
+      <Iconify
+        icon="material-symbols:question-mark-rounded"
+        size={36}
+        color={"#000"}
+      />
     </TouchableOpacity>
   );
 };

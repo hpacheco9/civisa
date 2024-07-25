@@ -12,7 +12,6 @@ const Voltar = ({ iswhite }) => {
       style={{
         marginTop: "20%",
         marginLeft: "5%",
-        fontSize: 15,
         position: "absolute",
         zIndex: 1,
       }}
@@ -20,7 +19,11 @@ const Voltar = ({ iswhite }) => {
         navigation.goBack();
       }}
     >
-      <Iconify icon="ion:chevron-back" size={40} color={iconColor} />
+      <Iconify
+        icon="material-symbols:arrow-back-ios-rounded"
+        size={36}
+        color={iconColor}
+      />
     </TouchableOpacity>
   );
 };

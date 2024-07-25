@@ -2,12 +2,14 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
+import Voltar from "../components/Voltar";
 
-const Inicio = () => {
+const MenuAjuda = () => {
   const navigator = useNavigation();
 
   return (
     <View style={styles.container}>
+      <Voltar />
       <View style={styles.containerLogo}>
         <Image
           source={require("../assets/CIVISA_logo.png")}
@@ -18,43 +20,47 @@ const Inicio = () => {
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("RGPD")}
+          onPress={() => navigator.navigate("Ajuda")}
         >
           <Iconify
-            icon="material-symbols:list-alt-outline-rounded"
+            icon="material-symbols:exclamation-rounded"
             size={70}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Sentiu um sismo?</Text>
+          <Text style={styles.buttonText}>Informações</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("Lista")}
+          onPress={() => navigator.navigate("Ajuda")}
         >
           <Iconify
-            icon="material-symbols:event-list-outline-rounded"
+            icon="material-symbols:settings-rounded"
             size={70}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Lista</Text>
+          <Text style={styles.buttonText}>Definições</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("Mapa")}
+          onPress={() => navigator.navigate("Ajuda")}
         >
-          <Iconify icon="material-symbols:globe" size={70} color={"#FFF"} />
-          <Text style={styles.buttonText}>Mapa</Text>
+          <Iconify
+            icon="material-symbols:earthquake-rounded"
+            size={70}
+            color={"#FFF"}
+          />
+          <Text style={styles.buttonText}>Escala Mercalli</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("MenuAjuda")}
+          onPress={() => navigator.navigate("Ajuda")}
         >
           <Iconify
             icon="material-symbols:question-mark-rounded"
             size={70}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Ajuda</Text>
+          <Text style={styles.buttonText}>Sobre</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -103,4 +109,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Inicio;
+export default MenuAjuda;

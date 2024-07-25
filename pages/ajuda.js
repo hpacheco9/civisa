@@ -9,7 +9,7 @@ import MapaEventos from "./mapaEventos";
 import Escala from "./escala";
 import { ScrollView } from "react-native-gesture-handler";
 
-function Index() {
+function Ajuda() {
   const { width, height } = Dimensions.get("window");
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
@@ -79,12 +79,12 @@ function Index() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fFfFff",
+    backgroundColor: "#FFF",
     height: "100%",
   },
   slide: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#FFF",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -118,4 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Index;
+export default Ajuda;
