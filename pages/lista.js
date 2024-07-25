@@ -130,13 +130,12 @@ const Lista = () => {
 
   const MemoizedInfoContainer = useMemo(() => InfoContainer, []);
 
-  // Memoized event filters
+
   const feltEvents = useMemo(() => form.filter(
     (event) => event.intensidade !== "Não sentido"), [form]);
 
   const magGreaterThanThree = useMemo(() => form.filter((event) => event.magnitude >= 3), [form]);
 
-  // Functions to filter events
   const showAllEvents = () => {
     setFilteredEvents([...form]);
   };
@@ -189,6 +188,7 @@ const Lista = () => {
           justifyContent: "center",
           alignItems: "center",
           marginTop: "5%",
+          marginBottom: "5%",
         }}
         ListEmptyComponent={
           <Text style={styles.noEventsText}>Eventos não encontrados</Text>

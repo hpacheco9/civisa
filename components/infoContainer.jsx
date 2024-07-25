@@ -104,9 +104,9 @@ const InfoContainer = ({
               <>
                 <Image
                   source={require("../assets/shake.png")}
-                  style={{ width: 15, height: 15, marginRight: "3%" }}
+                  style={{ width: 15, height: 15}}
                 />
-                <Text style={{ color: textColor }}>{intensidade.trim()}</Text>
+                <Text style={{ marginLeft: '2%',color: textColor, marginBottom: '3%'}}>{intensidade.trim()}</Text>
               </>
             )
           )}
@@ -134,12 +134,13 @@ const InfoContainer = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    marginBottom: "5%",
+    marginBottom: "3%",
     justifyContent: "center",
     alignItems: "center",
+    marginLeft: '3%',
     borderWidth: 1,
-    width: 330,
-    height: 115,
+    width: "95%",
+    height: 100,
     borderRadius: 5,
   },
   magnitude: {
@@ -153,9 +154,10 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   info: {
-    width: "70%",
+    width: "75%",
     marginTop: "2%",
     marginRight: "5%",
+    marginBottom: '2%'
   },
 });
 

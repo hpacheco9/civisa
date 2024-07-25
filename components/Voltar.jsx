@@ -11,7 +11,12 @@ const Voltar = ({ iswhite }) => {
     <TouchableOpacity
       style={{
         marginTop: "20%",
+<<<<<<< HEAD
         marginLeft: "5%",
+=======
+        marginLeft: "2%",
+        fontSize: 15,
+>>>>>>> 7cd8160a84d3031d95e46f2b94fb992dae350e6f
         position: "absolute",
         zIndex: 1,
       }}

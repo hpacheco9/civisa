@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Text, Alert } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, Alert, Keyboard, TouchableWithoutFeedback } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import InputText from "../components/inputText";
 import InputDropdown from "../components/dropDown";
@@ -21,7 +21,7 @@ const Submeter = () => {
   const concelhos = locais.concelhos;
   const freguesias = locais.freguesias;
 
-  const [isSubmitting, setIsSubmitting] = useState(false); // State to track submission status
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
@@ -48,7 +48,7 @@ const Submeter = () => {
         return;
       }
 
-      setIsSubmitting(true); 
+      setIsSubmitting(true);
 
       await AsyncStorage.setItem("@contacts", JSON.stringify(contacts));
       const selectedDateTime = await AsyncStorage.getItem("@selectedDateTime");
@@ -73,134 +73,153 @@ const Submeter = () => {
       console.error("Error saving data", error);
       Alert.alert("Erro", "Verifique a sua ligação à internet");
     } finally {
-      setIsSubmitting(false); 
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <>
-    
-      <View style={{ marginBottom: "15%", position: 'absolute',top: '10%',
-    left: 20,
-    zIndex: 10,}}>
-        <Voltar />
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.wrapper}>
+        <View style={styles.voltarContainer}>
+          <Text style={styles.header}>Contactos</Text>
+          <Voltar />
+        </View>
+        <View style={styles.container}>
+          
+          <Formik
+            initialValues={{
+              name: "",
+              phone: "",
+              email: "",
+              concelho: "",
+              freguesia: "",
+            }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              errors,
+              touched,
+              setFieldValue,
+            }) => (
+              <View style={styles.form}>
+                <InputText
+                  label="Introduza seu Nome"
+                  keyboardType="default"
+                  placeholder="Nome"
+                  onChangeText={handleChange("name")}
+                  onBlur={handleBlur("name")}
+                  value={values.name}
+                />
+                {touched.name && errors.name ? (
+                  <Text style={styles.errorText}>{errors.name}</Text>
+                ) : null}
+
+                <InputText
+                  label="Introduza seu contato"
+                  keyboardType="phone-pad"
+                  placeholder="Telemóvel"
+                  onChangeText={handleChange("phone")}
+                  onBlur={handleBlur("phone")}
+                  value={values.phone}
+                />
+                {touched.phone && errors.phone ? (
+                  <Text style={styles.errorText}>{errors.phone}</Text>
+                ) : null}
+
+                <InputText
+                  label="Introduza seu email"
+                  keyboardType="email-address"
+                  placeholder="Email"
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  value={values.email}
+                />
+                {touched.email && errors.email ? (
+                  <Text style={styles.errorText}>{errors.email}</Text>
+                ) : null}
+
+                <InputDropdown
+                  label="Concelho"
+                  items={concelhos}
+                  placeholder={{ label: "Selecione um Concelho...", value: null }}
+                  onValueChange={(value) => {
+                    setFieldValue("concelho", value);
+                    setFieldValue("freguesia", null);
+                  }}
+                  value={values.concelho}
+                />
+                {touched.concelho && errors.concelho ? (
+                  <Text style={styles.errorText}>{errors.concelho}</Text>
+                ) : null}
+
+                <InputDropdown
+                  label="Freguesia"
+                  items={values.concelho ? freguesias[values.concelho] || [] : []}
+                  value={values.freguesia}
+                  placeholder={{
+                    label: "Selecione uma freguesia...",
+                    value: null,
+                  }}
+                  onValueChange={(value) => setFieldValue("freguesia", value)}
+                />
+                {touched.freguesia && errors.freguesia ? (
+                  <Text style={styles.errorText}>{errors.freguesia}</Text>
+                ) : null}
+
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={handleSubmit}
+                  disabled={isSubmitting}
+                >
+                  <Text style={styles.buttonText}>Submeter</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </Formik>
+        </View>
       </View>
-      <View style={styles.container}>
-        <Text style={styles.header}>Contacts</Text>
-        <Formik
-          initialValues={{
-            name: "",
-            phone: "",
-            email: "",
-            concelho: "",
-            freguesia: "",
-          }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched,
-            setFieldValue,
-          }) => (
-            <>
-              <InputText
-                label="Introduza seu Nome"
-                keyboardType="default"
-                placeholder="Name"
-                onChangeText={handleChange("name")}
-                onBlur={handleBlur("name")}
-                value={values.name}
-              />
-              {touched.name && errors.name ? (
-                <Text style={styles.errorText}>{errors.name}</Text>
-              ) : null}
-
-              <InputText
-                label="Introduza seu contato"
-                keyboardType="phone-pad"
-                placeholder="Phone"
-                onChangeText={handleChange("phone")}
-                onBlur={handleBlur("phone")}
-                value={values.phone}
-              />
-              {touched.phone && errors.phone ? (
-                <Text style={styles.errorText}>{errors.phone}</Text>
-              ) : null}
-
-              <InputText
-                label="Introduza seu email"
-                keyboardType="email-address"
-                placeholder="Email"
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
-                value={values.email}
-              />
-              {touched.email && errors.email ? (
-                <Text style={styles.errorText}>{errors.email}</Text>
-              ) : null}
-
-              <InputDropdown
-                label="Concelho"
-                items={concelhos}
-                placeholder={{ label: "Selecione um Concelho...", value: null }}
-                onValueChange={(value) => {
-                  setFieldValue("concelho", value);
-                  setFieldValue("freguesia", null);
-                }}
-                value={values.concelho}
-              />
-              {touched.concelho && errors.concelho ? (
-                <Text style={styles.errorText}>{errors.concelho}</Text>
-              ) : null}
-
-              <InputDropdown
-                label="Freguesia"
-                items={values.concelho ? freguesias[values.concelho] || [] : []}
-                value={values.freguesia}
-                placeholder={{
-                  label: "Selecione uma freguesia...",
-                  value: null,
-                }}
-                onValueChange={(value) => setFieldValue("freguesia", value)}
-              />
-              {touched.freguesia && errors.freguesia ? (
-                <Text style={styles.errorText}>{errors.freguesia}</Text>
-              ) : null}
-
-              <TouchableOpacity
-                style={styles.button}
-                onPress={handleSubmit}
-                disabled={isSubmitting}
-              >
-                <Text style={styles.buttonText}>Submeter</Text>
-              </TouchableOpacity>
-            </>
-          )}
-        </Formik>
-      </View>
-    </>
+    </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    alignItems: 'center',
+  
+  },
+  voltarContainer: {
+    marginBottom: "5%",
+    position: 'absolute',
+    flexDirection: 'row',
+    marginTop: '5%',
+    marginRight: '10%',
+    left: 20,
+    zIndex: 10,
+  },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    overflow: "scroll",
-    marginTop: "20%",
+    marginTop: '10%',
+    width: '100%', 
+  },
+  form: {
+    width: '98%', 
+    alignItems: 'center', 
+    justifyContent: 'center'
   },
   button: {
     backgroundColor: "#000000",
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 5,
-    marginTop: "10%",
+    marginTop: "7%",
   },
   buttonText: {
     color: "#FFFFFF",
@@ -209,14 +228,15 @@ const styles = StyleSheet.create({
   header: {
     fontWeight: "bold",
     fontSize: 32,
-    marginRight: "40%",
+    textAlign: 'center',
+    marginLeft: '35%',
+    marginTop: '20%'
   },
   errorText: {
     color: "#8B0000",
-    marginTop: "1%",
-    marginRight: '15%',
-    width: '60%'
-  }
+    marginTop: 5,
+    width: '75%', 
+  },
 });
 
 export default Submeter;
