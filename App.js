@@ -11,8 +11,6 @@ import Mapa from "./pages/mapa.js";
 import Sismo from "./pages/sismo.js";
 import Index from "./pages/ajuda.js";
 
-
-
 const Stack = createStackNavigator();
 const App = () => {
   return (

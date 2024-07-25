@@ -31,22 +31,27 @@ const Perguntas = ({ route }) => {
     const fetchData = async () => {
       try {
         const dados = [];
-        Object.entries(data.wP6Vny1TAnsKRRQ1FOcH).forEach(([index, value]) => {
-          Object.entries(value).forEach(([question, answers]) => {
-            if (typeof answers !== "undefined") {
-              dados.push({ [question]: answers });
+        Object.entries(data.wP6Vny1TAnsKRRQ1FOcH).forEach(([questionIndex, questionData]) => {
+          Object.entries(questionData).forEach(([question, answers]) => {
+            if (Array.isArray(answers)) {
+               const keys = []
+              answers.map(answerObj => {
+                const [key] = Object.entries(answerObj)[0];
+                keys.push(key);
+              });
+              dados.push({[question] : keys});
             }
           });
         });
         setPerguntas(dados);
+        console.log(dados);
       } catch (error) {
         console.error("Erro ao carregar os documentos:", error);
       }
     };
-
     fetchData();
   }, []);
-
+  
   useFocusEffect(
     useCallback(() => {
       setCurrentIndex(resetIndex);
@@ -70,7 +75,7 @@ const Perguntas = ({ route }) => {
   useFocusEffect(
     React.useCallback(() => {
       setCurrentIndex(resetIndex);
-      setForm({}); // Clear form state when component focuses
+      setForm({}); 
     }, [resetIndex])
   );
 
@@ -99,22 +104,48 @@ const Perguntas = ({ route }) => {
       setCurrentIndex(newIndex);
       if (selectedOption === "Não senti") {
         navigation.navigate("Submeter");
+        return;
       }
       try {
-        await AsyncStorage.setItem("@formAnswers", JSON.stringify(form));
-        console.log("Form:", form);
+        const arrays = extractAnswerArrays(data.wP6Vny1TAnsKRRQ1FOcH);
+        const newF = mapFormToAnswers(form, arrays);
+        console.log(newF);
+        await AsyncStorage.setItem("@formAnswers", JSON.stringify(newF));
       } catch (e) {
         console.error("Failed to save the data to AsyncStorage", e);
       }
-
       if (newIndex >= perguntas.length) {
         navigation.navigate("Submeter");
+        return;
       }
     }
   };
 
+  const extractAnswerArrays = (questions) => {
+    const arrays = {};
+    Object.entries(questions).forEach(([questionIndex, questionData]) => {
+      Object.entries(questionData).forEach(([questionTitle, answersArray]) => {
+        answersArray.forEach(answerObject => {
+          Object.entries(answerObject).forEach(([title, response]) => {
+            arrays[title] = response; 
+          });
+        });
+      });
+    });
+    return arrays;
+  };
+
+  const mapFormToAnswers = (form, arrays) => {
+    const newF = {};
+    Object.entries(form).forEach(([title, resp]) => {
+      newF[title] = { [resp]: arrays[resp] };
+    });
+    return newF;
+  };
+
   const handleOptionSelect = (title, option) => {
     setSelectedOption(option);
+    console.log(option);
     setForm((prevForm) => ({
       ...prevForm,
       [title]: option,
@@ -151,13 +182,20 @@ const Perguntas = ({ route }) => {
               ]}
               onPress={() => handleOptionSelect(pergunta.title, val)}
             >
-              <Text style={styles.textItem}>{val}</Text>
+              <Text
+                style={[
+                  styles.textItem,
+                  selectedOption === val && styles.textItemSelected,
+                ]}
+              >
+                {val}
+              </Text>
             </TouchableOpacity>
           ))}
         </View>
         <View style={styles.cont_butt}>
           <TouchableOpacity style={styles.button} onPress={handleOnPress}>
-            <Text style={styles.buttonText}>Next</Text>
+            <Text style={styles.buttonText}>Próximo</Text>
           </TouchableOpacity>
         </View>
       </Animated.View>
@@ -185,6 +223,10 @@ const styles = StyleSheet.create({
   textItem: {
     fontSize: 16,
     marginBottom: 10,
+    color: "#000000", 
+  },
+  textItemSelected: {
+    color: "#FFFFFF", 
   },
   radioButton: {
     flexDirection: "row",
@@ -197,7 +239,7 @@ const styles = StyleSheet.create({
     width: 300,
   },
   radioButtonSelected: {
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#781f1c", 
   },
   button: {
     backgroundColor: "#000000",

@@ -76,10 +76,10 @@ const CustomDateTimePicker = () => {
       <View style={{ marginBottom: "20%" }}>
         <Voltar />
       </View>
-      <Text style={styles.header}>Data & Hora</Text>
+      <Text style={styles.header}>Data e Hora</Text>
       <ScrollView>
         <View style={styles.container}>
-          <Text style={styles.title}>Data</Text>
+          <Text style={styles.title}>Data do sismo</Text>
           <TouchableOpacity onPress={showDatepicker} style={styles.radioButton}>
             <Text style={styles.selectedValue}>{formatDate(date)}</Text>
           </TouchableOpacity>
@@ -93,7 +93,7 @@ const CustomDateTimePicker = () => {
               maximumDate={new Date()}
             />
           )}
-          <Text style={styles.title}>Hora</Text>
+          <Text style={styles.title}>Hora do sismo</Text>
           <TouchableOpacity onPress={showTimepicker} style={styles.radioButton}>
             <Text style={styles.selectedValue}>{formatTime(time)}</Text>
           </TouchableOpacity>
