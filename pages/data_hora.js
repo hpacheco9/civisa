@@ -108,7 +108,7 @@ const CustomDateTimePicker = () => {
             />
           )}
           <TouchableOpacity onPress={handleNext} style={styles.button}>
-            <Text style={styles.buttonText}>Next</Text>
+            <Text style={styles.buttonText}>Próximo</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     paddingTop: "5%",
     alignItems: "center",
     overflow: "scroll",
+    
   },
   title: {
     fontWeight: "bold",
