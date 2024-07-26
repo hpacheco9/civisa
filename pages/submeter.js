@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Text, Alert, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, Alert, Keyboard, TouchableWithoutFeedback, Dimensions} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import InputText from "../components/inputText";
 import InputDropdown from "../components/dropDown";
@@ -185,7 +185,7 @@ const Submeter = () => {
     </TouchableWithoutFeedback>
   );
 };
-
+const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
@@ -207,11 +207,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: '15%',
     width: '100%', 
+    
   },
   form: {
-    width: '98%', 
+    width: '100%', 
     alignItems: 'center', 
-    justifyContent: 'center'
+    justifyContent: 'center',
+    maxWidth: 400,
   },
   button: {
     backgroundColor: "#000000",
@@ -225,11 +227,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   header: {
+    fontSize: width * 0.08,
     fontWeight: "bold",
-    fontSize: 32,
+    marginBottom: height * 0.03,
     textAlign: 'center',
     marginLeft: '30%',
     marginTop: '20%'
+
   },
   errorText: {
     color: "#8B0000",

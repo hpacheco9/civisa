@@ -1,8 +1,10 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, Dimensions} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
 
+
+const { width, height } = Dimensions.get('window');
 const Voltar = ({ iswhite }) => {
   const navigation = useNavigation();
   const iconColor = iswhite ? "#FFFFFF" : "#000000";
@@ -12,7 +14,6 @@ const Voltar = ({ iswhite }) => {
       style={{
         marginTop: "20%",
         marginLeft: "2%",
-        fontSize: 15,
         position: "absolute",
         zIndex: 1,
       }}
@@ -20,7 +21,7 @@ const Voltar = ({ iswhite }) => {
         navigation.goBack();
       }}
     >
-      <Iconify icon="ion:chevron-back" size={40} color={iconColor} />
+      <Iconify icon="ion:chevron-back" size={height*0.04} color={iconColor} />
     </TouchableOpacity>
   );
 };
