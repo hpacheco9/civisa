@@ -13,6 +13,7 @@ const InfoContainer = ({
   longitude,
   cords,
   iswhite,
+  height = 90
 }) => {
   const textColor = iswhite ? "#FFFFFF" : "#000000";
   const containerBackgroundColor = iswhite
@@ -21,7 +22,10 @@ const InfoContainer = ({
 
   return (
     <View
-      style={[styles.container, { backgroundColor: containerBackgroundColor }]}
+      style={[
+        styles.container,
+        { backgroundColor: containerBackgroundColor, height }
+      ]}
     >
       <View style={styles.info}>
         <View style={{ flexDirection: "row", marginBottom: "3%" }}>
@@ -140,7 +144,6 @@ const styles = StyleSheet.create({
     marginLeft: '3%',
     borderWidth: 1,
     width: "95%",
-    height: 100,
     borderRadius: 5,
   },
   magnitude: {
@@ -155,7 +158,7 @@ const styles = StyleSheet.create({
   },
   info: {
     width: "75%",
-    marginTop: "2%",
+    marginTop: "5%",
     marginRight: "5%",
     marginBottom: '2%'
   },

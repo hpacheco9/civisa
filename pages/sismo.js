@@ -54,6 +54,7 @@ const Sismo = ({ route }) => {
           longitude={longitude}
           cords={true}
           iswhite={true}
+          height={130}
         />
       </View>
     </View>
@@ -78,7 +79,6 @@ const styles = StyleSheet.create({
     top: "17%",
     right: "3%",
     left: "3%",
-    borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
   },
