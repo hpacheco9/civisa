@@ -118,11 +118,10 @@ const Submeter = () => {
                 {touched.name && errors.name ? (
                   <Text style={styles.errorText}>{errors.name}</Text>
                 ) : null}
-
+                <Text style={{fontWeight: 'bold', marginTop:'5%', marginBottom: '-9%', marginRight: '59%'}}>Telemóvel</Text>
                 <InputText
                   label="Introduza seu contato"
                   keyboardType="phone-pad"
-                  placeholder="Telemóvel"
                   onChangeText={handleChange("phone")}
                   onBlur={handleBlur("phone")}
                   value={values.phone}
@@ -190,15 +189,15 @@ const Submeter = () => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    alignItems: 'center',
-  
+    width: '100%',  
   },
   voltarContainer: {
     marginBottom: "5%",
     position: 'absolute',
     flexDirection: 'row',
-    marginTop: '5%',
-    marginRight: '10%',
+    marginRight: '4%',
+    marginLeft: '-5%',
+    width: '100%',
     left: 20,
     zIndex: 10,
   },
@@ -206,7 +205,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: '10%',
+    marginTop: '15%',
     width: '100%', 
   },
   form: {
@@ -219,7 +218,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 5,
-    marginTop: "7%",
+    marginTop: "9%",
   },
   buttonText: {
     color: "#FFFFFF",
@@ -229,7 +228,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 32,
     textAlign: 'center',
-    marginLeft: '35%',
+    marginLeft: '30%',
     marginTop: '20%'
   },
   errorText: {
