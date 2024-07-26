@@ -7,6 +7,8 @@ import {
   Animated,
   Easing,
   ScrollView,
+  Modal,
+  TouchableWithoutFeedback,
 } from "react-native";
 import data from "../services/dataset.json";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
@@ -23,35 +25,38 @@ const Perguntas = ({ route }) => {
     questoes: [],
   });
   const [form, setForm] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(-500)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const modalSlideAnim = useRef(new Animated.Value(-500)).current; // Animation value for modal
   const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const dados = [];
-        Object.entries(data.wP6Vny1TAnsKRRQ1FOcH).forEach(([questionIndex, questionData]) => {
-          Object.entries(questionData).forEach(([question, answers]) => {
-            if (Array.isArray(answers)) {
-               const keys = []
-              answers.map(answerObj => {
-                const [key] = Object.entries(answerObj)[0];
-                keys.push(key);
-              });
-              dados.push({[question] : keys});
-            }
-          });
-        });
+        Object.entries(data.wP6Vny1TAnsKRRQ1FOcH).forEach(
+          ([questionIndex, questionData]) => {
+            Object.entries(questionData).forEach(([question, answers]) => {
+              if (Array.isArray(answers)) {
+                const keys = [];
+                answers.map((answerObj) => {
+                  const [key] = Object.entries(answerObj)[0];
+                  keys.push(key);
+                });
+                dados.push({ [question]: keys });
+              }
+            });
+          }
+        );
         setPerguntas(dados);
-        console.log(dados);
       } catch (error) {
         console.error("Erro ao carregar os documentos:", error);
       }
     };
     fetchData();
   }, []);
-  
+
   useFocusEffect(
     useCallback(() => {
       setCurrentIndex(resetIndex);
@@ -75,7 +80,7 @@ const Perguntas = ({ route }) => {
   useFocusEffect(
     React.useCallback(() => {
       setCurrentIndex(resetIndex);
-      setForm({}); 
+      setForm({});
     }, [resetIndex])
   );
 
@@ -109,7 +114,6 @@ const Perguntas = ({ route }) => {
       try {
         const arrays = extractAnswerArrays(data.wP6Vny1TAnsKRRQ1FOcH);
         const newF = mapFormToAnswers(form, arrays);
-        console.log(newF);
         await AsyncStorage.setItem("@formAnswers", JSON.stringify(newF));
       } catch (e) {
         console.error("Failed to save the data to AsyncStorage", e);
@@ -118,16 +122,39 @@ const Perguntas = ({ route }) => {
         navigation.navigate("Submeter");
         return;
       }
+    } else {
+      setModalVisible(true);
+      animateModal();
+      setTimeout(() => {
+        setModalVisible(false);
+      }, 2000);
     }
+  };
+
+  const animateModal = () => {
+    modalSlideAnim.setValue(-200);
+    Animated.timing(modalSlideAnim, {
+      toValue: 70,
+      duration: 600,
+      easing: Easing.out(Easing.exp),
+      useNativeDriver: true,
+    }).start(() => {
+      Animated.timing(modalSlideAnim, {
+        toValue: -200, 
+        duration: 1500, 
+        easing: Easing.in(Easing.exp),
+        useNativeDriver: true,
+      }).start();
+    });
   };
 
   const extractAnswerArrays = (questions) => {
     const arrays = {};
     Object.entries(questions).forEach(([questionIndex, questionData]) => {
       Object.entries(questionData).forEach(([questionTitle, answersArray]) => {
-        answersArray.forEach(answerObject => {
+        answersArray.forEach((answerObject) => {
           Object.entries(answerObject).forEach(([title, response]) => {
-            arrays[title] = response; 
+            arrays[title] = response;
           });
         });
       });
@@ -199,6 +226,26 @@ const Perguntas = ({ route }) => {
           </TouchableOpacity>
         </View>
       </Animated.View>
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View style={styles.modalBackground}>
+            <Animated.View
+              style={[
+                styles.modalContainer,
+                { transform: [{ translateY: modalSlideAnim }] },
+              ]}
+            >
+              <Text style={styles.modalText}>
+                Selecione uma opção.
+              </Text>
+            </Animated.View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </ScrollView>
   );
 };
@@ -223,10 +270,10 @@ const styles = StyleSheet.create({
   textItem: {
     fontSize: 16,
     marginBottom: 10,
-    color: "#000000", 
+    color: "#000000",
   },
   textItemSelected: {
-    color: "#FFFFFF", 
+    color: "#FFFFFF",
   },
   radioButton: {
     flexDirection: "row",
@@ -239,7 +286,7 @@ const styles = StyleSheet.create({
     width: 300,
   },
   radioButtonSelected: {
-    backgroundColor: "#781f1c", 
+    backgroundColor: "#781f1c",
   },
   button: {
     backgroundColor: "#000000",
@@ -268,6 +315,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: "30%",
+  },
+  modalBackground: {
+    flex: 1,
+    alignItems: "center",
+  },
+  modalContainer: {
+    width: 200,
+    padding: 5,
+    backgroundColor: "black",
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modalText: {
+    width: "90%",
+    fontSize: 16,
+    marginBottom: 20,
+    marginTop: "5%",
+    color: "white",
   },
 });
 
