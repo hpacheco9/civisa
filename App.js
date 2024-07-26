@@ -9,7 +9,8 @@ import Rgpd from "./pages/consentimento.js";
 import Lista from "./pages/lista.js";
 import Mapa from "./pages/mapa.js";
 import Sismo from "./pages/sismo.js";
-import Index from "./pages/ajuda.js";
+import MenuAjuda from "./pages/menuAjuda.js";
+import Ajuda from "./pages/ajuda.js";
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -35,7 +36,8 @@ const App = () => {
         <Stack.Screen name="Lista" component={Lista} />
         <Stack.Screen name="Mapa" component={Mapa} />
         <Stack.Screen name="Sismo" component={Sismo} />
-        <Stack.Screen name="Ajuda" component={Index} />
+        <Stack.Screen name="MenuAjuda" component={MenuAjuda} />
+        <Stack.Screen name="Ajuda" component={Ajuda} />
       </Stack.Navigator>
     </NavigationContainer>
   );

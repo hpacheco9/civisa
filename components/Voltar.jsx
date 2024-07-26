@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
 
 
-const { width, height } = Dimensions.get('window');
+const {height } = Dimensions.get('window');
 const Voltar = ({ iswhite }) => {
   const navigation = useNavigation();
   const iconColor = iswhite ? "#FFFFFF" : "#000000";
