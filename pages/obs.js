@@ -1,65 +1,96 @@
 import React from "react";
-import { View, StyleSheet, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity, ActivityIndicator } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import InputText from "../components/inputText";
 import Voltar from "../components/Voltar";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import firebaseConfig from "../services/Database.js";
 
 const validationSchema = Yup.object().shape({
-  observations: Yup.string() // Adding validation for required field
+  observations: Yup.string()
 });
 
 const Obs = () => {
-  const navigation = useNavigation(); // Move the useNavigation hook to the top level
-
-  const handleFormSubmit = async (values) => {
-    try {
-      await AsyncStorage.setItem('observations', values.observations);
-      navigation.navigate('Success'); // Use navigation here
-    } catch (error) {
-      console.error('Failed to save observations:', error);
-    }
+    const navigation = useNavigation();
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+  
+    const handleFormSubmit = async (values, { setSubmitting }) => {
+      try {
+        const contacts = await AsyncStorage.getItem('@contactInfo');
+        const local = await AsyncStorage.getItem('@locationInfo');
+        const form = await AsyncStorage.getItem('@formAnswers');
+        const data = await AsyncStorage.getItem('@selectedDateTime');
+        await AsyncStorage.setItem('observations', values.observations);
+  
+        const dataToStore = {
+          contacts: JSON.parse(contacts),
+          location: JSON.parse(local),
+          formAnswers: JSON.parse(form),
+          observations: values.observations,
+          timestamp: JSON.parse(data),
+        };
+  
+        const docRef = await addDoc(collection(db, 'submissions'), dataToStore);
+        
+        navigation.navigate('Success'); 
+      } catch (error) {
+        console.error('Failed to save data:', error);
+      } finally {
+        setSubmitting(false);
+      }
+    };
+  
+    return (
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.wrapper}>
+          <View style={styles.voltarContainer}>
+            <Voltar />
+          </View>
+          <View style={styles.container}>
+            <Text style={styles.header}>Observações</Text>
+            
+            <Formik
+              initialValues={{ observations: '' }}
+              validationSchema={validationSchema}
+              onSubmit={handleFormSubmit}
+            >
+              {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
+                <>
+                  <InputText
+                    placeholder="Observação"
+                    onChangeText={handleChange('observations')}
+                    onBlur={handleBlur('observations')}
+                    value={values.observations}
+                    style={styles.input}
+                    editable={!isSubmitting}
+                  />
+                  {touched.observations && errors.observations && (
+                    <Text style={styles.errorText}>{errors.observations}</Text>
+                  )}
+                  <TouchableOpacity 
+                    style={[styles.submitButton, isSubmitting && styles.disabledButton]}
+                    onPress={handleSubmit}
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <ActivityIndicator color="white" />
+                    ) : (
+                      <Text style={styles.submitButtonText}>Submeter</Text>
+                    )}
+                  </TouchableOpacity>
+                </>
+              )}
+            </Formik>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    );
   };
-
-  return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.wrapper}>
-        <View style={styles.voltarContainer}>
-          <Voltar />
-        </View>
-        <View style={styles.container}>
-          <Text style={styles.header}>Observações</Text>
-          
-          <Formik
-            initialValues={{ observations: '' }}
-            validationSchema={validationSchema}
-            onSubmit={handleFormSubmit}
-          >
-            {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
-              <>
-                <InputText
-                  placeholder="Observação"
-                  onChangeText={handleChange('observations')}
-                  onBlur={handleBlur('observations')}
-                  value={values.observations}
-                  style={styles.input}
-                />
-                {touched.observations && errors.observations && (
-                  <Text style={styles.errorText}>{errors.observations}</Text>
-                )}
-                <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-                  <Text style={styles.submitButtonText}>Submeter</Text>
-                </TouchableOpacity>
-              </>
-            )}
-          </Formik>
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
-  );
-};
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -112,6 +143,9 @@ const styles = StyleSheet.create({
   submitButtonText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  disabledButton: {
+    backgroundColor: '#999',
   },
 });
 

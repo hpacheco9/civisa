@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import LottieView from 'lottie-react-native';
+import { View, Text, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import submitted from '../assets/teste.gif'
 
 const SuccessScreen = () => {
   const navigation = useNavigation();
@@ -14,13 +14,12 @@ const SuccessScreen = () => {
     return () => clearTimeout(timer);
   }, [navigation]);
 
-  return (
+ return (
     <View style={styles.container}>
-      <LottieView
-        source={require('../assets/v2.json')}
-        autoPlay
-        loop={false}
-        style={styles.animation}
+      <Image
+        style={{height: 100, width: 100}}
+        source={submitted}
+        resizeMode="contain"
       />
       <Text style={styles.thankYouText}>Obrigado pela sua colaboração</Text>
     </View>
