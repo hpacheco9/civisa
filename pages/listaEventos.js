@@ -31,8 +31,8 @@ const ListaEventos = () => {
         <Text style={styles.texto}>Valor da Intensidade</Text>
         <Text style={styles.textoBold}>Caixa D:</Text>
         <Text style={styles.texto}>
-          Magnitude local. A cor de fundo indica a intensidade de Mercalli
-          modificada (Deslizar para a última pagina)
+          Magnitude local. A cor de fundo indica a intensidade na Escala de
+          Mercalli Modificada.
         </Text>
       </View>
     </ScrollView>

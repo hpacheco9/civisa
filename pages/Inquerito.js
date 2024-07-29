@@ -140,8 +140,8 @@ const Perguntas = ({ route }) => {
       useNativeDriver: true,
     }).start(() => {
       Animated.timing(modalSlideAnim, {
-        toValue: -200, 
-        duration: 1500, 
+        toValue: -200,
+        duration: 1500,
         easing: Easing.in(Easing.exp),
         useNativeDriver: true,
       }).start();
@@ -179,6 +179,26 @@ const Perguntas = ({ route }) => {
     }));
   };
 
+  const renderQuestionText = (text) => {
+    const parts = text.split(/(_)/);
+    let isItalic = false;
+
+    return parts.map((part, index) => {
+      if (part === "_") {
+        isItalic = !isItalic;
+        return null;
+      }
+      return (
+        <Text
+          key={index}
+          style={isItalic ? { fontStyle: "italic", fontWeight: "bold" } : {}}
+        >
+          {part}
+        </Text>
+      );
+    });
+  };
+
   return (
     <ScrollView>
       {currentIndex === 0 && (
@@ -198,7 +218,7 @@ const Perguntas = ({ route }) => {
           { transform: [{ translateX: slideAnim }], opacity: fadeAnim },
         ]}
       >
-        <Text style={styles.title}>{pergunta.title}</Text>
+        <Text style={styles.title}>{renderQuestionText(pergunta.title)}</Text>
         <View>
           {pergunta.questoes.map((val, index) => (
             <TouchableOpacity
@@ -239,9 +259,7 @@ const Perguntas = ({ route }) => {
                 { transform: [{ translateY: modalSlideAnim }] },
               ]}
             >
-              <Text style={styles.modalText}>
-                Selecione uma opção.
-              </Text>
+              <Text style={styles.modalText}>Selecione uma opção.</Text>
             </Animated.View>
           </View>
         </TouchableWithoutFeedback>

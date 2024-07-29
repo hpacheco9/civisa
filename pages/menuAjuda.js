@@ -31,14 +31,14 @@ const MenuAjuda = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("Ajuda")}
+          onPress={() => navigator.navigate("Glossario")}
         >
           <Iconify
-            icon="material-symbols:settings-rounded"
+            icon="material-symbols:format-list-bulleted-rounded"
             size={70}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Definições</Text>
+          <Text style={styles.buttonText}>Glossário</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
@@ -53,14 +53,14 @@ const MenuAjuda = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("Ajuda")}
+          onPress={() => navigator.navigate("QuemSomos")}
         >
           <Iconify
             icon="material-symbols:question-mark-rounded"
             size={70}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Sobre</Text>
+          <Text style={styles.buttonText}>Quem somos?</Text>
         </TouchableOpacity>
       </View>
     </View>
