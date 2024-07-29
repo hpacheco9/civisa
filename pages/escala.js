@@ -2,12 +2,13 @@ import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import backGround from "../services/background.js";
 import escala from "../services/escala.json";
-
+import Voltar from "../components/Voltar.jsx";
 const intensityData = escala.escala;
 
 const Escala = () => {
   return (
     <ScrollView>
+      <Voltar/>
       <View style={styles.container}>
         <Text style={styles.title}>Escala Mercalli Modificada</Text>
         {intensityData.map((item, index) => (

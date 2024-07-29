@@ -42,14 +42,14 @@ const MenuAjuda = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("Ajuda")}
+          onPress={() => navigator.navigate("MenuEscala")}
         >
           <Iconify
             icon="material-symbols:earthquake-rounded"
             size={70}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Escala Mercalli</Text>
+          <Text style={styles.buttonText}>Escalas</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
