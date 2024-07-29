@@ -19,6 +19,7 @@ import Obs from "./pages/obs.js";
 import SuccessScreen from "./pages/sucess.js";
 import QuemSomos from "./pages/quemSomos.js";
 import Glossario from "./pages/glossario.js";
+import Login from "./pages/login.js";
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
           },
         }}
       >
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Inicio" component={Inicio} />
         <Stack.Screen name="RGPD" component={Rgpd} />
         <Stack.Screen name="Data e Hora" component={DateInput} />

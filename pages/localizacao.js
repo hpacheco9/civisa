@@ -26,14 +26,20 @@ const Localizacao = () => {
       concelho: values.concelho,
       freguesia: values.freguesia,
     };
+    const userid =  await AsyncStorage.getItem('@user');
+    const user = JSON.parse(userid);
 
     try {
       await AsyncStorage.setItem(
         "@locationInfo",
         JSON.stringify(locationInfo)
       );
-      navigation.navigate("Contactos");
-      console.log("Location Info saved:", locationInfo);
+      if (user.userId != null){
+        navigation.navigate('Obs');
+      }
+      else{
+        navigation.navigate("Contactos");
+      }
     } catch (e) {
       console.error("Failed to save the data to AsyncStorage", e);
     }
@@ -46,7 +52,7 @@ const Localizacao = () => {
           <Voltar />
         </View>
         <View style={styles.container}>
-          <Text style={styles.header}>Localização</Text>
+          <Text style={styles.header}>{`Localização \ndo sismo`}</Text>
           <Formik
             initialValues={{
               concelho: "",
