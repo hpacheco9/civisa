@@ -23,7 +23,7 @@ const Ajuda = () => {
     >
       <Iconify
         icon="material-symbols:question-mark-rounded"
-        size={height * 0.06}
+        size={height * 0.05}
         color={"#000"}
       />
     </TouchableOpacity>

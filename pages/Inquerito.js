@@ -108,7 +108,7 @@ const Perguntas = ({ route }) => {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
       if (selectedOption === "Não senti") {
-        navigation.navigate("Submeter");
+        navigation.navigate("Contactos");
         return;
       }
       try {
