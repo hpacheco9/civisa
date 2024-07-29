@@ -16,10 +16,11 @@ const validationSchema = Yup.object().shape({
 
 const Obs = () => {
     const navigation = useNavigation();
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  
   
     const handleFormSubmit = async (values, { setSubmitting }) => {
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
       try {
         const contacts = await AsyncStorage.getItem('@contactInfo');
         const local = await AsyncStorage.getItem('@locationInfo');

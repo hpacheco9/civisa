@@ -108,7 +108,7 @@ const Perguntas = ({ route }) => {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
       if (selectedOption === "Não senti") {
-        navigation.navigate("Contactos");
+        navigation.navigate("Localizacao");
         return;
       }
       try {
@@ -119,7 +119,7 @@ const Perguntas = ({ route }) => {
         console.error("Failed to save the data to AsyncStorage", e);
       }
       if (newIndex >= perguntas.length) {
-        navigation.navigate("Submeter");
+        navigation.navigate("Localizacao");
         return;
       }
     } else {

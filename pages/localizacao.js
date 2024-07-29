@@ -32,7 +32,7 @@ const Localizacao = () => {
         "@locationInfo",
         JSON.stringify(locationInfo)
       );
-      navigation.navigate("Obs");
+      navigation.navigate("Contactos");
       console.log("Location Info saved:", locationInfo);
     } catch (e) {
       console.error("Failed to save the data to AsyncStorage", e);

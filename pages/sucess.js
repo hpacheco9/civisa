@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     height: 200,
   },
   thankYouText: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
     color: "#333",
     marginTop: 20,
