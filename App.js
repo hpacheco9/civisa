@@ -17,6 +17,8 @@ import Escala from "./pages/escala.js";
 import AlertaVulcanico from "./pages/alertavulcanico.js";
 import Obs from "./pages/obs.js";
 import SuccessScreen from "./pages/sucess.js";
+import QuemSomos from "./pages/quemSomos.js";
+import Glossario from "./pages/glossario.js";
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -50,8 +52,8 @@ const App = () => {
         <Stack.Screen name="AlertaVulcanico" component={AlertaVulcanico} />
         <Stack.Screen name="Obs" component={Obs} />
         <Stack.Screen name="Success" component={SuccessScreen} />
-
-
+        <Stack.Screen name="QuemSomos" component={QuemSomos} />
+        <Stack.Screen name="Glossario" component={Glossario} />
       </Stack.Navigator>
     </NavigationContainer>
   );

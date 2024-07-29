@@ -1,7 +1,16 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
+
+const { height } = Dimensions.get("window");
 
 const Inicio = () => {
   const navigator = useNavigation();
@@ -22,7 +31,7 @@ const Inicio = () => {
         >
           <Iconify
             icon="material-symbols:list-alt-outline-rounded"
-            size={70}
+            size={height * 0.09}
             color={"#FFF"}
           />
           <Text style={styles.buttonText}>Sentiu um sismo?</Text>
@@ -33,7 +42,7 @@ const Inicio = () => {
         >
           <Iconify
             icon="material-symbols:event-list-outline-rounded"
-            size={70}
+            size={height * 0.09}
             color={"#FFF"}
           />
           <Text style={styles.buttonText}>Lista</Text>
@@ -42,16 +51,20 @@ const Inicio = () => {
           style={styles.button}
           onPress={() => navigator.navigate("Mapa")}
         >
-          <Iconify icon="material-symbols:globe" size={70} color={"#FFF"} />
+          <Iconify
+            icon="material-symbols:globe"
+            size={height * 0.09}
+            color={"#FFF"}
+          />
           <Text style={styles.buttonText}>Mapa</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("MenuAjuda")}
+          onPress={() => navigator.navigate("Alertas")}
         >
           <Iconify
             icon="material-symbols:volcano-outline-rounded"
-            size={70}
+            size={height * 0.09}
             color={"#FFF"}
           />
           <Text style={styles.buttonText}>Alertas</Text>
@@ -62,7 +75,7 @@ const Inicio = () => {
         >
           <Iconify
             icon="material-symbols:question-mark-rounded"
-            size={70}
+            size={height * 0.09}
             color={"#FFF"}
           />
           <Text style={styles.buttonText}>Informações</Text>
@@ -79,9 +92,8 @@ const styles = StyleSheet.create({
   },
   containerLogo: {
     alignItems: "center",
-    marginTop: '20%',
-
-    paddingBottom: 20,
+    paddingTop: "20%",
+    paddingBottom: 40,
     backgroundColor: "#FFF",
   },
   logo: {
@@ -92,24 +104,22 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
-    padding: 15,
+    padding: 10,
     justifyContent: "space-between",
   },
   button: {
-    width: "48%",
+    width: "49%",
     height: "30%",
     padding: 10,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#781f1c",
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "black",
-    marginVertical: 8,
+    borderRadius: 20,
+    marginVertical: 5,
   },
   buttonText: {
     color: "#FFF",
-    fontSize: 18,
+    fontSize: height * 0.02,
     fontWeight: "bold",
     textAlign: "center",
   },
