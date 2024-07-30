@@ -27,7 +27,6 @@ const Obs = () => {
         const form = await AsyncStorage.getItem('@formAnswers');
         const data = await AsyncStorage.getItem('@selectedDateTime');
         await AsyncStorage.setItem('observations', values.observations);
-  
         const dataToStore = {
           contacts: JSON.parse(contacts),
           location: JSON.parse(local),

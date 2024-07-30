@@ -1,10 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, Keyboard, TouchableWithoutFeedback, Dimensions, TouchableOpacity, TextInput } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { initializeApp, getApps } from 'firebase/app';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId } from '@env';
+import { initializeAuth, getReactNativePersistence, signInWithEmailAndPassword } from 'firebase/auth';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
+const firebaseConfig = {
+  apiKey,
+  authDomain,
+  projectId,
+  storageBucket,
+  messagingSenderId,
+  appId,
+  measurementId,
+};
+
+let app;
+let auth;
+let firestore;
+
+if (getApps().length === 0) {
+  app = initializeApp(firebaseConfig);
+  auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+  });
+  firestore = getFirestore(app);
+}
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -12,18 +38,43 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login = () => {
-  const [rememberMe, setRememberMe] = useState(false);
   const navigation = useNavigation();
+  const [loginError, setLoginError] = useState(null);
 
-  const handleLogin = () => {
-    navigation.navigate('Inicio')
+  const handleLogin = async (values, { setSubmitting }) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
+      const user = userCredential.user;
+      const userDocRef = doc(firestore, 'users', user.uid);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        await AsyncStorage.setItem('@user', JSON.stringify({
+          userId: user.uid,
+          email: user.email,
+          fullName: userData.fullName,
+          phone: userData.phone,
+        }));
+        const storedUser = await AsyncStorage.getItem('@user');
+        console.log('Stored user:', storedUser);
+        navigation.navigate('Inicio');
+      } else {
+        console.log('No user data found in Firestore');
+        setLoginError('User data not found. Please contact support.');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setLoginError(error.message);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        
       <View style={styles.container}>
-      <Text style={{fontSize: height*0.06, fontWeight: 'bold', marginBottom: '30%'}}>CIVISA</Text>
+        <Text style={{fontSize: height*0.06, fontWeight: 'bold', marginBottom: '30%'}}>CIVISA</Text>
         <Text style={styles.title}>Login</Text>
         <Formik
           initialValues={{ email: "", password: "" }}
@@ -57,8 +108,9 @@ const Login = () => {
               {touched.password && errors.password && (
                 <Text style={styles.errorText}>{errors.password}</Text>
               )}
-              <View style={styles.checkboxContainer}>
-              </View>
+              {loginError && (
+                <Text style={styles.errorText}>{loginError}</Text>
+              )}
               <TouchableOpacity 
                 style={[styles.button, isSubmitting && styles.disabledButton]} 
                 onPress={handleSubmit}
@@ -68,41 +120,38 @@ const Login = () => {
                   {isSubmitting ? "Logging in..." : "Login"}
                 </Text>
               </TouchableOpacity>
+              <TouchableOpacity style={{marginTop: '5%', marginLeft: '25%'}} onPress={ async () =>{
+                 await AsyncStorage.setItem('@user', JSON.stringify({
+                  userId: null,
+                }));
 
-              <TouchableOpacity
-              style={{width: '70%', marginLeft: '25%'}} onPress={ async () =>{
-    
-                const user = {
-                    userId : null
-                  };
-              
-                  try {
-                    await AsyncStorage.setItem(
-                      "@user",
-                      JSON.stringify(user)
-                    );
-                    navigation.navigate("Inicio");
-                  } catch (e) {
-                    console.error("Failed to save the data to AsyncStorage", e);
-                  }
-              }}
-              >
-               <Text style={{ 
-                    marginTop: '10%', 
-                    textDecorationLine: 'underline', 
-                    textDecorationColor: 'black', 
-                    textDecorationStyle: 'solid' 
-                }}>
-                Entrar como convidado
-                </Text>
+              }}>
+                <Text style={{textDecorationLine: 1}}>Entrar como convidado</Text>
               </TouchableOpacity>
+              <View style={{flexDirection: 'row', marginTop: '4%', marginLeft: '15%'}}>
+              <Text >Ainda não tem conta? </Text>
+              <TouchableOpacity onPress={() => {
+                navigation.navigate('Registro')
+              }}>
+              <Text style={{textDecorationLine: 1}}> Registe-se</Text>
+              </TouchableOpacity>
+              
+              </View>
+             
+    
+
             </View>
           )}
         </Formik>
       </View>
     </TouchableWithoutFeedback>
   );
+
+
 };
+
+
+
 
 
 const {height, width} = Dimensions.get("window");
@@ -136,7 +185,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    marginTop: '10%',
+    marginTop: '5%',
     backgroundColor: "#000000",
     width: '50%',
     marginLeft: '25%',

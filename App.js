@@ -20,6 +20,7 @@ import SuccessScreen from "./pages/sucess.js";
 import QuemSomos from "./pages/quemSomos.js";
 import Glossario from "./pages/glossario.js";
 import Login from "./pages/login.js";
+import Register from "./pages/registro.js";
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -56,6 +57,7 @@ const App = () => {
         <Stack.Screen name="Success" component={SuccessScreen} />
         <Stack.Screen name="QuemSomos" component={QuemSomos} />
         <Stack.Screen name="Glossario" component={Glossario} />
+        <Stack.Screen name="Registro" component={Register} />
       </Stack.Navigator>
     </NavigationContainer>
   );
