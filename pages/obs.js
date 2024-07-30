@@ -21,6 +21,20 @@ const Obs = () => {
     const handleFormSubmit = async (values, { setSubmitting }) => {
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const userString = await AsyncStorage.getItem('@user');
+        const  user = JSON.parse(userString);
+        console.log(user.email, user.fullName, user.phone)
+        if (user.userId != null){
+          const contactInfo = {
+            name: user.fullName,
+            phone: user.phone,
+            email: user.email,
+          };
+            await AsyncStorage.setItem(
+              "@contactInfo",
+              JSON.stringify(contactInfo)
+            );
+        }
       try {
         const contacts = await AsyncStorage.getItem('@contactInfo');
         const local = await AsyncStorage.getItem('@locationInfo');
