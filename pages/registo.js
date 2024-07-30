@@ -7,6 +7,7 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId } from '@env';
 import Voltar from '../components/Voltar';
+import { useNavigation } from "@react-navigation/native";
 
 const firebaseConfig = {
   apiKey,
@@ -37,7 +38,7 @@ const validationSchema = Yup.object().shape({
 
 const Register = () => {
   const [registerError, setRegisterError] = useState(null);
-
+  const navigation = useNavigation();
   const handleRegister = async (values) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
@@ -49,7 +50,7 @@ const Register = () => {
         email: values.email,
       });
 
-      console.log('User registered successfully:', userId);
+     navigation.navigate('Registado');
     } catch (error) {
       console.error('Error registering user:', error.message);
     }

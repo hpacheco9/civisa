@@ -23,6 +23,7 @@ import Login from "./pages/login.js";
 import Register from "./pages/registo.js";
 import Macrossismica from "./pages/macrossismica.js";
 import Perfil from "./pages/perfil.js";
+import Registado from "./pages/registado.js";
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -62,6 +63,7 @@ const App = () => {
         <Stack.Screen name="Macrossismica" component={Macrossismica} />
         <Stack.Screen name="Registro" component={Register} />
         <Stack.Screen name="Perfil" component={Perfil} />
+        <Stack.Screen name="Registado" component={Registado} />
       </Stack.Navigator>
     </NavigationContainer>
   );
