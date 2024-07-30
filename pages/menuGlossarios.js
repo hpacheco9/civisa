@@ -62,18 +62,18 @@ const styles = StyleSheet.create({
   containerLogo: {
     alignItems: "center",
     paddingTop: "40%",
-    paddingBottom: 60,
+    paddingBottom: 40,
     backgroundColor: "#FFF",
   },
   logo: {
-    width: "80%",
+    width: "85%",
     height: 40,
   },
   buttonsContainer: {
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
-    padding: 10,
+    padding: 7,
     justifyContent: "space-between",
   },
   button: {
@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#781f1c",
-    borderRadius: 20,
-    marginVertical: 5,
+    borderRadius: 30,
+    marginVertical: 4,
   },
   buttonText: {
     color: "#FFF",

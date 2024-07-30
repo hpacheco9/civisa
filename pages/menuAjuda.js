@@ -1,8 +1,17 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
 import Voltar from "../components/Voltar";
+
+const { height } = Dimensions.get("window");
 
 const MenuAjuda = () => {
   const navigator = useNavigation();
@@ -20,25 +29,25 @@ const MenuAjuda = () => {
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("MenuGlossarios")}
-        >
-          <Iconify
-            icon="material-symbols:format-list-bulleted-rounded"
-            size={70}
-            color={"#FFF"}
-          />
-          <Text style={styles.buttonText}>Glossários</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
           onPress={() => navigator.navigate("MenuEscala")}
         >
           <Iconify
-            icon="material-symbols:list-alt-outline-rounded"
-            size={70}
+            icon="material-symbols:format-list-numbered-rounded"
+            size={height * 0.09}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Escalas</Text>
+          <Text style={styles.buttonText}>Escalas e Códigos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigator.navigate("MenuGlossarios")}
+        >
+          <Iconify
+            icon="material-symbols:dictionary-outline-rounded"
+            size={height * 0.09}
+            color={"#FFF"}
+          />
+          <Text style={styles.buttonText}>Glossários</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
@@ -46,7 +55,7 @@ const MenuAjuda = () => {
         >
           <Iconify
             icon="material-symbols:question-mark-rounded"
-            size={70}
+            size={height * 0.09}
             color={"#FFF"}
           />
           <Text style={styles.buttonText}>Quem somos?</Text>
@@ -64,35 +73,33 @@ const styles = StyleSheet.create({
   containerLogo: {
     alignItems: "center",
     paddingTop: "40%",
-    paddingBottom: 60,
+    paddingBottom: 40,
     backgroundColor: "#FFF",
   },
   logo: {
-    width: "80%",
+    width: "85%",
     height: 40,
   },
   buttonsContainer: {
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
-    padding: 10,
+    padding: 7,
     justifyContent: "space-between",
   },
   button: {
-    width: "48%",
+    width: "49%",
     height: "30%",
     padding: 10,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#781f1c",
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "black",
-    marginVertical: 8,
+    borderRadius: 30,
+    marginVertical: 4,
   },
   buttonText: {
     color: "#FFF",
-    fontSize: 18,
+    fontSize: height * 0.02,
     fontWeight: "bold",
     textAlign: "center",
   },

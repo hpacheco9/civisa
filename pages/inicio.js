@@ -8,11 +8,11 @@ import {
   Dimensions,
   Modal,
   Pressable,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { height } = Dimensions.get("window");
 
@@ -23,13 +23,13 @@ const Inicio = () => {
 
   async function clear() {
     await AsyncStorage.multiRemove([
-      '@contactInfo',
-      '@locationInfo',
-      '@formAnswers',
-      '@selectedDateTime',
-      'observations'
+      "@contactInfo",
+      "@locationInfo",
+      "@formAnswers",
+      "@selectedDateTime",
+      "observations",
     ]);
-    const userString = await AsyncStorage.getItem('@user');
+    const userString = await AsyncStorage.getItem("@user");
     const user_2 = JSON.parse(userString);
     setUser(user_2);
   }
@@ -42,12 +42,12 @@ const Inicio = () => {
 
   const handleOptionSelect = (option) => {
     togglePanel();
-    if (option === 'Logout') {
-      navigator.navigate('Login');
-    } else if (option === 'Perfil') {
-      navigator.navigate('Perfil');
-    } else if (option === 'Signin') {
-      navigator.navigate('Login');
+    if (option === "Logout") {
+      navigator.navigate("Login");
+    } else if (option === "Perfil") {
+      navigator.navigate("Perfil");
+    } else if (option === "Signin") {
+      navigator.navigate("Login");
     }
   };
 
@@ -63,7 +63,7 @@ const Inicio = () => {
           <Iconify
             icon="mdi:user-outline"
             size={height * 0.05}
-            color={'black'}
+            color={"black"}
           />
         </TouchableOpacity>
       </View>
@@ -78,12 +78,26 @@ const Inicio = () => {
             <View style={styles.modalOverlay}>
               <TouchableWithoutFeedback>
                 <View style={styles.panel}>
-                  <Pressable style={styles.panelButton} onPress={() => handleOptionSelect('Perfil')}>
-                    <Iconify icon="mdi:user-outline" size={height * 0.03} color={'black'} />
+                  <Pressable
+                    style={styles.panelButton}
+                    onPress={() => handleOptionSelect("Perfil")}
+                  >
+                    <Iconify
+                      icon="mdi:user-outline"
+                      size={height * 0.03}
+                      color={"black"}
+                    />
                     <Text style={styles.panelButtonText}>Perfil</Text>
                   </Pressable>
-                  <Pressable style={styles.panelButton} onPress={() => handleOptionSelect('Logout')}>
-                    <Iconify icon="mdi:logout" size={height * 0.03} color={'black'} />
+                  <Pressable
+                    style={styles.panelButton}
+                    onPress={() => handleOptionSelect("Logout")}
+                  >
+                    <Iconify
+                      icon="mdi:logout"
+                      size={height * 0.03}
+                      color={"black"}
+                    />
                     <Text style={styles.panelButtonText}>Logout</Text>
                   </Pressable>
                 </View>
@@ -102,8 +116,15 @@ const Inicio = () => {
             <View style={styles.modalOverlay}>
               <TouchableWithoutFeedback>
                 <View style={styles.panel}>
-                  <Pressable style={styles.panelButton} onPress={() => handleOptionSelect('Signin')}>
-                    <Iconify icon="mdi:user-outline" size={height * 0.03} color={'black'} />
+                  <Pressable
+                    style={styles.panelButton}
+                    onPress={() => handleOptionSelect("Signin")}
+                  >
+                    <Iconify
+                      icon="mdi:user-outline"
+                      size={height * 0.03}
+                      color={"black"}
+                    />
                     <Text style={styles.panelButtonText}>Sign in</Text>
                   </Pressable>
                 </View>
@@ -118,7 +139,7 @@ const Inicio = () => {
           onPress={() => navigator.navigate("RGPD")}
         >
           <Iconify
-            icon="material-symbols:list-alt-outline-rounded"
+            icon="material-symbols:checklist-rtl-rounded"
             size={height * 0.09}
             color={"#FFF"}
           />
@@ -129,11 +150,11 @@ const Inicio = () => {
           onPress={() => navigator.navigate("Lista")}
         >
           <Iconify
-            icon="material-symbols:event-list-outline-rounded"
+            icon="material-symbols:format-list-bulleted-rounded"
             size={height * 0.09}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Lista</Text>
+          <Text style={styles.buttonText}>Lista de sismos</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
@@ -144,25 +165,25 @@ const Inicio = () => {
             size={height * 0.09}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Mapa</Text>
+          <Text style={styles.buttonText}>Mapa de sismos</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigator.navigate("Alertas")}
         >
           <Iconify
-            icon="material-symbols:volcano-outline-rounded"
+            icon="material-symbols:brightness-alert-outline-rounded"
             size={height * 0.09}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Alertas</Text>
+          <Text style={styles.buttonText}>Alertas Vulcânicos</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigator.navigate("MenuAjuda")}
         >
           <Iconify
-            icon="material-symbols:question-mark-rounded"
+            icon="material-symbols:chat-info-outline-rounded"
             size={height * 0.09}
             color={"#FFF"}
           />
@@ -179,7 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
   },
   containerLogo: {
-    flexDirection: 'row',
+    flexDirection: "row",
     alignItems: "center",
     paddingTop: "20%",
     paddingBottom: 40,
@@ -193,7 +214,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
-    padding: 10,
+    padding: 7,
     justifyContent: "space-between",
   },
   button: {
@@ -203,8 +224,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#781f1c",
-    borderRadius: 20,
-    marginVertical: 5,
+    borderRadius: 30,
+    marginVertical: 4,
   },
   buttonText: {
     color: "#FFF",
@@ -214,30 +235,30 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   panel: {
-    width: '60%',
-    backgroundColor: '#FFF',
+    width: "60%",
+    backgroundColor: "#FFF",
     borderRadius: 10,
     padding: 15,
     paddingBottom: 4,
     paddingTop: 5,
-    alignItems: 'center',
+    alignItems: "center",
   },
   panelButton: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 15,
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+    borderBottomColor: "#ddd",
   },
   panelButtonText: {
     fontSize: 18,
-    color: '#000',
+    color: "#000",
   },
 });
 

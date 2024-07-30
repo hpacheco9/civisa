@@ -37,7 +37,7 @@ const Alerta = () => {
     <ScrollView>
       <Voltar />
       <View style={styles.container}>
-        <Text style={styles.title}>Alertas</Text>
+        <Text style={styles.title}>Alertas Vulcânicos</Text>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
