@@ -86,7 +86,7 @@ const Login = () => {
               <Text style={styles.label}>Email</Text>
               <TextInput
                 style={styles.input}
-                placeholder="introduza a seu email"
+                placeholder="Introduza o seu email"
                 onChangeText={handleChange("email")}
                 onBlur={handleBlur("email")}
                 value={values.email}
@@ -99,7 +99,7 @@ const Login = () => {
               <Text style={styles.label}>Password</Text>
               <TextInput
                 style={styles.input}
-                placeholder="introduza a sua password"
+                placeholder="Introduza a sua password"
                 onChangeText={handleChange("password")}
                 onBlur={handleBlur("password")}
                 value={values.password}
@@ -124,7 +124,7 @@ const Login = () => {
             </View>
           )}
         </Formik>
-        <TouchableOpacity style={{marginTop: '5%', marginLeft: '5%'}} onPress={ async () =>{
+        <TouchableOpacity style={{marginTop: '10%', marginLeft: '5%'}} onPress={ async () =>{
                  await AsyncStorage.setItem('@user', JSON.stringify({
                   userId: null,
                 }));
@@ -132,7 +132,7 @@ const Login = () => {
               }}>
                 <Text style={{textDecorationLine: 'underline'}}>Entrar como convidado</Text>
               </TouchableOpacity>
-              <View style={{flexDirection: 'row', marginTop: '4%', marginLeft: '5%'}}>
+              <View style={{flexDirection: 'row', marginTop: '8%', marginLeft: '5%'}}>
               <Text >Ainda não tem conta? </Text>
               <TouchableOpacity onPress={() => {
                 navigation.navigate('Registro')
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    marginTop: '5%',
+    marginTop: '15%',
     backgroundColor: "#000000",
     width: '50%',
     marginLeft: '25%',

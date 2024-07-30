@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,6 +6,9 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  Modal,
+  Pressable,
+  TouchableWithoutFeedback
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
@@ -15,8 +18,10 @@ const { height } = Dimensions.get("window");
 
 const Inicio = () => {
   const navigator = useNavigation();
+  const [isPanelVisible, setIsPanelVisible] = useState(false);
+  const [user, setUser] = useState({ userId: null });
 
- async function clear () {
+  async function clear() {
     await AsyncStorage.multiRemove([
       '@contactInfo',
       '@locationInfo',
@@ -24,9 +29,27 @@ const Inicio = () => {
       '@selectedDateTime',
       'observations'
     ]);
-
+    const userString = await AsyncStorage.getItem('@user');
+    const user_2 = JSON.parse(userString);
+    setUser(user_2);
   }
+
   clear();
+
+  const togglePanel = () => {
+    setIsPanelVisible(!isPanelVisible);
+  };
+
+  const handleOptionSelect = (option) => {
+    togglePanel();
+    if (option === 'Logout') {
+      navigator.navigate('Login');
+    } else if (option === 'Perfil') {
+      navigator.navigate('Perfil');
+    } else if (option === 'Signin') {
+      navigator.navigate('Login');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -36,7 +59,59 @@ const Inicio = () => {
           style={styles.logo}
           resizeMode="contain"
         />
+        <TouchableOpacity onPress={togglePanel}>
+          <Iconify
+            icon="mdi:user-outline"
+            size={height * 0.05}
+            color={'black'}
+          />
+        </TouchableOpacity>
       </View>
+      {user.userId != null ? (
+        <Modal
+          transparent={true}
+          animationType="fade"
+          visible={isPanelVisible}
+          onRequestClose={togglePanel}
+        >
+          <TouchableWithoutFeedback onPress={togglePanel}>
+            <View style={styles.modalOverlay}>
+              <TouchableWithoutFeedback>
+                <View style={styles.panel}>
+                  <Pressable style={styles.panelButton} onPress={() => handleOptionSelect('Perfil')}>
+                    <Iconify icon="mdi:user-outline" size={height * 0.03} color={'black'} />
+                    <Text style={styles.panelButtonText}>Perfil</Text>
+                  </Pressable>
+                  <Pressable style={styles.panelButton} onPress={() => handleOptionSelect('Logout')}>
+                    <Iconify icon="mdi:logout" size={height * 0.03} color={'black'} />
+                    <Text style={styles.panelButtonText}>Logout</Text>
+                  </Pressable>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+      ) : (
+        <Modal
+          transparent={true}
+          animationType="fade"
+          visible={isPanelVisible}
+          onRequestClose={togglePanel}
+        >
+          <TouchableWithoutFeedback onPress={togglePanel}>
+            <View style={styles.modalOverlay}>
+              <TouchableWithoutFeedback>
+                <View style={styles.panel}>
+                  <Pressable style={styles.panelButton} onPress={() => handleOptionSelect('Signin')}>
+                    <Iconify icon="mdi:user-outline" size={height * 0.03} color={'black'} />
+                    <Text style={styles.panelButtonText}>Sign in</Text>
+                  </Pressable>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+      )}
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.button}
@@ -104,13 +179,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
   },
   containerLogo: {
+    flexDirection: 'row',
     alignItems: "center",
     paddingTop: "20%",
     paddingBottom: 40,
     backgroundColor: "#FFF",
   },
   logo: {
-    width: "80%",
+    width: "85%",
     height: 40,
   },
   buttonsContainer: {
@@ -135,6 +211,33 @@ const styles = StyleSheet.create({
     fontSize: height * 0.02,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  panel: {
+    width: '60%',
+    backgroundColor: '#FFF',
+    borderRadius: 10,
+    padding: 15,
+    paddingBottom: 4,
+    paddingTop: 5,
+    alignItems: 'center',
+  },
+  panelButton: {
+    flexDirection: 'row',
+    padding: 15,
+    width: '100%',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  panelButtonText: {
+    fontSize: 18,
+    color: '#000',
   },
 });
 

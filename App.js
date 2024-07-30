@@ -20,8 +20,9 @@ import SuccessScreen from "./pages/sucess.js";
 import QuemSomos from "./pages/quemSomos.js";
 import Glossario from "./pages/glossario.js";
 import Login from "./pages/login.js";
-import Register from "./pages/registro.js";
+import Register from "./pages/registo.js";
 import Macrossismica from "./pages/macrossismica.js";
+import Perfil from "./pages/perfil.js";
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -60,6 +61,7 @@ const App = () => {
         <Stack.Screen name="Glossario" component={Glossario} />
         <Stack.Screen name="Macrossismica" component={Macrossismica} />
         <Stack.Screen name="Registro" component={Register} />
+        <Stack.Screen name="Perfil" component={Perfil} />
       </Stack.Navigator>
     </NavigationContainer>
   );

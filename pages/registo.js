@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { getApps, initializeApp } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId } from '@env';
@@ -69,10 +69,10 @@ const Register = () => {
         >
           {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
             <View style={styles.form}>
-              <Text style={styles.label}>Full Name</Text>
+              <Text style={styles.label}>Nome</Text>
               <TextInput
                 style={styles.input}
-                placeholder="Enter your full name"
+                placeholder="Introduza o seu nome"
                 onChangeText={handleChange("fullName")}
                 onBlur={handleBlur("fullName")}
                 value={values.fullName}
@@ -84,7 +84,7 @@ const Register = () => {
               <Text style={styles.label}>Email</Text>
               <TextInput
                 style={styles.input}
-                placeholder="Enter your email"
+                placeholder="Introduza o seu email"
                 onChangeText={handleChange("email")}
                 onBlur={handleBlur("email")}
                 value={values.email}
@@ -98,7 +98,7 @@ const Register = () => {
               <Text style={styles.label}>Password</Text>
               <TextInput
                 style={styles.input}
-                placeholder="Enter your password"
+                placeholder="Introduza a sua password"
                 onChangeText={handleChange("password")}
                 onBlur={handleBlur("password")}
                 value={values.password}
@@ -108,10 +108,10 @@ const Register = () => {
                 <Text style={styles.errorText}>{errors.password}</Text>
               )}
 
-              <Text style={styles.label}>Phone</Text>
+              <Text style={styles.label}>Telemóvel</Text>
               <TextInput
                 style={styles.input}
-                placeholder="Enter your phone number"
+                placeholder="Introduza o seu número de telemóvel"
                 onChangeText={handleChange("phone")}
                 onBlur={handleBlur("phone")}
                 value={values.phone}
@@ -131,7 +131,7 @@ const Register = () => {
                 disabled={isSubmitting}
               >
                 <Text style={styles.buttonText}>
-                  {isSubmitting ? "Registering..." : "Register"}
+                  {isSubmitting ? "Registando..." : "Registar"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    marginTop: '5%',
+    marginTop: '10%',
     backgroundColor: "#000000",
     width: '50%',
     alignSelf: 'center',
