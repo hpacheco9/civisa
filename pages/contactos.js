@@ -23,14 +23,12 @@ const Contactos = () => {
       phone: values.phone,
       email: values.email,
     };
-  
     try {
       await AsyncStorage.setItem(
         "@contactInfo",
         JSON.stringify(contactInfo)
       );
       navigation.navigate("Obs");
-      console.log("Contact Info saved:", contactInfo);
     } catch (e) {
       console.error("Failed to save the data to AsyncStorage", e);
     }

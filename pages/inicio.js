@@ -9,11 +9,24 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { height } = Dimensions.get("window");
 
 const Inicio = () => {
   const navigator = useNavigation();
+
+ async function clear () {
+    await AsyncStorage.multiRemove([
+      '@contactInfo',
+      '@locationInfo',
+      '@formAnswers',
+      '@selectedDateTime',
+      'observations'
+    ]);
+
+  }
+  clear();
 
   return (
     <View style={styles.container}>

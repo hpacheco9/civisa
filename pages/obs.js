@@ -16,15 +16,12 @@ const validationSchema = Yup.object().shape({
 
 const Obs = () => {
     const navigation = useNavigation();
-  
-  
     const handleFormSubmit = async (values, { setSubmitting }) => {
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const userString = await AsyncStorage.getItem('@user');
-        const  user = JSON.parse(userString);
-        console.log(user.email, user.fullName, user.phone)
-        if (user.userId != null){
+        const user = JSON.parse(userString);
+        if(user.userId != null){
           const contactInfo = {
             name: user.fullName,
             phone: user.phone,
@@ -39,6 +36,7 @@ const Obs = () => {
         const contacts = await AsyncStorage.getItem('@contactInfo');
         const local = await AsyncStorage.getItem('@locationInfo');
         const form = await AsyncStorage.getItem('@formAnswers');
+        console.log(form);
         const data = await AsyncStorage.getItem('@selectedDateTime');
         await AsyncStorage.setItem('observations', values.observations);
         const dataToStore = {
@@ -48,9 +46,7 @@ const Obs = () => {
           observations: values.observations,
           timestamp: JSON.parse(data),
         };
-  
-        const docRef = await addDoc(collection(db, 'submissions'), dataToStore);
-        
+        await addDoc(collection(db, 'submissions'), dataToStore);   
         navigation.navigate('Success'); 
       } catch (error) {
         console.error('Failed to save data:', error);

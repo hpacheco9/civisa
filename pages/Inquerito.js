@@ -108,8 +108,8 @@ const Perguntas = ({ route }) => {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
       if (selectedOption === "Não senti") {
+        setForm("Sentiu o sismo?");
         navigation.navigate("Localizacao");
-        return;
       }
       try {
         const arrays = extractAnswerArrays(data.wP6Vny1TAnsKRRQ1FOcH);
@@ -171,18 +171,18 @@ const Perguntas = ({ route }) => {
   };
 
   const handleOptionSelect = (title, option) => {
-    setSelectedOption(option);
-    console.log(option);
     setForm((prevForm) => ({
       ...prevForm,
       [title]: option,
     }));
+    setSelectedOption(option);
+   
+    console.log(form);
   };
 
   const renderQuestionText = (text) => {
     const parts = text.split(/(_)/);
     let isItalic = false;
-
     return parts.map((part, index) => {
       if (part === "_") {
         isItalic = !isItalic;
