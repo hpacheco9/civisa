@@ -1,32 +1,108 @@
-import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
-import Voltar from "../components/Voltar";
-
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import Collapsible from "react-native-collapsible";
+import alerta from "../services/alertaRAA.json";
+import Voltar from "../components/Voltar.jsx";
+const alertData = alerta.alerta;
 
 const AlertaVulcanico = () => {
-    return (
-    <>
-    <View style={{flexDirection: 'row'}}>
-        <Voltar />
-        <Text style={{fontSize: 28, marginTop: '21%', marginLeft: '17%', fontWeight:'bold'}}>Alerta Vulcânico RAA</Text>
-    </View>
-   
-    <View style={{justifyContent: 'center', alignItems: 'center', marginTop: '20%'}}>
-        <View style={{justifyContent: 'center', width: '90%', backgroundColor: 'rgb(218,242, 208)', borderRadius: 5}}>
-        <Text style={{fontSize: 20, fontWeight:'bold', marginLeft: '3%', marginBottom: '4%', marginTop: '5%'}}>V0</Text>
-        <Text style={{textAlign: 'justify', fontSize: '14', width:'90%', marginLeft: '3%', marginBottom: '4%'}}> 
-        Sistema vulcânico em fase de repouso - Atividade normal.
-         Dado o enquadramento geodinâmico do arquipélago, a qualquer momento podem registar-se 
-         sismos, alterar-se os padrões de desgaseificação e/ou ocorrer movimentos de vertente, 
-         lahars secundários ou explosões de vapor. Podem registar-se erupções submarinas sem sinais premonitores detetáveis pelas redes de monitorização existentes.
-          O mesmo pode acontecer em sistemas vulcânicos subaéreos não monitorizados ou cujas redes de monitorização são insuficientes. Embora mais raramente, podem ocorrer
-        tsunamis, mesmo com origem em sismos distantes.
-            </Text>
-        </View>
-    </View>
-    </>
-    );
+  const [expandedIndex, setExpandedIndex] = useState(null);
 
-}
+  const toggleExpand = (index) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
+  return (
+    <ScrollView>
+      <Voltar />
+      <View style={styles.container}>
+        <Text style={styles.title}>Alerta Vulcânico RAA</Text>
+        {alertData.map((item, index) => (
+          <View key={index}>
+            <TouchableOpacity
+              style={[styles.containerValor, { backgroundColor: item.color }]}
+              onPress={() => toggleExpand(index)}
+            >
+              <View style={styles.alertaContainer}>
+                <Text style={styles.alerta}>{item.level}</Text>
+              </View>
+              <View style={styles.textContainer}>
+                <Text style={styles.textoBold}>{item.title}</Text>
+              </View>
+            </TouchableOpacity>
+            <Collapsible collapsed={expandedIndex !== index}>
+              <View style={styles.descriptionContainer}>
+                <Text style={styles.descriptionText}>{item.description}</Text>
+              </View>
+            </Collapsible>
+          </View>
+        ))}
+      </View>
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#FFF",
+    padding: 16,
+    marginTop: "34%",
+    marginBottom: "5%",
+  },
+  containerValor: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 15,
+    padding: 5,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "black",
+  },
+  alertaContainer: {
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+  },
+  alerta: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#FFF",
+  },
+  textContainer: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    textAlign: "left",
+    marginBottom: 20,
+  },
+  textoBold: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#FFF",
+  },
+  descriptionContainer: {
+    backgroundColor: "#f6f6f6",
+    padding: 10,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    borderColor: "black",
+    borderWidth: 0.5,
+    borderTopWidth: 0,
+  },
+  descriptionText: {
+    fontSize: 16,
+    textAlign: "justify",
+  },
+});
 
 export default AlertaVulcanico;

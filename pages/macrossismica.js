@@ -7,11 +7,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
-import glossario from "../services/glossario.json";
+import escala from "../services/macrossismica.json";
 import Voltar from "../components/Voltar.jsx";
-const glossarioData = glossario.glossario;
+const escalaData = escala.escala;
 
-const Glossario = () => {
+const Macrossismica = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
 
   const toggleExpand = (index) => {
@@ -22,20 +22,30 @@ const Glossario = () => {
     <ScrollView>
       <Voltar />
       <View style={styles.container}>
-        <Text style={styles.title}>Glossário</Text>
-        {glossarioData.map((item, index) => (
+        <Text style={styles.title}>Macrossísmica Europeia</Text>
+        {escalaData.map((item, index) => (
           <View key={index}>
             <TouchableOpacity
-              style={styles.containerValor}
+              style={[styles.containerValor, { backgroundColor: item.color }]}
               onPress={() => toggleExpand(index)}
             >
+              <View style={styles.escalaContainer}>
+                <Text style={styles.escala}>{item.level}</Text>
+              </View>
               <View style={styles.textContainer}>
                 <Text style={styles.textoBold}>{item.title}</Text>
               </View>
             </TouchableOpacity>
             <Collapsible collapsed={expandedIndex !== index}>
               <View style={styles.descriptionContainer}>
+                <Text style={[styles.descriptionText, { fontWeight: "bold" }]}>
+                  Efeitos nos seres humanos:
+                </Text>
                 <Text style={styles.descriptionText}>{item.description}</Text>
+                <Text style={[styles.descriptionText, { fontWeight: "bold" }]}>
+                  Efeitos sobre os objectos e a natureza:
+                </Text>
+                <Text style={styles.descriptionText}>{item.description2}</Text>
               </View>
             </Collapsible>
           </View>
@@ -56,11 +66,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 15,
-    padding: 15,
+    padding: 5,
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "black",
-    backgroundColor: "#781f1c",
+  },
+  escalaContainer: {
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+  },
+  escala: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
   textContainer: {
     flex: 1,
@@ -74,7 +94,6 @@ const styles = StyleSheet.create({
   textoBold: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#FFF",
   },
   descriptionContainer: {
     backgroundColor: "#f6f6f6",
@@ -91,4 +110,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Glossario;
+export default Macrossismica;

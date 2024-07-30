@@ -23,7 +23,7 @@ const MenuEscala = () => {
           onPress={() => navigator.navigate("Escala")}
         >
           <Iconify
-          icon="material-symbols:earthquake-rounded"
+            icon="material-symbols:earthquake-rounded"
             size={70}
             color={"#FFF"}
           />
@@ -31,10 +31,10 @@ const MenuEscala = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("Ajuda")}
+          onPress={() => navigator.navigate("Macrossismica")}
         >
           <Iconify
-             icon="material-symbols:earthquake-rounded"
+            icon="material-symbols:earthquake-rounded"
             size={70}
             color={"#FFF"}
           />
@@ -56,7 +56,7 @@ const MenuEscala = () => {
           onPress={() => navigator.navigate("Ajuda")}
         >
           <Iconify
-               icon="material-symbols:earthquake-rounded"
+            icon="material-symbols:earthquake-rounded"
             size={70}
             color={"#FFF"}
           />
