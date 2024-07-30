@@ -120,29 +120,26 @@ const Login = () => {
                   {isSubmitting ? "Logging in..." : "Login"}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{marginTop: '5%', marginLeft: '25%'}} onPress={ async () =>{
+             
+            </View>
+          )}
+        </Formik>
+        <TouchableOpacity style={{marginTop: '5%', marginLeft: '5%'}} onPress={ async () =>{
                  await AsyncStorage.setItem('@user', JSON.stringify({
                   userId: null,
                 }));
 
               }}>
-                <Text style={{textDecorationLine: 1}}>Entrar como convidado</Text>
+                <Text style={{textDecorationLine: 'underline'}}>Entrar como convidado</Text>
               </TouchableOpacity>
-              <View style={{flexDirection: 'row', marginTop: '4%', marginLeft: '15%'}}>
+              <View style={{flexDirection: 'row', marginTop: '4%', marginLeft: '5%'}}>
               <Text >Ainda não tem conta? </Text>
               <TouchableOpacity onPress={() => {
                 navigation.navigate('Registro')
               }}>
-              <Text style={{textDecorationLine: 1}}> Registe-se</Text>
+              <Text style={{textDecorationLine: 'underline'}}> Registe-se</Text>
               </TouchableOpacity>
-              
               </View>
-             
-    
-
-            </View>
-          )}
-        </Formik>
       </View>
     </TouchableWithoutFeedback>
   );
