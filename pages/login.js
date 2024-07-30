@@ -128,7 +128,7 @@ const Login = () => {
                  await AsyncStorage.setItem('@user', JSON.stringify({
                   userId: null,
                 }));
-
+                navigation.navigate('Inicio')
               }}>
                 <Text style={{textDecorationLine: 'underline'}}>Entrar como convidado</Text>
               </TouchableOpacity>
