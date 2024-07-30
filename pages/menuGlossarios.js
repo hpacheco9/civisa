@@ -1,10 +1,19 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
 import Voltar from "../components/Voltar";
 
-const MenuAjuda = () => {
+const { height } = Dimensions.get("window");
+
+const MenuGlossarios = () => {
   const navigator = useNavigation();
 
   return (
@@ -20,36 +29,25 @@ const MenuAjuda = () => {
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("MenuGlossarios")}
+          onPress={() => navigator.navigate("GlossarioSismo")}
         >
           <Iconify
-            icon="material-symbols:format-list-bulleted-rounded"
-            size={70}
+            icon="material-symbols:earthquake-rounded"
+            size={height * 0.09}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Glossários</Text>
+          <Text style={styles.buttonText}>Sismologia</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("MenuEscala")}
+          onPress={() => navigator.navigate("GlossarioVulcao")}
         >
           <Iconify
-            icon="material-symbols:list-alt-outline-rounded"
-            size={70}
+            icon="material-symbols:volcano-outline-rounded"
+            size={height * 0.09}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Escalas</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigator.navigate("QuemSomos")}
-        >
-          <Iconify
-            icon="material-symbols:question-mark-rounded"
-            size={70}
-            color={"#FFF"}
-          />
-          <Text style={styles.buttonText}>Quem somos?</Text>
+          <Text style={styles.buttonText}>Vulcanologia</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -79,23 +77,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   button: {
-    width: "48%",
+    width: "49%",
     height: "30%",
     padding: 10,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#781f1c",
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "black",
-    marginVertical: 8,
+    borderRadius: 20,
+    marginVertical: 5,
   },
   buttonText: {
     color: "#FFF",
-    fontSize: 18,
+    fontSize: height * 0.02,
     fontWeight: "bold",
     textAlign: "center",
   },
 });
 
-export default MenuAjuda;
+export default MenuGlossarios;

@@ -53,14 +53,14 @@ const MenuEscala = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("Ajuda")}
+          onPress={() => navigator.navigate("AlertaAviacao")}
         >
           <Iconify
             icon="material-symbols:earthquake-rounded"
             size={70}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Alerta Vulcânico para a Aviação</Text>
+          <Text style={styles.buttonText}>Alerta Vulcânico Aviação</Text>
         </TouchableOpacity>
       </View>
     </View>

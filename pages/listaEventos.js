@@ -1,10 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import InfoContainer from "../components/infoContainer";
+import Voltar from "../components/Voltar";
 
 const ListaEventos = () => {
   return (
     <ScrollView>
+      <Voltar />
       <View style={styles.container}>
         <Text style={styles.title}>Lista de Eventos</Text>
         <Text style={styles.texto}>

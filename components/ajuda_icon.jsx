@@ -18,7 +18,7 @@ const Ajuda = () => {
         zIndex: 1,
       }}
       onPress={() => {
-        navigation.navigate("Ajuda");
+        navigation.navigate("ListaEventos");
       }}
     >
       <Iconify

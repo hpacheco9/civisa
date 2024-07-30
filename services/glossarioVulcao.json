@@ -1,0 +1,88 @@
+{
+  "glossario": [
+    {
+      "title": "Coluna eruptiva",
+      "description": "Coluna de desenvolvimento vertical composta por gás e piroclastos que são projetados a partir do centro emissor. Dependendo do tipo de erupção, as colunas eruptivas podem ter entre algumas centenas de metros e algumas dezenas de quilómetros de altura."
+    },
+    {
+      "title": "Desgaseificação difusa",
+      "description": "Emissão gasosa que ocorre de forma contínua e impercetível através da superfície de aparelhos vulcânicos. Essa libertação ocorre através dos solos e de nascentes de água termal e gasocarbónica, sendo os principais gases libertados o dióxido de carbono (CO2), o radão (222Rn), o sulfureto de hidrogénio (H2S), o hidrogénio (H2) e o hélio (He). A deteção da presença deste tipo de desgaseificação é feita com recurso a equipamentos específicos."
+    },
+    {
+      "title": "Erupção estromboliana",
+      "description": "Erupção vulcânica de baixa explosividade, envolvendo magmas basálticos (s.l.) de elevada temperatura e de baixa viscosidade. Caracteriza-se pela ocorrência de explosões discretas, intermitentes, variáveis desde poucos segundos a minutos ou mesmo horas, formando colunas eruptivas não sustentadas que podem atingir 10 km. O material ejetado é constituído por bombas, escórias e cinzas que formam geralmente cones de escórias."
+    },
+    {
+      "title": "Erupção fissural",
+      "description": "Erupção que ocorre ao longo de uma fissura."
+    },
+    {
+      "title": "Erupção freática",
+      "description": "Erupção que resulta da vaporização de uma massa de água subterrânea em resultado do seu sobreaquecimento pelo magma, não ocorrendo, contudo, contacto direto entre a água e o magma. Trata-se de uma explosão de vapor que não envolve a emissão de novo magma, mas apenas a pulverização das rochas de cobertura."
+    },
+    {
+      "title": "Erupção havaiana",
+      "description": "Erupção vulcânica que apresenta o estilo eruptivo de mais baixa explosividade, envolvendo magmas basálticos (s.l.) de elevada temperatura e de baixa viscosidade. Caracteriza-se pela formação de fontes de lava (em que o material ejetado pode atingir poucas centenas de metros de altura) e pela efusão de escoadas lávicas basálticas (s.l.). Pode desenvolver pequenas colunas e nuvens eruptivas acima das fontes de lava, não ultrapassando 2 km de altura e constituídas essencialmente por cinzas."
+    },
+    {
+      "title": "Erupção hidromagmática",
+      "description": "Erupção vulcânica caracterizada pela interação entre o magma e a água produzindo explosões violentas. A água pode corresponder a um aquífero ou a um corpo de água superficial e pouco profundo (água do mar, lago, gelo, etc). A razão água /magma determina o grau de fragmentação e de explosividade. Produz depósitos piroclásticos essencialmente constituídos por fragmentos finos."
+    },
+    {
+      "title": "Erupção magmática",
+      "description": "Qualquer erupção vulcânica em que a explosividade resulta apenas da expansão dos gases contidos no magma."
+    },
+    {
+      "title": "Erupção pliniana",
+      "description": "Erupção vulcânica altamente explosiva, caracterizada por uma elevada taxa de extrusão de magmas produzindo uma coluna eruptiva cuja altura é frequentemente superior a 20 km, podendo atingir 35 km. Origina extensos depósitos de pedra pomes e cinzas de queda e de escoadas piroclásticas, com volumes que variam desde menos de 0,1 a 10 km3. Este estilo eruptivo encontra-se frequentemente associado a caldeiras."
+    },
+    {
+      "title": "Erupção submarina",
+      "description": "Qualquer erupção vulcânica em que o magma é extruído abaixo da superfície do mar, independentemente da profundidade."
+    },
+    {
+      "title": "Erupção subpliniana",
+      "description": "Erupção vulcânica explosiva, caracterizada por magnitude e taxa de extrusão menores do que as de uma erupção Pliniana, originando uma coluna eruptiva geralmente pulsátil que não ultrapassa os 20 km de altura. Os depósitos gerados têm volumes geralmente inferiores a 0,1 km3 e uma dispersão menor que no caso das erupções plinianas."
+    },
+    {
+      "title": "Erupção ultrapliniana",
+      "description": "Erupção vulcânica, de natureza traquítica (s.l.), altamente explosiva, semelhante à Pliniana, produzindo uma coluna eruptiva estável maior do que 35 km. O volume dos depósitos piroclásticos resultantes é superior a 10 km3 e a dispersão maior que no caso das erupções plinianas."
+    },
+    {
+      "title": "Erupção vulcaniana",
+      "description": "Erupção vulcânica hidromagmática envolvendo magmas geralmente de composição intermédia. Caracteriza-se pela ocorrência de explosões discretas e ruidosas (semelhantes a disparos de canhão) em intervalos que variam de minutos a horas, formando colunas eruptivas frequentemente entre 5 e 10 km de altura podendo atingir 20 km. Os depósitos resultantes são geralmente pouco volumosos (< 1 km3) e constituídos essencialmente por cinzas, com frequentes blocos e bombas de trajetória balística, de grandes dimensões, presentes próximo do centro emissor."
+    },
+    {
+      "title": "Erupção vulcânica",
+      "description": "Extrusão de magma à superfície da Terra."
+    },
+    {
+      "title": "Escoada lávica",
+      "description": "Corpo circunscrito e continuamente alimentado por lava, que mantém fluidez ao longo de todo o seu comprimento, formado no decorrer de atividade vulcânica efusiva."
+    },
+    {
+      "title": "Explosão hidrotermal",
+      "description": "Explosão de vapor que se caracteriza pela emissão de jatos de água e de vapor, de lama, e de fragmentos de rocha numa área com diâmetro variável, desde alguns metros a vários quilómetros. A explosão é causada quando a água aquecida em reservatórios geotérmicos rapidamente se converte em vapor quebrando violentamente as rochas encaixantes. Uma explosão hidrotermal não necessita de qualquer contribuição de massa ou energia diretamente do magma, distinguindo-se, assim, das explosões freáticas e hidromagmáticas."
+    },
+    {
+      "title": "Lahar",
+      "description": "Termo indonésio específico para designar uma escoada (de detritos ou de lama) desencadeada exclusivamente em regiões vulcânicas, envolvendo maioritariamente piroclastos de uma erupção singenética do seu desencadeamento e uma grande quantidade de água (lahar primário). Pode também ser desencadeada por instabilização dos depósitos dessa erupção enquanto os mesmos não se encontrarem em equilíbrio com a geomorfologia da região (lahar secundário). Os lahars são controlados pela topografia, sendo canalizados por canais pré-existentes, aproveitando normalmente a rede de drenagem, formando cones ou leques de dejeção na sua desembocadura."
+    },
+    {
+      "title": "Piroclasto",
+      "description": "Fragmento produzido pela fragmentação explosiva do magma."
+    },
+    {
+      "title": "Piroclasto de queda",
+      "description": "Piroclasto ejetado para o ar no decorrer de uma erupção explosiva e que atinge o solo por queda livre."
+    },
+    {
+      "title": "Piroclasto de trajetória balística",
+      "description": "Piroclasto ejetado para o ar segundo uma trajetória balística no decorrer de uma erupção explosiva e que atinge o solo por queda livre."
+    },
+    {
+      "title": "Vulcão ativo",
+      "description": "Vulcão que teve pelo menos uma erupção nos últimos 10.000 anos."
+    }
+  ]
+}
