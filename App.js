@@ -27,6 +27,7 @@ import Perfil from "./pages/perfil.js";
 import Macrossismica from "./pages/macrossismica.js";
 import Alertas from "./pages/alertas.js";
 import ListaEventos from "./pages/listaEventos.js";
+import Register from "./pages/registo.js";
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -69,6 +70,7 @@ const App = () => {
         <Stack.Screen name="Alertas" component={Alertas} />
         <Stack.Screen name="ListaEventos" component={ListaEventos} />
         <Stack.Screen name="Perfil" component={Perfil} />
+        <Stack.Screen name="Registo" component={Register} />
         <Stack.Screen name="Registado" component={Registado} />
       </Stack.Navigator>
     </NavigationContainer>

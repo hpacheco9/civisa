@@ -23,22 +23,22 @@ let app;
 let auth;
 let firestore;
 
-
-  app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  firestore = getFirestore(app);
-
+app = initializeApp(firebaseConfig);
+auth = getAuth(app);
+firestore = getFirestore(app);
 
 const validationSchema = Yup.object().shape({
-  fullName: Yup.string().required('Full name is required'),
-  email: Yup.string().email('Invalid email').required('Email is required'),
-  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-  phone: Yup.string().matches(/^[0-9]{10}$/, 'Phone must be 10 digits').required('Phone is required'),
+  fullName: Yup.string().required('Nome completo é obrigatório'),
+  email: Yup.string().email('Invalid email').required('Email é obrigatório'),
+  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password é obrigatório'),
+  phone: Yup.string().matches(/^[0-9]{9}$/, 'O numero deve ter 9 digitos').required('Telemóvel é obrigatório'),
+  acceptTerms: Yup.boolean().oneOf([true], 'Aceite os termos e condições')
 });
 
 const Register = () => {
   const [registerError, setRegisterError] = useState(null);
   const navigation = useNavigation();
+
   const handleRegister = async (values) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
@@ -48,99 +48,115 @@ const Register = () => {
         fullName: values.fullName,
         phone: values.phone,
         email: values.email,
+        acceptedTerms: values.acceptTerms,
       });
 
-     navigation.navigate('Registado');
+      navigation.navigate('Registado');
     } catch (error) {
       console.error('Error registering user:', error.message);
+      setRegisterError(error.message);
     }
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <>  
+      <>  
         <Voltar />
-      <View style={styles.container}>
-   
-        <Text style={styles.title}>Registo</Text>
-        <Formik
-          initialValues={{ fullName: '', email: '', password: '', phone: '' }}
-          validationSchema={validationSchema}
-          onSubmit={handleRegister}
-        >
-          {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
-            <View style={styles.form}>
-              <Text style={styles.label}>Nome</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Introduza o seu nome"
-                onChangeText={handleChange("fullName")}
-                onBlur={handleBlur("fullName")}
-                value={values.fullName}
-              />
-              {touched.fullName && errors.fullName && (
-                <Text style={styles.errorText}>{errors.fullName}</Text>
-              )}
+        <View style={styles.container}>
+          <Text style={styles.title}>Registo</Text>
+          <Formik
+            initialValues={{ fullName: '', email: '', password: '', phone: '', acceptTerms: false }}
+            validationSchema={validationSchema}
+            onSubmit={handleRegister}
+          >
+            {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched, isSubmitting }) => (
+              <View style={styles.form}>
+                <Text style={styles.label}>Nome compelto</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Introduza o seu nome"
+                  onChangeText={handleChange("fullName")}
+                  onBlur={handleBlur("fullName")}
+                  value={values.fullName}
+                />
+                {touched.fullName && errors.fullName && (
+                  <Text style={styles.errorText}>{errors.fullName}</Text>
+                )}
 
-              <Text style={styles.label}>Email</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Introduza o seu email"
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
-                value={values.email}
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-              {touched.email && errors.email && (
-                <Text style={styles.errorText}>{errors.email}</Text>
-              )}
+                <Text style={styles.label}>Email</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Introduza o seu email"
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  value={values.email}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
+                {touched.email && errors.email && (
+                  <Text style={styles.errorText}>{errors.email}</Text>
+                )}
 
-              <Text style={styles.label}>Password</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Introduza a sua password"
-                onChangeText={handleChange("password")}
-                onBlur={handleBlur("password")}
-                value={values.password}
-                secureTextEntry
-              />
-              {touched.password && errors.password && (
-                <Text style={styles.errorText}>{errors.password}</Text>
-              )}
+                <Text style={styles.label}>Password</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Introduza a sua password"
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  value={values.password}
+                  secureTextEntry
+                />
+                {touched.password && errors.password && (
+                  <Text style={styles.errorText}>{errors.password}</Text>
+                )}
 
-              <Text style={styles.label}>Telemóvel</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Introduza o seu número de telemóvel"
-                onChangeText={handleChange("phone")}
-                onBlur={handleBlur("phone")}
-                value={values.phone}
-                keyboardType="phone-pad"
-              />
-              {touched.phone && errors.phone && (
-                <Text style={styles.errorText}>{errors.phone}</Text>
-              )}
+                <Text style={styles.label}>Telemóvel</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Introduza o seu número de telemóvel"
+                  onChangeText={handleChange("phone")}
+                  onBlur={handleBlur("phone")}
+                  value={values.phone}
+                  keyboardType="phone-pad"
+                />
+                {touched.phone && errors.phone && (
+                  <Text style={styles.errorText}>{errors.phone}</Text>
+                )}
 
-              {registerError && (
-                <Text style={styles.errorText}>{registerError}</Text>
-              )}
+                <View style={styles.checkboxContainer}>
+                  <TouchableOpacity
+                    style={[
+                      styles.checkbox,
+                      values.acceptTerms && styles.checkedBoxBackground,
+                    ]}
+                    onPress={() => setFieldValue('acceptTerms', !values.acceptTerms)}
+                  >
+                    {values.acceptTerms && <Text style={styles.checkedBoxText}>✓</Text>}
+                  </TouchableOpacity>
+                  <Text style={styles.checkboxLabel}>Aceito os termos e condições</Text>
+                </View>
+                {touched.acceptTerms && errors.acceptTerms && (
+                  <Text style={styles.errorText}>{errors.acceptTerms}</Text>
+                )}
 
-              <TouchableOpacity 
-                style={[styles.button, isSubmitting && styles.disabledButton]} 
-                onPress={handleSubmit}
-                disabled={isSubmitting}
-              >
-                <Text style={styles.buttonText}>
-                  {isSubmitting ? "Registando..." : "Registar"}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </Formik>
-      </View>
-    </>
-        
+                {registerError && (
+                  <Text style={styles.errorText}>{registerError}</Text>
+                )}
+
+                <TouchableOpacity 
+                  style={[styles.button, isSubmitting && styles.disabledButton]} 
+                  onPress={handleSubmit}
+                  disabled={isSubmitting}
+                >
+                  <Text style={styles.buttonText}>
+                    {isSubmitting ? "Registando..." : "Registar"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </Formik>
+        </View>
+      </>
     </TouchableWithoutFeedback>
   );
 };
@@ -184,7 +200,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    marginTop: '10%',
     backgroundColor: "#000000",
     width: '50%',
     alignSelf: 'center',
@@ -203,6 +218,30 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: '3%',
     marginTop: '3%',
+  },
+  checkboxContainer: {
+    marginTop: '2%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+    borderColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkedBoxBackground: {
+    backgroundColor: '#000',
+  },
+  checkedBoxText: {
+    color: '#fff',
+    fontSize: 14,
+  },
+  checkboxLabel: {
+    marginLeft: 8,
   },
 });
 
