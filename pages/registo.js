@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, Toucha
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, updateProfile} from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId } from '@env';
 import Voltar from '../components/Voltar';
@@ -42,15 +42,13 @@ const Register = () => {
   const handleRegister = async (values) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-      const userId = userCredential.user.uid;
-
-      await setDoc(doc(firestore, 'users', userId), {
-        fullName: values.fullName,
+    const user = userCredential.user.uid;
+     await setDoc(doc(firestore, 'users', user), {
+        Name: values.fullName,
         phone: values.phone,
         email: values.email,
         acceptedTerms: values.acceptTerms,
       });
-
       navigation.navigate('Registado');
     } catch (error) {
       console.error('Error registering user:', error.message);

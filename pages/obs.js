@@ -46,7 +46,7 @@ const Obs = () => {
           observations: values.observations,
           timestamp: JSON.parse(data),
         };
-        await addDoc(collection(db, 'submissions'), dataToStore);   
+        const ref = await addDoc(collection(db, 'submissions'), dataToStore);   
         navigation.navigate('Success'); 
       } catch (error) {
         console.error('Failed to save data:', error);

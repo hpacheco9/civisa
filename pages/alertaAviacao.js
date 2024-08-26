@@ -22,7 +22,7 @@ const AlertaAviacao = () => {
     <ScrollView>
       <Voltar />
       <View style={styles.container}>
-        <Text style={styles.title}>Alerta Vulcânico Aviação</Text>
+        <Text style={styles.title}>Código de Cores de Alerta Vulcânico para a Aviação (ICAO)</Text>
         {alertData.map((item, index) => (
           <View key={index}>
             <TouchableOpacity
@@ -36,8 +36,8 @@ const AlertaAviacao = () => {
             <Collapsible collapsed={expandedIndex !== index}>
               <View style={styles.descriptionContainer}>
                 <Text style={styles.descriptionText}>{item.description}</Text>
-                <Text style={[styles.descriptionText, { fontStyle: "italic" }]}>
-                  {item.description2}
+                <Text style={[styles.descriptionText, { fontStyle: "italic" , color: 'gray', textAlign: 'center', marginHorizontal: '15%'}]}>
+                  {"\n" + item.description2 + "\n"}
                 </Text>
                 <Text style={styles.descriptionText}>{item.description3}</Text>
               </View>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: "bold",
-    textAlign: "left",
+    textAlign: "center",
     marginBottom: 20,
   },
   textoBold: {

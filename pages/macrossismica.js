@@ -22,7 +22,7 @@ const Macrossismica = () => {
     <ScrollView>
       <Voltar />
       <View style={styles.container}>
-        <Text style={styles.title}>Macrossísmica Europeia</Text>
+        <Text style={styles.title}>Escala Macrossísmica Europeia (1998)</Text>
         {escalaData.map((item, index) => (
           <View key={index}>
             <TouchableOpacity
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: "bold",
-    textAlign: "left",
+    textAlign: "center",
     marginBottom: 20,
   },
   textoBold: {

@@ -10,7 +10,7 @@ const Escala = () => {
     <ScrollView>
       <Voltar />
       <View style={styles.container}>
-        <Text style={styles.title}>Mercalli Modificada</Text>
+        <Text style={styles.title}>Escala de Mercalli Modificada (1956)</Text>
         {intensityData.map((item, index) => (
           <View key={index} style={styles.containerValor}>
             <View
@@ -65,8 +65,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: "bold",
-    textAlign: "left",
+    textAlign: "center",
     marginBottom: 20,
+    
   },
   texto: {
     fontSize: 16,

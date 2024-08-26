@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: "bold",
-    textAlign: "left",
+    textAlign: "center",
     marginBottom: 20,
   },
   textoBold: {
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
   descriptionText: {
     fontSize: 16,
     textAlign: "justify",
+
   },
 });
 

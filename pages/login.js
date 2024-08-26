@@ -1,6 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { auth } from './firebase';
 import {
   View,
+  ActivityIndicator,
   StyleSheet,
   Text,
   Keyboard,
@@ -9,134 +16,88 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { initializeApp, getApps } from "firebase/app";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
-import {
-  apiKey,
-  authDomain,
-  projectId,
-  storageBucket,
-  messagingSenderId,
-  appId,
-  measurementId,
-} from "@env";
-import {
-  initializeAuth,
-  getReactNativePersistence,
-  signInWithEmailAndPassword,
-  getAuth,
-} from "firebase/auth";
-import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
+import { getFirestore, query, where, getDocs, collection } from "firebase/firestore";
 
-const firebaseConfig = {
-  apiKey,
-  authDomain,
-  projectId,
-  storageBucket,
-  messagingSenderId,
-  appId,
-  measurementId,
-};
-
-let app;
-let auth;
-let firestore;
-
-if (getApps().length === 0) {
-  app = initializeApp(firebaseConfig);
-  auth = initializeAuth(app, {
-    persistence: getReactNativePersistence(ReactNativeAsyncStorage),
-  });
-  firestore = getFirestore(app);
-} else {
-  app = getApps()[0];
-  auth = getAuth(app);
-  firestore = getFirestore(app);
-}
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email("Emil inválido").required("Email é obrigatório"),
+  email: Yup.string().email("Email inválido").required("Email é obrigatório"),
   password: Yup.string()
-    .min(6, "Password no minimo 6 caracteres")
+    .min(6, "Password no mínimo 6 caracteres")
     .required("Password é obrigatório"),
 });
+const firestore = getFirestore();
 
 const Login = () => {
-  const navigation = useNavigation();
-  const [loginError, setLoginError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [loginError, setLoginError] = useState(null);
+  const navigation = useNavigation();
+  const auth = getAuth();
 
   useEffect(() => {
-    checkRememberedUser();
-  }, []);
-
-  const checkRememberedUser = async () => {
-    try {
-      const rememberedUser = await AsyncStorage.getItem("@rememberedUser");
-      if (rememberedUser) {
-        const { email, password } = JSON.parse(rememberedUser);
-        handleLogin({ email, password }, { setSubmitting: () => {} });
+    const checkUserStatus = async () => {
+      const isLoggedOut = await AsyncStorage.getItem("@loggedOut");
+      if (isLoggedOut === "true") {
+        setLoading(false);
+        return;
       }
-    } catch (error) {
-      console.error("Error checking remembered user:", error);
-    }
-  };
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          navigation.navigate("Inicio");
+        } else {
+          setLoading(true);
+        }
+      });
+    };
+  
+    checkUserStatus();
+  }, []);
 
   const handleLogin = async (values, { setSubmitting }) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        values.email,
-        values.password
-      );
-      const user = userCredential.user;
-      const userDocRef = doc(firestore, "users", user.uid);
-      const userDocSnap = await getDoc(userDocRef);
-
-      if (userDocSnap.exists()) {
-        const userData = userDocSnap.data();
-        await AsyncStorage.setItem(
-          "@user",
-          JSON.stringify({
-            userId: user.uid,
-            email: user.email,
-            fullName: userData.fullName,
-            phone: userData.phone,
-          })
-        );
-
-        if (rememberMe) {
-          await AsyncStorage.setItem(
-            "@rememberedUser",
-            JSON.stringify({
-              email: values.email,
-              password: values.password,
-            })
-          );
-        } else {
-          await AsyncStorage.removeItem("@rememberedUser");
-        }
-
-        const storedUser = await AsyncStorage.getItem("@user");
-        console.log("Stored user:", storedUser);
-        navigation.navigate("Inicio");
-      } else {
-        console.log("No user data found in Firestore");
-        setLoginError("User data not found. Please contact support.");
-      }
+      const { email, password } = values;
+      await signInWithEmailAndPassword(auth, email, password);
+      if (rememberMe) {
+        const stringValue = JSON.stringify(false);
+        await AsyncStorage.setItem("@loggedOut",stringValue);
+      } 
+      const user = await getUserByEmail(email);
+      await AsyncStorage.setItem("@user", JSON.stringify(user));
+      navigation.navigate("Inicio");
     } catch (error) {
-      console.error("Login error:", error);
-      setLoginError(error.message);
+      setLoginError("Login failed. Please check your email and password.");
+      console.error(error);
     } finally {
       setSubmitting(false);
     }
   };
 
+  const getUserByEmail = async (email) => {
+    try {
+      const q = query(collection(firestore, 'users'), where('email', '==', email));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        console.log('No user found with this email.');
+        return null;
+      } else {
+        const userDoc = querySnapshot.docs[0];
+        const userData = userDoc.data();
+        console.log('User data:', userData);
+        return userData;
+      }
+    } catch (error) {
+      console.error('Error fetching user by email:', error.message);
+    }
+  };
+
+ 
   return (
+    <>
+    {loading ?( <View style={styles.loadingContainer}>
+      <ActivityIndicator size="large" color="#0000ff" />
+      <Text>Loading...</Text>
+    </View>
+    ): (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <Text style={{ fontSize: height * 0.06, fontWeight: "bold", marginBottom: "30%" }}>CIVISA</Text>
@@ -216,9 +177,7 @@ const Login = () => {
           onPress={async () => {
             await AsyncStorage.setItem(
               "@user",
-              JSON.stringify({
-                userId: null,
-              })
+              "null"
             );
             navigation.navigate("Inicio");
           }}
@@ -242,10 +201,14 @@ const Login = () => {
         </View>
       </View>
     </TouchableWithoutFeedback>
+    )}
+    </>
   );
+    
+    
 };
 
-const { height, width } = Dimensions.get("window");
+const { height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -318,6 +281,11 @@ const styles = StyleSheet.create({
   },
   checkboxLabel: {
     marginLeft: 8,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

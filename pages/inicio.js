@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -17,37 +17,37 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const { height } = Dimensions.get("window");
 
 const Inicio = () => {
-  const navigator = useNavigation();
+  const navigation = useNavigation();
   const [isPanelVisible, setIsPanelVisible] = useState(false);
-  const [user, setUser] = useState({ userId: null });
+  const [user, setUser] = useState(null);
 
-  async function clear() {
-    await AsyncStorage.multiRemove([
-      "@contactInfo",
-      "@locationInfo",
-      "@formAnswers",
-      "@selectedDateTime",
-      "observations",
-    ]);
-    const userString = await AsyncStorage.getItem("@user");
-    const user_2 = JSON.parse(userString);
-    setUser(user_2);
-  }
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userString = await AsyncStorage.getItem("@user");
+      const user_2 = JSON.parse(userString);
+      setUser(user_2);
+      console.log(user_2)
+    };
 
-  clear();
+    fetchUser();
+  }, []);
 
   const togglePanel = () => {
     setIsPanelVisible(!isPanelVisible);
   };
 
-  const handleOptionSelect = (option) => {
+  const handleOptionSelect = async (option) => {
     togglePanel();
     if (option === "Logout") {
-      navigator.navigate("Login");
+      await AsyncStorage.removeItem("@user");
+      await AsyncStorage.setItem("@loggedOut", "true");
+      navigation.navigate("Login");
     } else if (option === "Perfil") {
-      navigator.navigate("Perfil");
+      navigation.navigate("Perfil");
     } else if (option === "Signin") {
-      navigator.navigate("Login");
+      await AsyncStorage.setItem("@loggedOut", "true");
+      await AsyncStorage.removeItem("@user");
+      navigation.navigate('Login')
     }
   };
 
@@ -67,7 +67,7 @@ const Inicio = () => {
           />
         </TouchableOpacity>
       </View>
-      {user.userId != null ? (
+      {user ? (
         <Modal
           transparent={true}
           animationType="fade"
@@ -136,7 +136,7 @@ const Inicio = () => {
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("RGPD")}
+          onPress={() => navigation.navigate("RGPD")}
         >
           <Iconify
             icon="material-symbols:checklist-rtl-rounded"
@@ -147,7 +147,7 @@ const Inicio = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("Lista")}
+          onPress={() => navigation.navigate("Lista")}
         >
           <Iconify
             icon="material-symbols:format-list-bulleted-rounded"
@@ -158,7 +158,7 @@ const Inicio = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("Mapa")}
+          onPress={() => navigation.navigate("Mapa")}
         >
           <Iconify
             icon="material-symbols:globe"
@@ -169,7 +169,7 @@ const Inicio = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("Alertas")}
+          onPress={() => navigation.navigate("Alertas")}
         >
           <Iconify
             icon="material-symbols:brightness-alert-outline-rounded"
@@ -180,7 +180,7 @@ const Inicio = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigator.navigate("MenuAjuda")}
+          onPress={() => navigation.navigate("MenuAjuda")}
         >
           <Iconify
             icon="material-symbols:chat-info-outline-rounded"

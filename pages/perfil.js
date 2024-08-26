@@ -23,12 +23,10 @@ const Perfil = () => {
     const loadUserData = async () => {
       try {
         const userString = await AsyncStorage.getItem('@user');
-        
         if (userString) {
           const user = JSON.parse(userString);
-
           setUserData({
-            name: user.fullName || 'Not available',
+            name: user.Name || 'Not available',
             email: user.email || 'Not available',
             phone: user.phone || 'Not available',
           });

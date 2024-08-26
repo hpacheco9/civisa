@@ -170,13 +170,13 @@ const Lista = () => {
           style={styles.button}
           onPress={showMagGreaterThanThree}
         >
-          <Text>{"MAG > 3"}</Text>
+          <Text>{"MAG ≥ 3"}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={showMagGreaterThanFour}
         >
-          <Text>{"MAG > 4"}</Text>
+          <Text>{"MAG ≥ 4"}</Text>
         </TouchableOpacity>
       </View>
       <FlatList
@@ -191,7 +191,7 @@ const Lista = () => {
           marginBottom: "5%",
         }}
         ListEmptyComponent={
-          <Text style={styles.noEventsText}>Eventos não encontrados</Text>
+          <Text style={styles.noEventsText}>Nos útltimos 60 dias não foi resgistado qualquer evento com magnitude {"ML"} {"≥"} 4. </Text>
         }
       />
     </>
@@ -225,9 +225,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   noEventsText: {
+    width: '80%',
+    textAlign: 'center',
     fontSize: 16,
     color: "black",
-    marginTop: 20,
+    marginBottom: '30%'
   },
 });
 

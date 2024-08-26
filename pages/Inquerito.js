@@ -176,8 +176,6 @@ const Perguntas = ({ route }) => {
       [title]: option,
     }));
     setSelectedOption(option);
-   
-    console.log(form);
   };
 
   const renderQuestionText = (text) => {

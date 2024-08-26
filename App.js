@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Inicio from "./pages/inicio.js";
@@ -29,8 +29,12 @@ import Alertas from "./pages/alertas.js";
 import ListaEventos from "./pages/listaEventos.js";
 import Register from "./pages/registo.js";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const Stack = createStackNavigator();
 const App = () => {
+ 
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -45,8 +49,8 @@ const App = () => {
           },
         }}
       >
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Inicio" component={Inicio} />
+        <Stack.Screen name="Login" component={Login}  />
+        <Stack.Screen name="Inicio" component={Inicio}/>
         <Stack.Screen name="RGPD" component={Rgpd} />
         <Stack.Screen name="Data e Hora" component={DateInput} />
         <Stack.Screen name="Perguntas" component={Perguntas} />
@@ -72,6 +76,10 @@ const App = () => {
         <Stack.Screen name="Perfil" component={Perfil} />
         <Stack.Screen name="Registo" component={Register} />
         <Stack.Screen name="Registado" component={Registado} />
+        
+     
+      
+      
       </Stack.Navigator>
     </NavigationContainer>
   );

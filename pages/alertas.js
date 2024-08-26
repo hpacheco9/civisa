@@ -59,9 +59,7 @@ const Alerta = () => {
               </TouchableOpacity>
               <Collapsible collapsed={expandedIndex !== index}>
                 <View style={styles.descriptionContainer}>
-                  <Text style={styles.descriptionText}>
-                    Coordenadas: {item.Location[0]}, {item.Location[1]}
-                  </Text>
+            
                   <Text style={styles.descriptionText}>{item.Description}</Text>
                 </View>
               </Collapsible>
@@ -146,6 +144,8 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 0.5,
     borderTopWidth: 0,
+
+  
   },
   descriptionText: {
     fontSize: 16,

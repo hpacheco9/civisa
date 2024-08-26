@@ -58,7 +58,7 @@ const MenuEscala = () => {
             size={height * 0.09}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Alerta Vulcânico RAA</Text>
+          <Text style={styles.buttonText}>Alerta Vulcânico Açores</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
