@@ -45,11 +45,10 @@ const Login = () => {
         if (user) {
           navigation.navigate("Inicio");
         } else {
-          setLoading(true);
+          setLoading(false);
         }
       });
     };
-  
     checkUserStatus();
   }, []);
 

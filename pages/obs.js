@@ -21,9 +21,9 @@ const Obs = () => {
         const db = getFirestore(app);
         const userString = await AsyncStorage.getItem('@user');
         const user = JSON.parse(userString);
-        if(user.userId != null){
+        if(user != null){
           const contactInfo = {
-            name: user.fullName,
+            name: user.Name,
             phone: user.phone,
             email: user.email,
           };

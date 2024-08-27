@@ -34,7 +34,7 @@ const Localizacao = () => {
         "@locationInfo",
         JSON.stringify(locationInfo)
       );
-      if (user.userId != null){
+      if (user != null){
         navigation.navigate('Obs');
       }
       else{
