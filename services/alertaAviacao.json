@@ -5,28 +5,28 @@
       "description": "O vulcão está no seu estado normal, não eruptivo.",
       "description2": "Ou, após uma alteração a partir de um nível de alerta superior:",
       "description3": "A atividade vulcânica terminou, e o vulcão voltou ao seu estado normal, não eruptivo.",
-      "color": "#004200"
+      "color": "#99ff99"
     },
     {
       "title": "Sistemas vulcânico com elevada instabilidade",
       "description": "O vulcão exibe sinais de elevada instabilidade, acima dos níveis normais de referência.",
       "description2": "Ou, após uma alteração a partir de um nível de alerta superior:",
       "description3": "A atividade vulcânica diminuiu significativamente, mas continua a ser atentamente monitorizada, devido à possibilidade de poder voltar a aumentar.",
-      "color": "#323200"
+      "color": "#ffff00"
     },
     {
       "title": "Sistema vulcânico em estado crítico de instabilidade",
       "description": "O vulcão exibe sinais de instabilidade muito elevada, existindo a possibilidade real de entrar em erupção.",
       "description2": "Ou,",
       "description3": "A erupção vulcânica está em curso, sem ou com menor emissão de cinzas [especificar a altura da coluna eruptiva, se possível].",
-      "color": "#653d00"
+      "color": "#ffc000"
     },
     {
       "title": "Erupção iminente ou em curso",
       "description": "Erupção vulcânica iminente, com emissão significativa de cinzas para a atmosfera.",
       "description2": "Ou,",
       "description3": "Erupção vulcânica em curso com emissão significativa de cinzas para a atmosfera [especificar a altura da coluna eruptiva, se possível].",
-      "color": "#ed0000"
+      "color": "#ff0000"
     }
   ]
 }

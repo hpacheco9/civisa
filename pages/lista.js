@@ -130,11 +130,15 @@ const Lista = () => {
 
   const MemoizedInfoContainer = useMemo(() => InfoContainer, []);
 
+  const feltEvents = useMemo(
+    () => form.filter((event) => event.intensidade !== "Não sentido"),
+    [form]
+  );
 
-  const feltEvents = useMemo(() => form.filter(
-    (event) => event.intensidade !== "Não sentido"), [form]);
-
-  const magGreaterThanThree = useMemo(() => form.filter((event) => event.magnitude >= 3), [form]);
+  const magGreaterThanThree = useMemo(
+    () => form.filter((event) => event.magnitude >= 3),
+    [form]
+  );
 
   const showAllEvents = () => {
     setFilteredEvents([...form]);
@@ -191,7 +195,10 @@ const Lista = () => {
           marginBottom: "5%",
         }}
         ListEmptyComponent={
-          <Text style={styles.noEventsText}>Nos útltimos 60 dias não foi resgistado qualquer evento com magnitude {"ML"} {"≥"} 4. </Text>
+          <Text style={styles.noEventsText}>
+            Nos útltimos 60 dias não foi resgistado qualquer evento com estas
+            características.{" "}
+          </Text>
         }
       />
     </>
@@ -213,7 +220,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     paddingHorizontal: 20,
-    marginTop: "20%"
+    marginTop: "20%",
   },
   button: {
     marginLeft: "4%",
@@ -225,11 +232,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   noEventsText: {
-    width: '80%',
-    textAlign: 'center',
+    width: "80%",
+    textAlign: "center",
     fontSize: 16,
     color: "black",
-    marginBottom: '30%'
+    marginBottom: "30%",
   },
 });
 

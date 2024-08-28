@@ -9,6 +9,7 @@ import {
 import Collapsible from "react-native-collapsible";
 import escala from "../services/macrossismica.json";
 import Voltar from "../components/Voltar.jsx";
+
 const escalaData = escala.escala;
 
 const Macrossismica = () => {
@@ -17,6 +18,24 @@ const Macrossismica = () => {
   const toggleExpand = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
+
+  const lastButtons = [
+    {
+      level: "X",
+      title: "Muito destrutivo",
+      color: "#ff6600",
+    },
+    {
+      level: "XI",
+      title: "Devastador",
+      color: "#e84d00",
+    },
+    {
+      level: "XII",
+      title: "Completamente devastador",
+      color: "#ba3e00",
+    },
+  ];
 
   return (
     <ScrollView>
@@ -49,6 +68,19 @@ const Macrossismica = () => {
               </View>
             </Collapsible>
           </View>
+        ))}
+        {lastButtons.map((button) => (
+          <TouchableOpacity
+            key={button.level}
+            style={[styles.containerValor, { backgroundColor: button.color }]}
+          >
+            <View style={styles.escalaContainer}>
+              <Text style={styles.escala}>{button.level}</Text>
+            </View>
+            <View style={styles.textContainer}>
+              <Text style={styles.textoBold}>{button.title}</Text>
+            </View>
+          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>

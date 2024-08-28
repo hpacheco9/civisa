@@ -62,27 +62,6 @@
       "description": "Pânico generalizado. As pessoas podem ser energeticamente lançadas ao chão.",
       "description2": "Muitos monumentos e colunas caem ou são rodados. Observam-se ondulações em solos brandos.",
       "color": "#ff8431"
-    },
-    {
-      "level": "X",
-      "title": "Muito destrutivo",
-      "description": "",
-      "description2": "",
-      "color": "#ff6600"
-    },
-    {
-      "level": "XI",
-      "title": "Devastador",
-      "description": "",
-      "description2": "",
-      "color": "#e84d00"
-    },
-    {
-      "level": "XII",
-      "title": "Completamente devastador",
-      "description": "",
-      "description2": "",
-      "color": "#ba3e00"
     }
   ]
 }

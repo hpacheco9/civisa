@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Inicio from "./pages/inicio.js";
@@ -28,13 +28,11 @@ import Macrossismica from "./pages/macrossismica.js";
 import Alertas from "./pages/alertas.js";
 import ListaEventos from "./pages/listaEventos.js";
 import Register from "./pages/registo.js";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import Notificacao from "./pages/notificacao.js";
+import Comunicados from "./pages/comunicados.js";
 
 const Stack = createStackNavigator();
 const App = () => {
- 
-
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -49,8 +47,8 @@ const App = () => {
           },
         }}
       >
-        <Stack.Screen name="Login" component={Login}  />
-        <Stack.Screen name="Inicio" component={Inicio}/>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Inicio" component={Inicio} />
         <Stack.Screen name="RGPD" component={Rgpd} />
         <Stack.Screen name="Data e Hora" component={DateInput} />
         <Stack.Screen name="Perguntas" component={Perguntas} />
@@ -76,10 +74,8 @@ const App = () => {
         <Stack.Screen name="Perfil" component={Perfil} />
         <Stack.Screen name="Registo" component={Register} />
         <Stack.Screen name="Registado" component={Registado} />
-        
-     
-      
-      
+        <Stack.Screen name="Notificacao" component={Notificacao} />
+        <Stack.Screen name="Comunicados" component={Comunicados} />
       </Stack.Navigator>
     </NavigationContainer>
   );

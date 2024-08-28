@@ -22,7 +22,9 @@ const AlertaVulcanico = () => {
     <ScrollView>
       <Voltar />
       <View style={styles.container}>
-        <Text style={styles.title}>Código de Alerta Vulcânico para a Região dos Açores (2023)</Text>
+        <Text style={styles.title}>
+          Código de Alerta Vulcânico para a Região dos Açores (2023)
+        </Text>
         {alertData.map((item, index) => (
           <View key={index}>
             <TouchableOpacity
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
   alerta: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#FFF",
+    color: "#000",
   },
   textContainer: {
     flex: 1,
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
   textoBold: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#FFF",
+    color: "#000",
   },
   descriptionContainer: {
     backgroundColor: "#f6f6f6",

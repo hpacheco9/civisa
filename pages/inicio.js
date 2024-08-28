@@ -54,6 +54,13 @@ const Inicio = () => {
   return (
     <View style={styles.container}>
       <View style={styles.containerLogo}>
+        <TouchableOpacity onPress={() => navigation.navigate("Notificacao")}>
+          <Iconify
+            icon="material-symbols:notifications-outline-rounded"
+            size={height * 0.05}
+            color={"black"}
+          />
+        </TouchableOpacity>
         <Image
           source={require("../assets/CIVISA_logo.png")}
           style={styles.logo}
@@ -180,6 +187,17 @@ const Inicio = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
+          onPress={() => navigation.navigate("Comunicados")}
+        >
+          <Iconify
+            icon="material-symbols:newspaper-rounded"
+            size={height * 0.09}
+            color={"#FFF"}
+          />
+          <Text style={styles.buttonText}>Comunicados</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => navigation.navigate("MenuAjuda")}
         >
           <Iconify
@@ -204,10 +222,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: "20%",
     paddingBottom: 40,
+    paddingHorizontal: 20,
     backgroundColor: "#FFF",
   },
   logo: {
-    width: "85%",
+    width: "75%",
     height: 40,
   },
   buttonsContainer: {

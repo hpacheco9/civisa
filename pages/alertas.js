@@ -20,7 +20,14 @@ const Alerta = () => {
       .then((response) => response.json())
       .then((data) => {
         const volcanicAlert = data.find((alert) => alert.Type === "Volcanic");
-        setAlertData(volcanicAlert ? volcanicAlert.Markers : []);
+        if (volcanicAlert && volcanicAlert.Markers) {
+          const sortedMarkers = volcanicAlert.Markers.sort(
+            (a, b) => b.Level - a.Level
+          );
+          setAlertData(sortedMarkers);
+        } else {
+          setAlertData([]);
+        }
         setLoading(false);
       })
       .catch((error) => {
@@ -59,7 +66,6 @@ const Alerta = () => {
               </TouchableOpacity>
               <Collapsible collapsed={expandedIndex !== index}>
                 <View style={styles.descriptionContainer}>
-            
                   <Text style={styles.descriptionText}>{item.Description}</Text>
                 </View>
               </Collapsible>
@@ -74,23 +80,23 @@ const Alerta = () => {
 const getColor = (level) => {
   switch (level) {
     case "0":
-      return "#25381e";
+      return "#daf2d0";
     case "1":
-      return "#2a2d02";
+      return "#ffffcd";
     case "2":
-      return "#323200";
+      return "#ffff00";
     case "3":
-      return "#59370a";
+      return "#ffcc99";
     case "4":
-      return "#653d00";
+      return "#ffc000";
     case "5":
-      return "#ed0000";
+      return "#ff0000";
     case "6":
       return "#c00000";
     case "7":
       return "#a50021";
     default:
-      return "#ffffff";
+      return "#000";
   }
 };
 
@@ -120,7 +126,7 @@ const styles = StyleSheet.create({
   alerta: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#FFF",
+    color: "#000",
   },
   textContainer: {
     flex: 1,
@@ -134,7 +140,7 @@ const styles = StyleSheet.create({
   textoBold: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#FFF",
+    color: "#000",
   },
   descriptionContainer: {
     backgroundColor: "#f6f6f6",
@@ -144,8 +150,6 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 0.5,
     borderTopWidth: 0,
-
-  
   },
   descriptionText: {
     fontSize: 16,

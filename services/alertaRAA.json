@@ -4,37 +4,37 @@
       "level": "V0",
       "title": "Sistema vulcânico em fase de repouso",
       "description": "Sistema vulcânico em fase de repouso - Atividade normal. Dado o enquadramento geodinâmico do arquipélago, a qualquer momento podem registar-se sismos, alterar-se os padrões de desgaseificação e/ou ocorrer movimentos de vertente, lahars secundários ou explosões de vapor. Podem registar-se erupções submarinas sem sinais premonitores detetáveis pelas redes de monitorização existentes. O mesmo pode acontecer em sistemas vulcânicos subaéreos não monitorizados ou cujas redes de monitorização são insuficientes. Embora mais raramente, podem ocorrer tsunamis, mesmo com origem em sismos distantes.",
-      "color": "#25381e"
+      "color": "#daf2d0"
     },
     {
       "level": "V1+",
       "title": "Sistema vulcânico em fase de equilíbrio metaestável",
       "description": "Sistema vulcânico em fase de equilíbrio metaestável - Atividade fraca, ligeiramente acima dos níveis de referência, de origem tectónica, hidrotermal e/ou magmática. A qualquer momento a atividade pode intensificar ao nível da sismicidade, pode alterar-se o padrão de desgaseificação e/ou podem ocorrer movimentos de vertente, lahars secundários ou explosões de vapor. Se a atividade se verifica no mar, podem registar-se erupções submarinas sem outros sinais premonitores detetáveis pelas redes de monitorização existentes. O mesmo pode acontecer em sistemas vulcânicos subaéreos cujas redes de monitorização são insuficientes. Embora mais raramente, podem ser gerados tsunamis.",
-      "color": "#2a2d02"
+      "color": "#ffffcd"
     },
     {
       "level": "V2+",
       "title": "Sistema vulcânico em fase de instabilidade",
       "description": "Sistema vulcânico em fase de instabilidade - Atividade moderada, claramente acima dos níveis de referência, de origem tectónica, hidrotermal e/ou magmática. A qualquer momento a atividade pode intensificar ao nível da sismicidade, pode alterar-se o padrão de desgaseificação e/ou podem ocorrer movimentos de vertente, lahars secundários ou explosões de vapor. Se a atividade se verifica no mar, podem registar-se erupções submarinas sem outros sinais premonitores detetáveis pelas redes de monitorização existentes. O mesmo pode acontecer em sistemas vulcânicos subaéreos cujas redes de monitorização são insuficientes. Embora mais raramente, podem ser gerados tsunamis.",
-      "color": "#323200"
+      "color": "#ffff00"
     },
     {
       "level": "V3+",
       "title": "Sistema vulcânico em fase de reativação",
       "description": "Sistema vulcânico em fase de reativação - Atividade elevada, francamente acima dos níveis de referência, com evidências que sugerem ou confirmam influência magmática.  A qualquer momento a atividade pode intensificar ao nível da sismicidade, pode alterar-se o padrão de desgaseificação e/ou podem ocorrer movimentos de vertente, lahars ou explosões de vapor.  Embora mais raramente, podem ser gerados tsunamis. A situação pode escalar para um estado pré-eruptivo, e em condições extremas pode não ser possível alertar para a iminência de erupção vulcânica em tempo útil. Se a atividade se verifica no mar, podem registar-se erupções submarinas sem outros sinais premonitores detetáveis pelas redes de monitorização existentes.",
-      "color": "#59370a"
+      "color": "#ffcc99"
     },
     {
       "level": "V4+",
       "title": "Sistema vulcânico em fase pré-eruptiva",
       "description": "Sistema vulcânico em fase pré-eruptiva. Atividade a um nível crítico, sendo de considerar a possibilidade real de uma erupção vulcânica. A qualquer momento a atividade pode intensificar ao nível da sismicidade, pode alterar-se o padrão de desgaseificação e/ou podem ocorrer movimentos de vertente, lahars ou explosões de vapor.  Embora mais raramente, podem ser gerados tsunamis. A situação pode escalar para uma erupção vulcânica, e em condições extremas pode não ser possível alertar para a iminência de erupção vulcânica em tempo útil. Se a atividade se verifica no mar, podem registar-se erupções submarinas sem outros sinais premonitores detetáveis pelas redes de monitorização existentes.",
-      "color": "#653d00"
+      "color": "#ffc000"
     },
     {
       "level": "V5+",
       "title": "Erupção com explosividade VEI 0/1/2/3",
       "description": "Erupção magmática ou hidromagmática em curso com um índice de explosividade VEI 0 (erupção efusiva - havaiana), VEI 1 (explosividade muito fraca - havaiana, estromboliana), VEI 2 (explosividade fraca - estromboliana, vulcaniana) ou VEI 3 (explosividade intensa - estromboliana, vulcaniana, peleana, subplinaina).",
-      "color": "#ed0000"
+      "color": "#ff0000"
     },
     {
       "level": "V6+",
@@ -52,31 +52,31 @@
       "level": "V4-",
       "title": "Atividade em fase decrescente",
       "description": "Atividade vulcânica em fase decrescente relativamente às últimas semanas (ou meses), mas parâmetros geofísicos, geodésicos e/ou geoquímicos ainda significativamente acima dos valores de referência. A situação mantém-se crítica e pode regredir se as condições do sistema vulcano-tectónico se alterarem.",
-      "color": "#653d00"
+      "color": "#ffc000"
     },
     {
       "level": "V3-",
       "title": "Atividade em fase decrescente",
       "description": "Atividade em fase decrescente relativamente às últimas semanas (ou meses), mas parâmetros geofísicos, geodésicos e/ou geoquímicos ainda francamente acima dos valores de referência. A situação é de elevada instabilidade e pode regredir se as condições do sistema vulcano-tectónico se alterarem.",
-      "color": "#59370a"
+      "color": "#ffcc99"
     },
     {
       "level": "V2-",
       "title": "Atividade em fase decrescente",
       "description": "Atividade em fase decrescente relativamente às últimas semanas (ou meses), mas parâmetros geofísicos, geodésicos e/ou geoquímicos ainda claramente acima dos valores de referência. A situação é ainda de instabilidade e não se pode excluir a possibilidade de regredir.",
-      "color": "#323200"
+      "color": "#ffff00"
     },
     {
       "level": "V1-",
       "title": "Atividade em fase decrescente",
       "description": "Atividade (vulcânica) em fase decrescente relativamente às últimas semanas, mas parâmetros geofísicos, geodésicos e/ou geoquímicos ainda acima dos valores de referência. A situação tende para o equilíbrio, cujos valores de referência poderão ter que ser ajustados a uma nova realidade.",
-      "color": "#2a2d02"
+      "color": "#ffffcd"
     },
     {
       "level": "V0",
       "title": "Estado de repouso",
       "description": "Estado de repouso - Atividade dentro dos níveis de referência iniciais ou considerada normal para os novos níveis de referência. Dado o enquadramento geodinâmico do arquipélago, a qualquer momento podem registar-se sismos, alterar-se os padrões de desgaseificação e/ou ocorrer movimentos de vertente, lahars ou explosões de vapor. Podem registar-se erupções submarinas sem sinais premonitores detetáveis pelas redes de monitorização existentes. Embora mais raramente, podem ocorrer tsunamis, mesmo com origem em sismos distantes.",
-      "color": "#25381e"
+      "color": "#daf2d0"
     }
   ]
 }
