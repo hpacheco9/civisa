@@ -3,11 +3,12 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, Toucha
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, updateProfile} from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId } from '@env';
 import Voltar from '../components/Voltar';
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
   apiKey,
@@ -42,14 +43,15 @@ const Register = () => {
   const handleRegister = async (values) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-    const user = userCredential.user.uid;
-     await setDoc(doc(firestore, 'users', user), {
+      const user = userCredential.user.uid;
+      await setDoc(doc(firestore, 'users', user), {
         Name: values.fullName,
         phone: values.phone,
         email: values.email,
         acceptedTerms: values.acceptTerms,
       });
-      navigation.navigate('Registado');
+      navigation.replace('Registado');
+      return;
     } catch (error) {
       console.error('Error registering user:', error.message);
       setRegisterError(error.message);
@@ -80,7 +82,6 @@ const Register = () => {
                 {touched.fullName && errors.fullName && (
                   <Text style={styles.errorText}>{errors.fullName}</Text>
                 )}
-
                 <Text style={styles.label}>Email</Text>
                 <TextInput
                   style={styles.input}
@@ -198,6 +199,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
+    marginTop: '3%',
     backgroundColor: "#000000",
     width: '50%',
     alignSelf: 'center',
@@ -230,6 +232,7 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 5,
   },
   checkedBoxBackground: {
     backgroundColor: '#000',

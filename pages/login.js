@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+ import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { auth } from './firebase';
 import {
   View,
-  ActivityIndicator,
   StyleSheet,
   Text,
   Keyboard,
@@ -28,39 +27,20 @@ const validationSchema = Yup.object().shape({
 const firestore = getFirestore();
 
 const Login = () => {
-  const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const navigation = useNavigation();
   const auth = getAuth();
-
-  useEffect(() => {
-    const checkUserStatus = async () => {
-      const isLoggedOut = await AsyncStorage.getItem("@loggedOut");
-      if (isLoggedOut === "true") {
-        setLoading(false);
-        return;
-      }
-      onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          navigation.navigate("Inicio");
-        } else {
-          setLoading(false);
-        }
-      });
-    };
-    checkUserStatus();
-  }, []);
-
+  
   const handleLogin = async (values, { setSubmitting }) => {
     try {
       const { email, password } = values;
       await signInWithEmailAndPassword(auth, email, password);
       if (rememberMe) {
-        const stringValue = JSON.stringify(false);
-        await AsyncStorage.setItem("@loggedOut",stringValue);
+        await AsyncStorage.setItem("@loggedOut",JSON.stringify(false));
       } 
       const user = await getUserByEmail(email);
+      console.log(user);
       await AsyncStorage.setItem("@user", JSON.stringify(user));
       navigation.navigate("Inicio");
     } catch (error) {
@@ -76,12 +56,10 @@ const Login = () => {
       const q = query(collection(firestore, 'users'), where('email', '==', email));
       const querySnapshot = await getDocs(q);
       if (querySnapshot.empty) {
-        console.log('No user found with this email.');
         return null;
       } else {
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data();
-        console.log('User data:', userData);
         return userData;
       }
     } catch (error) {
@@ -91,12 +69,7 @@ const Login = () => {
 
  
   return (
-    <>
-    {loading ?( <View style={styles.loadingContainer}>
-      <ActivityIndicator size="large" color="#0000ff" />
-      <Text>Loading...</Text>
-    </View>
-    ): (
+  
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <Text style={{ fontSize: height * 0.06, fontWeight: "bold", marginBottom: "30%" }}>CIVISA</Text>
@@ -141,6 +114,7 @@ const Login = () => {
               {touched.password && errors.password && (
                 <Text style={styles.errorText}>{errors.password}</Text>
               )}
+              <View style={{flexDirection: 'row', alignItems: 'space-between', marginTop:'3%'}}>
               <View style={styles.checkboxContainer}>
                 <TouchableOpacity
                   style={[
@@ -153,8 +127,16 @@ const Login = () => {
                     <Text style={styles.checkedBoxText}>✓</Text>
                   )}
                 </TouchableOpacity>
-                <Text style={styles.checkboxLabel}>Lembrar-me</Text>
+                <Text style={styles.checkboxLabel}>lembrar</Text>
               </View>
+              <View style={{marginLeft: '30%'}}>
+                <TouchableOpacity>  
+                  <Text style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>Recuperar password</Text>
+                </TouchableOpacity>
+              </View>
+
+              </View>
+             
               {loginError && <Text style={styles.errorText}>{loginError}</Text>}
               <TouchableOpacity
                 style={[
@@ -200,11 +182,8 @@ const Login = () => {
         </View>
       </View>
     </TouchableWithoutFeedback>
-    )}
-    </>
+
   );
-    
-    
 };
 
 const { height } = Dimensions.get("window");
@@ -259,6 +238,7 @@ const styles = StyleSheet.create({
     marginTop: "3%",
   },
   checkboxContainer: {
+    marginTop: 3,
     flexDirection: "row",
     alignItems: "center",
 
@@ -270,6 +250,7 @@ const styles = StyleSheet.create({
     borderColor: "#000",
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 5
   },
   checkedBoxBackground: {
     backgroundColor: "#000",
@@ -280,6 +261,7 @@ const styles = StyleSheet.create({
   },
   checkboxLabel: {
     marginLeft: 8,
+    fontWeight: 'bold'
   },
   loadingContainer: {
     flex: 1,

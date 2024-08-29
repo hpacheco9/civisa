@@ -13,6 +13,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getAuth} from "firebase/auth";
 
 const { height } = Dimensions.get("window");
 
@@ -20,13 +21,13 @@ const Inicio = () => {
   const navigation = useNavigation();
   const [isPanelVisible, setIsPanelVisible] = useState(false);
   const [user, setUser] = useState(null);
+  const auth = getAuth();
 
   useEffect(() => {
     const fetchUser = async () => {
       const userString = await AsyncStorage.getItem("@user");
       const user_2 = JSON.parse(userString);
       setUser(user_2);
-      console.log(user_2)
     };
 
     fetchUser();
@@ -39,17 +40,27 @@ const Inicio = () => {
   const handleOptionSelect = async (option) => {
     togglePanel();
     if (option === "Logout") {
-      await AsyncStorage.removeItem("@user");
-      await AsyncStorage.setItem("@loggedOut", "true");
-      navigation.navigate("Login");
+      try {
+        await auth.signOut();
+        setUser(null);
+        await AsyncStorage.removeItem("@user");
+        await AsyncStorage.setItem("@loggedOut", "true");
+        navigation.navigate("Login");
+        return;
+      } catch (error) {
+        console.error('Error signing out:', error.message);
+      }
     } else if (option === "Perfil") {
       navigation.navigate("Perfil");
+      return;
     } else if (option === "Signin") {
-      await AsyncStorage.setItem("@loggedOut", "true");
       await AsyncStorage.removeItem("@user");
-      navigation.navigate('Login')
+      await AsyncStorage.setItem("@loggedOut", "true");
+      navigation.navigate('Login');
+      return;
     }
   };
+  
 
   return (
     <View style={styles.container}>

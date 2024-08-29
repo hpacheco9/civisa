@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+// Import your screens
 import Inicio from "./pages/inicio.js";
 import DateInput from "./pages/data_hora.js";
 import Perguntas from "./pages/Inquerito.js";
@@ -22,16 +26,18 @@ import MenuGlossarios from "./pages/menuGlossarios.js";
 import GlossarioSismo from "./pages/glossarioSismo.js";
 import GlossarioVulcao from "./pages/glossarioVulcao.js";
 import Login from "./pages/login.js";
+import Register from "./pages/registo.js";
 import Registado from "./pages/registado.js";
 import Perfil from "./pages/perfil.js";
 import Macrossismica from "./pages/macrossismica.js";
 import Alertas from "./pages/alertas.js";
 import ListaEventos from "./pages/listaEventos.js";
-import Register from "./pages/registo.js";
 import Notificacao from "./pages/notificacao.js";
 import Comunicados from "./pages/comunicados.js";
+import SplashScreen from "./pages/splashscreen.js"
 
 const Stack = createStackNavigator();
+
 const App = () => {
   return (
     <NavigationContainer>
@@ -47,8 +53,8 @@ const App = () => {
           },
         }}
       >
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Inicio" component={Inicio} />
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
+       
         <Stack.Screen name="RGPD" component={Rgpd} />
         <Stack.Screen name="Data e Hora" component={DateInput} />
         <Stack.Screen name="Perguntas" component={Perguntas} />
@@ -76,6 +82,8 @@ const App = () => {
         <Stack.Screen name="Registado" component={Registado} />
         <Stack.Screen name="Notificacao" component={Notificacao} />
         <Stack.Screen name="Comunicados" component={Comunicados} />
+        <Stack.Screen name="Inicio" component={Inicio} />
+        <Stack.Screen name="Login" component={Login} />
       </Stack.Navigator>
     </NavigationContainer>
   );

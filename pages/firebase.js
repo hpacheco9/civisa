@@ -1,3 +1,4 @@
+// firebase.js
 import { initializeApp } from "firebase/app";
 import {
   initializeAuth,
@@ -12,7 +13,7 @@ import {
   messagingSenderId,
   appId,
   measurementId,
-} from "@env";  
+} from "@env";
 
 const firebaseConfig = {
   apiKey,
@@ -24,10 +25,14 @@ const firebaseConfig = {
   measurementId,
 };
 
-const app = initializeApp(firebaseConfig);
+let app;
+let auth;
 
-const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(AsyncStorage) 
-});
+if (!app) {
+  app = initializeApp(firebaseConfig);
+  auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(AsyncStorage)
+  });
+}
 
-export { auth };
+export { app, auth };

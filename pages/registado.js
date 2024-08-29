@@ -6,7 +6,6 @@ import registed from '../assets/registed.gif'
 
 const Registado = () => {
   const navigation = useNavigation();
-
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.navigate("Login");
