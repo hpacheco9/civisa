@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
- import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { auth } from './firebase';
@@ -17,13 +17,13 @@ import {
 } from "react-native";
 import { getFirestore, query, where, getDocs, collection } from "firebase/firestore";
 
-
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Email inválido").required("Email é obrigatório"),
   password: Yup.string()
     .min(6, "Password no mínimo 6 caracteres")
     .required("Password é obrigatório"),
 });
+
 const firestore = getFirestore();
 
 const Login = () => {
@@ -31,18 +31,34 @@ const Login = () => {
   const [loginError, setLoginError] = useState(null);
   const navigation = useNavigation();
   const auth = getAuth();
-  
+
+  const formikRef = React.useRef();
+
+  const resetLoginForm = useCallback(() => {
+    if (formikRef.current) {
+      formikRef.current.resetForm();
+    }
+    setLoginError(null);
+    setRememberMe(false);
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      resetLoginForm();
+    }, [resetLoginForm])
+  );
+
   const handleLogin = async (values, { setSubmitting }) => {
     try {
       const { email, password } = values;
       await signInWithEmailAndPassword(auth, email, password);
       if (rememberMe) {
-        await AsyncStorage.setItem("@loggedOut",JSON.stringify(false));
+        await AsyncStorage.setItem("@loggedOut", JSON.stringify(false));
       } 
       const user = await getUserByEmail(email);
-      console.log(user);
       await AsyncStorage.setItem("@user", JSON.stringify(user));
       navigation.navigate("Inicio");
+      return;
     } catch (error) {
       setLoginError("Login failed. Please check your email and password.");
       console.error(error);
@@ -67,14 +83,14 @@ const Login = () => {
     }
   };
 
- 
   return (
-  
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <Text style={{ fontSize: height * 0.06, fontWeight: "bold", marginBottom: "30%" }}>CIVISA</Text>
         <Text style={styles.title}>Login</Text>
+        <View>
         <Formik
+          innerRef={formikRef}
           initialValues={{ email: "", password: "" }}
           validationSchema={validationSchema}
           onSubmit={handleLogin}
@@ -99,9 +115,10 @@ const Login = () => {
                 keyboardType="email-address"
                 autoCapitalize="none"
               />
-              {touched.email && errors.email && (
-                <Text style={styles.errorText}>{errors.email}</Text>
-              )}
+              <Text style={styles.errorText}>
+                {touched.email && errors.email ? errors.email : " "}
+              </Text>
+
               <Text style={styles.label}>Password</Text>
               <TextInput
                 style={styles.input}
@@ -111,33 +128,34 @@ const Login = () => {
                 value={values.password}
                 secureTextEntry
               />
-              {touched.password && errors.password && (
-                <Text style={styles.errorText}>{errors.password}</Text>
-              )}
-              <View style={{flexDirection: 'row', alignItems: 'space-between', marginTop:'3%'}}>
-              <View style={styles.checkboxContainer}>
-                <TouchableOpacity
-                  style={[
-                    styles.checkbox,
-                    rememberMe && styles.checkedBoxBackground,
-                  ]}
-                  onPress={() => setRememberMe(!rememberMe)}
-                >
-                  {rememberMe && (
-                    <Text style={styles.checkedBoxText}>✓</Text>
-                  )}
-                </TouchableOpacity>
-                <Text style={styles.checkboxLabel}>lembrar</Text>
-              </View>
-              <View style={{marginLeft: '30%'}}>
-                <TouchableOpacity>  
-                  <Text style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>Recuperar password</Text>
-                </TouchableOpacity>
+              <Text style={styles.errorText}>
+                {touched.password && errors.password ? errors.password : " "}
+              </Text>
+
+              <View style={{ flexDirection: 'row', alignItems: 'space-between'}}>
+                <View style={styles.checkboxContainer}>
+                  <TouchableOpacity
+                    style={[
+                      styles.checkbox,
+                      rememberMe && styles.checkedBoxBackground,
+                    ]}
+                    onPress={() => setRememberMe(!rememberMe)}
+                  >
+                    {rememberMe && (
+                      <Text style={styles.checkedBoxText}>✓</Text>
+                    )}
+                  </TouchableOpacity>
+                  <Text style={styles.checkboxLabel}>lembrar</Text>
+                </View>
+                <View style={{ marginLeft: '30%' }}>
+                  <TouchableOpacity>  
+                    <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>Recuperar password</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
 
-              </View>
-             
               {loginError && <Text style={styles.errorText}>{loginError}</Text>}
+              <View style={{alignItems: 'center', marginRight: '17%'}}>
               <TouchableOpacity
                 style={[
                   styles.button,
@@ -150,9 +168,13 @@ const Login = () => {
                   {isSubmitting ? "Logging in..." : "Login"}
                 </Text>
               </TouchableOpacity>
+
+              </View>
+
             </View>
           )}
         </Formik>
+        </View>
         <TouchableOpacity
           style={{ marginTop: "10%", marginLeft: "5%" }}
           onPress={async () => {
@@ -163,7 +185,7 @@ const Login = () => {
             navigation.navigate("Inicio");
           }}
         >
-          <Text style={{ textDecorationLine: "underline", textAlign: 'center'}}>
+          <Text style={{ textDecorationLine: "underline", textAlign: 'center', marginRight: 2}}>
             Entrar como convidado
           </Text>
         </TouchableOpacity>
@@ -182,7 +204,6 @@ const Login = () => {
         </View>
       </View>
     </TouchableWithoutFeedback>
-
   );
 };
 
@@ -198,7 +219,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: height * 0.03,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   form: {
     width: "90%",
@@ -208,18 +229,20 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 10,
     borderRadius: 5,
-    marginBottom: 10,
     borderWidth: 1,
     borderColor: "#ddd",
   },
   errorText: {
     color: "red",
+    height: 20, 
     marginBottom: 10,
+    marginTop: 10
   },
   button: {
+    justifyContent: 'center',
     marginTop: "15%",
     backgroundColor: "#000000",
-    width: "50%",
+    width: 150,
     marginLeft: "25%",
     padding: 15,
     borderRadius: 5,
@@ -238,10 +261,8 @@ const styles = StyleSheet.create({
     marginTop: "3%",
   },
   checkboxContainer: {
-    marginTop: 3,
     flexDirection: "row",
     alignItems: "center",
-
   },
   checkbox: {
     width: 20,
@@ -250,7 +271,7 @@ const styles = StyleSheet.create({
     borderColor: "#000",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 5
+    borderRadius: 5,
   },
   checkedBoxBackground: {
     backgroundColor: "#000",

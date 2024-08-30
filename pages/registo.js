@@ -9,6 +9,7 @@ import { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId,
 import Voltar from '../components/Voltar';
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const firebaseConfig = {
   apiKey,
@@ -27,9 +28,9 @@ let firestore;
 app = initializeApp(firebaseConfig);
 auth = getAuth(app);
 firestore = getFirestore(app);
-
 const validationSchema = Yup.object().shape({
-  fullName: Yup.string().required('Nome completo é obrigatório'),
+  firstName: Yup.string().required('Primeiro nome é obrigatório'),
+  lastName: Yup.string().required('Último nome é obrigatório'),
   email: Yup.string().email('Invalid email').required('Email é obrigatório'),
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password é obrigatório'),
   phone: Yup.string().matches(/^[0-9]{9}$/, 'O numero deve ter 9 digitos').required('Telemóvel é obrigatório'),
@@ -44,8 +45,9 @@ const Register = () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user.uid;
+      const fullName = values.firstName + ' ' + values.lastName;
       await setDoc(doc(firestore, 'users', user), {
-        Name: values.fullName,
+        Name: fullName,
         phone: values.phone,
         email: values.email,
         acceptedTerms: values.acceptTerms,
@@ -59,68 +61,102 @@ const Register = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <ScrollView>
+       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <>  
         <Voltar />
         <View style={styles.container}>
           <Text style={styles.title}>Registo</Text>
           <Formik
-            initialValues={{ fullName: '', email: '', password: '', phone: '', acceptTerms: false }}
+            initialValues={{ firstName: '', lastName: '', email: '', password: '', phone: '', acceptTerms: false }}
             validationSchema={validationSchema}
             onSubmit={handleRegister}
           >
             {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched, isSubmitting }) => (
               <View style={styles.form}>
-                <Text style={styles.label}>Nome compelto</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Introduza o seu nome"
-                  onChangeText={handleChange("fullName")}
-                  onBlur={handleBlur("fullName")}
-                  value={values.fullName}
-                />
-                {touched.fullName && errors.fullName && (
-                  <Text style={styles.errorText}>{errors.fullName}</Text>
-                )}
-                <Text style={styles.label}>Email</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Introduza o seu email"
-                  onChangeText={handleChange("email")}
-                  onBlur={handleBlur("email")}
-                  value={values.email}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                />
-                {touched.email && errors.email && (
-                  <Text style={styles.errorText}>{errors.email}</Text>
-                )}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Primeiro Nome</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Introduza o seu primeiro nome"
+                    onChangeText={handleChange("firstName")}
+                    onBlur={handleBlur("firstName")}
+                    value={values.firstName}
+                  />
+                  <View style={styles.errorContainer}>
+                    {touched.firstName && errors.firstName && (
+                      <Text style={styles.errorText}>{errors.firstName}</Text>
+                    )}
+                  </View>
+                </View>
 
-                <Text style={styles.label}>Password</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Introduza a sua password"
-                  onChangeText={handleChange("password")}
-                  onBlur={handleBlur("password")}
-                  value={values.password}
-                  secureTextEntry
-                />
-                {touched.password && errors.password && (
-                  <Text style={styles.errorText}>{errors.password}</Text>
-                )}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Último Nome</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Introduza o seu último nome"
+                    onChangeText={handleChange("lastName")}
+                    onBlur={handleBlur("lastName")}
+                    value={values.lastName}
+                  />
+                  <View style={styles.errorContainer}>
+                    {touched.lastName && errors.lastName && (
+                      <Text style={styles.errorText}>{errors.lastName}</Text>
+                    )}
+                  </View>
+                </View>
 
-                <Text style={styles.label}>Telemóvel</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Introduza o seu número de telemóvel"
-                  onChangeText={handleChange("phone")}
-                  onBlur={handleBlur("phone")}
-                  value={values.phone}
-                  keyboardType="phone-pad"
-                />
-                {touched.phone && errors.phone && (
-                  <Text style={styles.errorText}>{errors.phone}</Text>
-                )}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Email</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Introduza o seu email"
+                    onChangeText={handleChange("email")}
+                    onBlur={handleBlur("email")}
+                    value={values.email}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                  />
+                  <View style={styles.errorContainer}>
+                    {touched.email && errors.email && (
+                      <Text style={styles.errorText}>{errors.email}</Text>
+                    )}
+                  </View>
+                </View>
+
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Password</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Introduza a sua password"
+                    onChangeText={handleChange("password")}
+                    onBlur={handleBlur("password")}
+                    value={values.password}
+                    secureTextEntry
+                  />
+                  <View style={styles.errorContainer}>
+                    {touched.password && errors.password && (
+                      <Text style={styles.errorText}>{errors.password}</Text>
+                    )}
+                  </View>
+                </View>
+
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Telemóvel</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Introduza o seu número de telemóvel"
+                    onChangeText={handleChange("phone")}
+                    onBlur={handleBlur("phone")}
+                    value={values.phone}
+                    keyboardType="phone-pad"
+                  />
+                  <View style={styles.errorContainer}>
+                    {touched.phone && errors.phone && (
+                      <Text style={styles.errorText}>{errors.phone}</Text>
+                    )}
+                  </View>
+                </View>
 
                 <View style={styles.checkboxContainer}>
                   <TouchableOpacity
@@ -134,9 +170,11 @@ const Register = () => {
                   </TouchableOpacity>
                   <Text style={styles.checkboxLabel}>Aceito os termos e condições</Text>
                 </View>
-                {touched.acceptTerms && errors.acceptTerms && (
-                  <Text style={styles.errorText}>{errors.acceptTerms}</Text>
-                )}
+                <View style={styles.errorContainer}>
+                  {touched.acceptTerms && errors.acceptTerms && (
+                    <Text style={styles.errorText}>{errors.acceptTerms}</Text>
+                  )}
+                </View>
 
                 {registerError && (
                   <Text style={styles.errorText}>{registerError}</Text>
@@ -157,6 +195,9 @@ const Register = () => {
         </View>
       </>
     </TouchableWithoutFeedback>
+
+    </ScrollView>
+   
   );
 };
 
@@ -190,16 +231,22 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 10,
     borderRadius: 5,
-    marginBottom: 10,
     borderWidth: 1,
     borderColor: "#ddd",
   },
+  errorContainer: {
+    height: 20, // Fixed height for error messages
+    justifyContent: 'center', // Center error text vertically
+  },
+  inputContainer: {
+    marginBottom: 10, 
+  },
   errorText: {
     color: "red",
-    marginBottom: 10,
+    marginTop: 5, 
   },
   button: {
-    marginTop: '3%',
+    marginTop: '5%',
     backgroundColor: "#000000",
     width: '50%',
     alignSelf: 'center',
@@ -220,10 +267,9 @@ const styles = StyleSheet.create({
     marginTop: '3%',
   },
   checkboxContainer: {
-    marginTop: '2%',
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 10,
   },
   checkbox: {
     width: 20,

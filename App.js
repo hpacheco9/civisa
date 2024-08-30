@@ -53,8 +53,7 @@ const App = () => {
           },
         }}
       >
-        <Stack.Screen name="SplashScreen" component={SplashScreen} />
-       
+        <Stack.Screen name="SplashScreen" component={SplashScreen}/>
         <Stack.Screen name="RGPD" component={Rgpd} />
         <Stack.Screen name="Data e Hora" component={DateInput} />
         <Stack.Screen name="Perguntas" component={Perguntas} />
