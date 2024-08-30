@@ -35,6 +35,7 @@ import ListaEventos from "./pages/listaEventos.js";
 import Notificacao from "./pages/notificacao.js";
 import Comunicados from "./pages/comunicados.js";
 import SplashScreen from "./pages/splashscreen.js"
+import Recuperar from "./pages/recuperar.js";
 
 const Stack = createStackNavigator();
 
@@ -83,6 +84,7 @@ const App = () => {
         <Stack.Screen name="Comunicados" component={Comunicados} />
         <Stack.Screen name="Inicio" component={Inicio} />
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Recuperar" component={Recuperar} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -168,7 +168,12 @@ const Register = () => {
                   >
                     {values.acceptTerms && <Text style={styles.checkedBoxText}>✓</Text>}
                   </TouchableOpacity>
-                  <Text style={styles.checkboxLabel}>Aceito os termos e condições</Text>
+                  <TouchableOpacity onPress={() =>{
+                    navigation.navigate('RGPD');
+                  }}>
+                    <Text style={styles.checkboxLabel}>Aceito os termos e condições</Text>
+                  </TouchableOpacity>
+                  
                 </View>
                 <View style={styles.errorContainer}>
                   {touched.acceptTerms && errors.acceptTerms && (
@@ -235,8 +240,8 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
   },
   errorContainer: {
-    height: 20, // Fixed height for error messages
-    justifyContent: 'center', // Center error text vertically
+    height: 20, 
+    justifyContent: 'center', 
   },
   inputContainer: {
     marginBottom: 10, 
@@ -289,6 +294,7 @@ const styles = StyleSheet.create({
   },
   checkboxLabel: {
     marginLeft: 8,
+    textDecorationLine: 'underline'
   },
 });
 

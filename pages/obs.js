@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import firebaseConfig from "../services/Database.js";
+import NetInfo from "@react-native-community/netinfo";
 
 const validationSchema = Yup.object().shape({
   observations: Yup.string()
@@ -17,6 +18,18 @@ const validationSchema = Yup.object().shape({
 const Obs = () => {
     const navigation = useNavigation();
     const handleFormSubmit = async (values, { setSubmitting }) => {
+
+      const netInfo = await NetInfo.fetch();
+      if (!netInfo.isConnected) {
+          Alert.alert(
+              "Sem internet",
+              "Por favor verifique a sua ligação à internet",
+              [{ text: "OK" }]
+          );
+          setSubmitting(false);
+          return;
+      }
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const userString = await AsyncStorage.getItem('@user');
@@ -36,7 +49,6 @@ const Obs = () => {
         const contacts = await AsyncStorage.getItem('@contactInfo');
         const local = await AsyncStorage.getItem('@locationInfo');
         const form = await AsyncStorage.getItem('@formAnswers');
-        console.log(form);
         const data = await AsyncStorage.getItem('@selectedDateTime');
         await AsyncStorage.setItem('observations', values.observations);
         const dataToStore = {

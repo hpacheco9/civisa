@@ -148,7 +148,9 @@ const Login = () => {
                   <Text style={styles.checkboxLabel}>lembrar</Text>
                 </View>
                 <View style={{ marginLeft: '30%' }}>
-                  <TouchableOpacity>  
+                  <TouchableOpacity onPress={() =>{
+                    navigation.navigate('Recuperar')
+                  }}>  
                     <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>Recuperar password</Text>
                   </TouchableOpacity>
                 </View>
@@ -227,7 +229,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "white",
     height: 50,
-    padding: 10,
+    padding: 20,
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "#ddd",
