@@ -1,8 +1,5 @@
-import React from "react";
-import { View, StyleSheet, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity, ActivityIndicator } from "react-native";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import InputText from "../components/inputText";
+import React, { useState } from "react";
+import { View, StyleSheet, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity, ActivityIndicator, TextInput, Alert } from "react-native";
 import Voltar from "../components/Voltar";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -11,13 +8,13 @@ import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import firebaseConfig from "../services/Database.js";
 import NetInfo from "@react-native-community/netinfo";
 
-const validationSchema = Yup.object().shape({
-  observations: Yup.string()
-});
-
 const Obs = () => {
     const navigation = useNavigation();
-    const handleFormSubmit = async (values, { setSubmitting }) => {
+    const [observations, setObservations] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleSubmit = async () => {
+      setIsSubmitting(true);
 
       const netInfo = await NetInfo.fetch();
       if (!netInfo.isConnected) {
@@ -26,44 +23,45 @@ const Obs = () => {
               "Por favor verifique a sua ligação à internet",
               [{ text: "OK" }]
           );
-          setSubmitting(false);
+          setIsSubmitting(false);
           return;
       }
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const userString = await AsyncStorage.getItem('@user');
-        const user = JSON.parse(userString);
-        if(user != null){
-          const contactInfo = {
-            name: user.Name,
-            phone: user.phone,
-            email: user.email,
-          };
-            await AsyncStorage.setItem(
-              "@contactInfo",
-              JSON.stringify(contactInfo)
-            );
-        }
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const userString = await AsyncStorage.getItem('@user');
+      const user = JSON.parse(userString);
+      if(user != null){
+        const contactInfo = {
+          name: user.Name,
+          phone: user.phone,
+          email: user.email,
+        };
+        await AsyncStorage.setItem(
+          "@contactInfo",
+          JSON.stringify(contactInfo)
+        );
+      }
       try {
         const contacts = await AsyncStorage.getItem('@contactInfo');
         const local = await AsyncStorage.getItem('@locationInfo');
         const form = await AsyncStorage.getItem('@formAnswers');
         const data = await AsyncStorage.getItem('@selectedDateTime');
-        await AsyncStorage.setItem('observations', values.observations);
+        await AsyncStorage.setItem('observations', observations);
         const dataToStore = {
           contacts: JSON.parse(contacts),
           location: JSON.parse(local),
           formAnswers: JSON.parse(form),
-          observations: values.observations,
+          observations: observations,
           timestamp: JSON.parse(data),
         };
-        const ref = await addDoc(collection(db, 'submissions'), dataToStore);   
+        await addDoc(collection(db, 'submissions'), dataToStore);   
         navigation.navigate('Success'); 
       } catch (error) {
         console.error('Failed to save data:', error);
+        Alert.alert("Erro", "Falha ao salvar os dados. Por favor, tente novamente.");
       } finally {
-        setSubmitting(false);
+        setIsSubmitting(false);
       }
     };
   
@@ -76,43 +74,32 @@ const Obs = () => {
           <View style={styles.container}>
             <Text style={styles.header}>Observações</Text>
             
-            <Formik
-              initialValues={{ observations: '' }}
-              validationSchema={validationSchema}
-              onSubmit={handleFormSubmit}
+            <TextInput
+              placeholder="Digite suas observações aqui"
+              onChangeText={setObservations}
+              value={observations}
+              style={styles.input}
+              editable={!isSubmitting}
+              multiline={true}
+              textAlignVertical="top"
+            />
+            
+            <TouchableOpacity 
+              style={[styles.submitButton, isSubmitting && styles.disabledButton]}
+              onPress={handleSubmit}
+              disabled={isSubmitting}
             >
-              {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
-                <>
-                  <InputText
-                    placeholder="Observação"
-                    onChangeText={handleChange('observations')}
-                    onBlur={handleBlur('observations')}
-                    value={values.observations}
-                    style={styles.input}
-                    editable={!isSubmitting}
-                  />
-                  {touched.observations && errors.observations && (
-                    <Text style={styles.errorText}>{errors.observations}</Text>
-                  )}
-                  <TouchableOpacity 
-                    style={[styles.submitButton, isSubmitting && styles.disabledButton]}
-                    onPress={handleSubmit}
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? (
-                      <ActivityIndicator color="white" />
-                    ) : (
-                      <Text style={styles.submitButtonText}>Submeter</Text>
-                    )}
-                  </TouchableOpacity>
-                </>
+              {isSubmitting ? (
+                <ActivityIndicator color="white" />
+              ) : (
+                <Text style={styles.submitButtonText}>Submeter</Text>
               )}
-            </Formik>
+            </TouchableOpacity>
           </View>
         </View>
       </TouchableWithoutFeedback>
     );
-  };
+};
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -141,30 +128,25 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
-    height: 40,
-    padding: 8,
+    height: 100, 
+    padding: 12,
     borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: 4,
+    borderRadius: 8,
     marginVertical: 8,
-  },
-  errorText: {
-    color: 'red',
-    fontSize: 12,
+    fontSize: 16, 
   },
   submitButton: {
     backgroundColor: "#000000",
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 5,
-    color: "#FFFFFF",
-    marginLeft: "10%",
-    marginRight: "10%",
-    marginTop: "15%",
+    marginTop: 20,
   },
   submitButtonText: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize: 16,
   },
   disabledButton: {
     backgroundColor: '#999',

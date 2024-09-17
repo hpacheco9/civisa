@@ -8,7 +8,6 @@ import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId } from '@env';
 import Voltar from '../components/Voltar';
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const firebaseConfig = {
@@ -33,6 +32,9 @@ const validationSchema = Yup.object().shape({
   lastName: Yup.string().required('Último nome é obrigatório'),
   email: Yup.string().email('Invalid email').required('Email é obrigatório'),
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password é obrigatório'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Passwords não coincidem')
+    .required('Confirme a password'),
   phone: Yup.string().matches(/^[0-9]{9}$/, 'O numero deve ter 9 digitos').required('Telemóvel é obrigatório'),
   acceptTerms: Yup.boolean().oneOf([true], 'Aceite os termos e condições')
 });
@@ -61,14 +63,16 @@ const Register = () => {
   };
 
   return (
-    <ScrollView>
-       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+   
       <>  
         <Voltar />
+        <View style={{backgroundColor: '#ffffff', height: 120}}></View>
+        <ScrollView>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <Text style={styles.title}>Registo</Text>
           <Formik
-            initialValues={{ firstName: '', lastName: '', email: '', password: '', phone: '', acceptTerms: false }}
+            initialValues={{ firstName: '', lastName: '', email: '', password: '', confirmPassword: '', phone: '', acceptTerms: false }}
             validationSchema={validationSchema}
             onSubmit={handleRegister}
           >
@@ -123,24 +127,46 @@ const Register = () => {
                     )}
                   </View>
                 </View>
+                <View style={{marginTop: '10%'}}>
+                    <View style={styles.inputContainer}>
+                      <Text style={styles.label}>Password</Text>
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Introduza a sua password"
+                        onChangeText={handleChange("password")}
+                        onBlur={handleBlur("password")}
+                        value={values.password}
+                        secureTextEntry
+                      />
+                      <View style={styles.errorContainer}>
+                        {touched.password && errors.password && (
+                          <Text style={styles.errorText}>{errors.password}</Text>
+                        )}
+                    </View>
+                  
+                    </View>
+                        <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Confirmar Password</Text>
+                        <TextInput
+                          style={styles.input}
+                          placeholder="Confirme a sua password"
+                          onChangeText={handleChange("confirmPassword")}
+                          onBlur={handleBlur("confirmPassword")}
+                          value={values.confirmPassword}
+                          secureTextEntry
+                        />
+                        <View style={styles.errorContainer}>
+                          {touched.confirmPassword && errors.confirmPassword && (
+                            <Text style={styles.errorText}>{errors.confirmPassword}</Text>
+                          )}
+                        </View>
+                    </View>
 
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Password</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Introduza a sua password"
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
-                    value={values.password}
-                    secureTextEntry
-                  />
-                  <View style={styles.errorContainer}>
-                    {touched.password && errors.password && (
-                      <Text style={styles.errorText}>{errors.password}</Text>
-                    )}
-                  </View>
+
                 </View>
+               
 
+                
                 <View style={styles.inputContainer}>
                   <Text style={styles.label}>Telemóvel</Text>
                   <TextInput
@@ -168,12 +194,14 @@ const Register = () => {
                   >
                     {values.acceptTerms && <Text style={styles.checkedBoxText}>✓</Text>}
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() =>{
-                    navigation.navigate('RGPD');
-                  }}>
-                    <Text style={styles.checkboxLabel}>Aceito os termos e condições</Text>
-                  </TouchableOpacity>
-                  
+                  <View style={{flexDirection: 'row'}}>
+                    <Text>  Li e aceitos os</Text>
+                    <TouchableOpacity onPress={() =>{
+                      navigation.navigate('RGPD');
+                    }}>
+                      <Text style={styles.checkboxLabel}>termos e condições</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
                 <View style={styles.errorContainer}>
                   {touched.acceptTerms && errors.acceptTerms && (
@@ -197,12 +225,14 @@ const Register = () => {
               </View>
             )}
           </Formik>
+        
         </View>
+        
+        </TouchableWithoutFeedback>
+        </ScrollView>
+        <View style={{backgroundColor: '#ffffff', height: 20}}></View>
       </>
-    </TouchableWithoutFeedback>
-
-    </ScrollView>
-   
+  
   );
 };
 
@@ -212,7 +242,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    marginTop: '33%',
+    marginTop: '5%',
     padding: 20,
     backgroundColor: "#ffffff",
   },
@@ -294,7 +324,8 @@ const styles = StyleSheet.create({
   },
   checkboxLabel: {
     marginLeft: 8,
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
+    fontWeight: 'bold'
   },
 });
 

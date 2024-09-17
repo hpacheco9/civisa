@@ -1,4 +1,7 @@
+import { getFirestore, query, where, getDocs, collection } from "firebase/firestore";
+const firestore = getFirestore();
 const getUserByEmail = async (email) => {
+
     try {
       const q = query(collection(firestore, 'users'), where('email', '==', email));
       const querySnapshot = await getDocs(q);

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import NetInfo from "@react-native-community/netinfo";
 
-// Import your screens
 import Inicio from "./pages/inicio.js";
 import DateInput from "./pages/data_hora.js";
 import Perguntas from "./pages/Inquerito.js";
@@ -34,12 +32,29 @@ import Alertas from "./pages/alertas.js";
 import ListaEventos from "./pages/listaEventos.js";
 import Notificacao from "./pages/notificacao.js";
 import Comunicados from "./pages/comunicados.js";
-import SplashScreen from "./pages/splashscreen.js"
+import SplashScreen from "./pages/splashscreen.js";
 import Recuperar from "./pages/recuperar.js";
+import NoEthernetScreen from "./pages/ethernet.js"; 
 
 const Stack = createStackNavigator();
 
 const App = () => {
+  const [isCon, setCon] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener( state => {
+     if (state.isConnected === false){
+        setCon(false);
+     }else{
+      setCon(true);
+     }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -54,37 +69,47 @@ const App = () => {
           },
         }}
       >
-        <Stack.Screen name="SplashScreen" component={SplashScreen}/>
-        <Stack.Screen name="RGPD" component={Rgpd} />
-        <Stack.Screen name="Data e Hora" component={DateInput} />
-        <Stack.Screen name="Perguntas" component={Perguntas} />
-        <Stack.Screen name="Contactos" component={Contactos} />
-        <Stack.Screen name="Lista" component={Lista} />
-        <Stack.Screen name="Mapa" component={Mapa} />
-        <Stack.Screen name="Sismo" component={Sismo} />
-        <Stack.Screen name="MenuAjuda" component={MenuAjuda} />
-        <Stack.Screen name="Localizacao" component={Localizacao} />
-        <Stack.Screen name="MenuEscala" component={MenuEscala} />
-        <Stack.Screen name="Escala" component={Escala} />
-        <Stack.Screen name="AlertaVulcanico" component={AlertaVulcanico} />
-        <Stack.Screen name="AlertaAviacao" component={AlertaAviacao} />
-        <Stack.Screen name="Obs" component={Obs} />
-        <Stack.Screen name="Success" component={SuccessScreen} />
-        <Stack.Screen name="QuemSomos" component={QuemSomos} />
-        <Stack.Screen name="MenuGlossarios" component={MenuGlossarios} />
-        <Stack.Screen name="GlossarioSismo" component={GlossarioSismo} />
-        <Stack.Screen name="GlossarioVulcao" component={GlossarioVulcao} />
-        <Stack.Screen name="Macrossismica" component={Macrossismica} />
-        <Stack.Screen name="Alertas" component={Alertas} />
-        <Stack.Screen name="ListaEventos" component={ListaEventos} />
-        <Stack.Screen name="Perfil" component={Perfil} />
-        <Stack.Screen name="Registo" component={Register} />
-        <Stack.Screen name="Registado" component={Registado} />
-        <Stack.Screen name="Notificacao" component={Notificacao} />
-        <Stack.Screen name="Comunicados" component={Comunicados} />
-        <Stack.Screen name="Inicio" component={Inicio} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Recuperar" component={Recuperar} />
+        {!isCon ? (
+          <Stack.Screen
+            name="NoConnection"
+            component={NoEthernetScreen}
+            options={{ headerShown: false }}
+          />
+        ) : (
+          <>
+            <Stack.Screen name="SplashScreen" component={SplashScreen} />
+            <Stack.Screen name="RGPD" component={Rgpd} />
+            <Stack.Screen name="Data e Hora" component={DateInput} />
+            <Stack.Screen name="Perguntas" component={Perguntas} />
+            <Stack.Screen name="Contactos" component={Contactos} />
+            <Stack.Screen name="Lista" component={Lista} />
+            <Stack.Screen name="Mapa" component={Mapa} />
+            <Stack.Screen name="Sismo" component={Sismo} />
+            <Stack.Screen name="MenuAjuda" component={MenuAjuda} />
+            <Stack.Screen name="Localizacao" component={Localizacao} />
+            <Stack.Screen name="MenuEscala" component={MenuEscala} />
+            <Stack.Screen name="Escala" component={Escala} />
+            <Stack.Screen name="AlertaVulcanico" component={AlertaVulcanico} />
+            <Stack.Screen name="AlertaAviacao" component={AlertaAviacao} />
+            <Stack.Screen name="Obs" component={Obs} />
+            <Stack.Screen name="Success" component={SuccessScreen} />
+            <Stack.Screen name="QuemSomos" component={QuemSomos} />
+            <Stack.Screen name="MenuGlossarios" component={MenuGlossarios} />
+            <Stack.Screen name="GlossarioSismo" component={GlossarioSismo} />
+            <Stack.Screen name="GlossarioVulcao" component={GlossarioVulcao} />
+            <Stack.Screen name="Macrossismica" component={Macrossismica} />
+            <Stack.Screen name="Alertas" component={Alertas} />
+            <Stack.Screen name="ListaEventos" component={ListaEventos} />
+            <Stack.Screen name="Perfil" component={Perfil} />
+            <Stack.Screen name="Registo" component={Register} />
+            <Stack.Screen name="Registado" component={Registado} />
+            <Stack.Screen name="Notificacao" component={Notificacao} />
+            <Stack.Screen name="Comunicados" component={Comunicados} />
+            <Stack.Screen name="Inicio" component={Inicio} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Recuperar" component={Recuperar} />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

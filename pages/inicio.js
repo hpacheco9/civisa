@@ -154,7 +154,13 @@ const Inicio = () => {
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("RGPD")}
+          onPress={() => {
+            if (user){
+              navigation.navigate('Data e Hora');
+            }else{
+              navigation.navigate('RGPD');
+            }
+          }}
         >
           <Iconify
             icon="material-symbols:checklist-rtl-rounded"

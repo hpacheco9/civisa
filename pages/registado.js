@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import registed from '../assets/registed.gif'
+import LottieView from "lottie-react-native";
+import animation from '../sucess.json'
 
 
 const Registado = () => {
@@ -15,14 +16,20 @@ const Registado = () => {
   }, [navigation]);
 
  return (
-    <View style={styles.container}>
-      <Image
-        style={{height: 100, width: 100}}
-        source={registed}
-        resizeMode="contain"
-      />
-      <Text style={styles.thankYouText}>Registado com sucesso!</Text>
-    </View>
+  <View style={styles.container}>
+  <LottieView
+    autoPlay
+    style={{
+      width: 300,
+      height:300
+    }}
+    loop={false}
+    source={animation}
+  />
+  <Text style={{fontSize: 18}}>
+    Registado com Sucesso! 
+  </Text>
+  </View>
   );
 };
 

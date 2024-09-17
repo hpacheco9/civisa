@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 0.5,
     borderTopWidth: 0,
+    minHeight: 60, 
   },
   descriptionText: {
     fontSize: 16,

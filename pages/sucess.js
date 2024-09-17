@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import submitted from '../assets/teste.gif'
+import animation from '../sucess.json'
+import LottieView from "lottie-react-native";
 
 const SuccessScreen = () => {
   const navigation = useNavigation();
@@ -15,15 +16,21 @@ const SuccessScreen = () => {
   }, [navigation]);
 
  return (
-    <View style={styles.container}>
-      <Image
-        style={{height: 100, width: 100}}
-        source={submitted}
-        resizeMode="contain"
-      />
-      <Text style={styles.thankYouText}>Obrigado pela sua colaboração</Text>
-    </View>
-  );
+  <View style={styles.container}>
+        <LottieView
+          autoPlay
+          style={{
+            width: 300,
+            height:300
+          }}
+          loop={false}
+          source={animation}
+        />
+        <Text style={{fontSize: 18}}>
+          Obrigado pela sua colaboração. 
+        </Text>
+        </View>
+        );
 };
 
 const styles = StyleSheet.create({

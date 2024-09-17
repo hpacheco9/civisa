@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
   descriptionText: {
     fontSize: 16,
     textAlign: "justify",
+    width: "90%",
   },
 });
 

@@ -1,17 +1,54 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, ScrollView, Dimensions, TextInput, TouchableOpacity } from "react-native";
+import { 
+    StyleSheet, 
+    Text, 
+    View, 
+    Dimensions, 
+    TextInput, 
+    TouchableOpacity, 
+    Alert 
+} from "react-native";
 import Voltar from "../components/Voltar.jsx";
 import { useNavigation } from '@react-navigation/native';
+import { auth } from './firebase.js';
+import { sendPasswordResetEmail, getAuth  } from "firebase/auth";
+import getUserByEmail from "../services/getuser.js";
+
+
+
 const Recuperar = () => {
     const [email, setEmail] = useState('');
-    const nagigation = useNavigation();
-    const handleSubmit = () => {
-        console.log('Recuperar senha para:', email);
+    const navigation = useNavigation();
+
+    const handleSubmit = async () => {
+        if (!email) {
+            Alert.alert('Erro', 'Por favor, insira o email.');
+            return;
+        }
+        try {
+            const exists = await getUserByEmail(email);
+            if (!exists) {
+                Alert.alert('Erro', 'Nenhuma conta encontrada com este email.');
+                return;
+            }
+            console.log('Attempting to send password reset email to:', email);
+            await sendPasswordResetEmail(auth, email);
+            console.log('Password reset email sent successfully');
+            Alert.alert('Sucesso', 'Verifique seu email para redefinir sua senha.');
+            navigation.navigate('Login');
+        } catch (error) {
+            console.error('Error:', error);
+            if (error.code === 'auth/invalid-email') {
+                Alert.alert('Erro', 'Endereço de email inválido.');
+            } else {
+                Alert.alert('Erro', `Ocorreu um erro: ${error.message}`);
+            }
+        }
     };
 
     return (
         <>
-        <Voltar />
+            <Voltar />
             <View style={styles.container}>
                 <Text style={styles.title}>Recuperar Password</Text>
                 <Text style={styles.label}>Email</Text>
@@ -28,32 +65,25 @@ const Recuperar = () => {
                 </TouchableOpacity>
                 <View style={styles.signupContainer}>
                     <Text>Ainda não tem conta? </Text>
-                    <TouchableOpacity onPress={() =>{
-                        nagigation.navigate('Registo');
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('Registo');
                     }}>
                         <Text style={{fontWeight: 'bold', textDecorationLine: 'underline'}}> Registe-se</Text>
                     </TouchableOpacity>
                 </View>
-               
             </View>
-           
         </>
-            
-       
     );
 };
 
 const { height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-    scrollContainer: {
-        flexGrow: 1,
-    },
     container: {
         flex: 1,
-        justifyContent: 'center',       
+        justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: height*0.04   
+        marginBottom: height * 0.04   
     },
     title: {
         fontSize: height * 0.035,
@@ -94,11 +124,6 @@ const styles = StyleSheet.create({
     signupContainer: {
         flexDirection: 'row',
         marginTop: height * 0.03,   
-    
-    },
-    signupText: {
-        color: '#00000',
-        textDecorationLine: 'underline',
     },
 });
 

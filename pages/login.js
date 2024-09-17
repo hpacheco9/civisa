@@ -15,7 +15,8 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { getFirestore, query, where, getDocs, collection } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import getUserByEmail from "../services/getuser";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Email inválido").required("Email é obrigatório"),
@@ -45,6 +46,7 @@ const Login = () => {
   useFocusEffect(
     useCallback(() => {
       resetLoginForm();
+
     }, [resetLoginForm])
   );
 
@@ -67,21 +69,6 @@ const Login = () => {
     }
   };
 
-  const getUserByEmail = async (email) => {
-    try {
-      const q = query(collection(firestore, 'users'), where('email', '==', email));
-      const querySnapshot = await getDocs(q);
-      if (querySnapshot.empty) {
-        return null;
-      } else {
-        const userDoc = querySnapshot.docs[0];
-        const userData = userDoc.data();
-        return userData;
-      }
-    } catch (error) {
-      console.error('Error fetching user by email:', error.message);
-    }
-  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -229,7 +216,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "white",
     height: 50,
-    padding: 20,
+    padding: 10,
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "#ddd",
