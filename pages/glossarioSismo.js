@@ -19,12 +19,12 @@ const GlossarioSismo = () => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.scrollView}>
       <Voltar />
       <View style={styles.container}>
         <Text style={styles.title}>Glossário Sismologia</Text>
         {glossarioData.map((item, index) => (
-          <View key={index}>
+          <View key={index} style={styles.itemContainer}>
             <TouchableOpacity
               style={styles.containerValor}
               onPress={() => toggleExpand(index)}
@@ -46,16 +46,21 @@ const GlossarioSismo = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  scrollView: {
+    flex: 1,
     backgroundColor: "#FFF",
+  },
+  container: {
     padding: 16,
-    marginTop: "34%",
-    marginBottom: "5%",
+    paddingTop: "34%",
+    paddingBottom: "5%",
+  },
+  itemContainer: {
+    marginBottom: 10,
   },
   containerValor: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 15,
     padding: 15,
     borderRadius: 5,
     borderWidth: 1,
@@ -82,13 +87,13 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     borderColor: "black",
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderTopWidth: 0,
   },
   descriptionText: {
     fontSize: 16,
-    textAlign: "justify",
-
+    color: "#000",
+    lineHeight: 24,
   },
 });
 

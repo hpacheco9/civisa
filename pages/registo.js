@@ -28,8 +28,7 @@ app = initializeApp(firebaseConfig);
 auth = getAuth(app);
 firestore = getFirestore(app);
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required('Primeiro nome é obrigatório'),
-  lastName: Yup.string().required('Último nome é obrigatório'),
+  Name: Yup.string().required('Nome é obrigatório'),
   email: Yup.string().email('Invalid email').required('Email é obrigatório'),
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password é obrigatório'),
   confirmPassword: Yup.string()
@@ -47,9 +46,8 @@ const Register = () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user.uid;
-      const fullName = values.firstName + ' ' + values.lastName;
       await setDoc(doc(firestore, 'users', user), {
-        Name: fullName,
+        Name: values.Name,
         phone: values.phone,
         email: values.email,
         acceptedTerms: values.acceptTerms,
@@ -63,53 +61,35 @@ const Register = () => {
   };
 
   return (
-   
       <>  
         <Voltar />
-        <View style={{backgroundColor: '#ffffff', height: 120}}></View>
+        <View style={{backgroundColor: '#ffffff', height: height * 0.15}}></View>
         <ScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <Text style={styles.title}>Registo</Text>
           <Formik
-            initialValues={{ firstName: '', lastName: '', email: '', password: '', confirmPassword: '', phone: '', acceptTerms: false }}
+            initialValues={{Name: '', email: '', password: '', confirmPassword: '', phone: '', acceptTerms: false }}
             validationSchema={validationSchema}
             onSubmit={handleRegister}
           >
             {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched, isSubmitting }) => (
               <View style={styles.form}>
                 <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Primeiro Nome</Text>
+                  <Text style={styles.label}>Nome</Text>
                   <TextInput
                     style={styles.input}
-                    placeholder="Introduza o seu primeiro nome"
-                    onChangeText={handleChange("firstName")}
-                    onBlur={handleBlur("firstName")}
-                    value={values.firstName}
+                    placeholder="Introduza o seu nome completo"
+                    onChangeText={handleChange("Name")}
+                    onBlur={handleBlur("Name")}
+                    value={values.Name}
                   />
                   <View style={styles.errorContainer}>
-                    {touched.firstName && errors.firstName && (
-                      <Text style={styles.errorText}>{errors.firstName}</Text>
+                    {touched.Name && errors.Name && (
+                      <Text style={styles.errorText}>{errors.Name}</Text>
                     )}
                   </View>
                 </View>
-
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Último Nome</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Introduza o seu último nome"
-                    onChangeText={handleChange("lastName")}
-                    onBlur={handleBlur("lastName")}
-                    value={values.lastName}
-                  />
-                  <View style={styles.errorContainer}>
-                    {touched.lastName && errors.lastName && (
-                      <Text style={styles.errorText}>{errors.lastName}</Text>
-                    )}
-                  </View>
-                </View>
-
                 <View style={styles.inputContainer}>
                   <Text style={styles.label}>Email</Text>
                   <TextInput
@@ -124,6 +104,22 @@ const Register = () => {
                   <View style={styles.errorContainer}>
                     {touched.email && errors.email && (
                       <Text style={styles.errorText}>{errors.email}</Text>
+                    )}
+                  </View>
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Telemóvel</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Introduza o seu número de telemóvel"
+                    onChangeText={handleChange("phone")}
+                    onBlur={handleBlur("phone")}
+                    value={values.phone}
+                    keyboardType="phone-pad"
+                  />
+                  <View style={styles.errorContainer}>
+                    {touched.phone && errors.phone && (
+                      <Text style={styles.errorText}>{errors.phone}</Text>
                     )}
                   </View>
                 </View>
@@ -161,28 +157,9 @@ const Register = () => {
                           )}
                         </View>
                     </View>
-
-
                 </View>
+
                
-
-                
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Telemóvel</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Introduza o seu número de telemóvel"
-                    onChangeText={handleChange("phone")}
-                    onBlur={handleBlur("phone")}
-                    value={values.phone}
-                    keyboardType="phone-pad"
-                  />
-                  <View style={styles.errorContainer}>
-                    {touched.phone && errors.phone && (
-                      <Text style={styles.errorText}>{errors.phone}</Text>
-                    )}
-                  </View>
-                </View>
 
                 <View style={styles.checkboxContainer}>
                   <TouchableOpacity
@@ -300,6 +277,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: '3%',
     marginTop: '3%',
+    fontSize: height * 0.017,
   },
   checkboxContainer: {
     flexDirection: 'row',

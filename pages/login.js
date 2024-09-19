@@ -247,7 +247,8 @@ const styles = StyleSheet.create({
   label: {
     fontWeight: "bold",
     marginBottom: "3%",
-    marginTop: "3%",
+    marginTop: "2%",
+    fontSize: height * 0.017,
   },
   checkboxContainer: {
     flexDirection: "row",

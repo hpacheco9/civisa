@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     label: {
         alignSelf: 'flex-start',
         marginLeft: '5%',
-        fontSize: height * 0.02,
+        fontSize: height * 0.017,
         fontWeight: 'bold',
         marginBottom: height * 0.01,
     },
