@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
 import glossario from "../services/glossarioSismo.json";
@@ -19,8 +20,10 @@ const GlossarioSismo = () => {
   };
 
   return (
+    <>
+    <Voltar />
+    <View style={{backgroundColor: '#ffffff', height: height * 0.15}}></View>
     <ScrollView style={styles.scrollView}>
-      <Voltar />
       <View style={styles.container}>
         <Text style={styles.title}>Glossário Sismologia</Text>
         {glossarioData.map((item, index) => (
@@ -42,9 +45,11 @@ const GlossarioSismo = () => {
         ))}
       </View>
     </ScrollView>
+    </>
+    
   );
 };
-
+const {height} = Dimensions.get('window');
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
@@ -52,7 +57,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 16,
-    paddingTop: "34%",
+    paddingTop: "5%",
     paddingBottom: "5%",
   },
   itemContainer: {
