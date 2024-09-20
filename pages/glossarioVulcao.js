@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Dimensions,
+  Image,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
 import glossario from "../services/glossarioVulcao.json";
 import Voltar from "../components/Voltar.jsx";
+
 const glossarioData = glossario.glossario;
 
 const GlossarioVulcao = () => {
@@ -27,7 +29,6 @@ const GlossarioVulcao = () => {
       <View style={{backgroundColor: '#ffffff', height: height * 0.02}}></View>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.container}>
-         
           {glossarioData.map((item, index) => (
             <View key={index} style={styles.itemContainer}>
               <TouchableOpacity
@@ -38,7 +39,13 @@ const GlossarioVulcao = () => {
               </TouchableOpacity>
               <Collapsible collapsed={expandedIndex !== index}>
                 <View style={styles.descriptionContainer}>
-                  <Text style={styles.descriptionText}>{item.description}</Text>
+                  <View style={styles.descriptionContent}>
+                    <Text style={styles.descriptionText}>{item.description}</Text>
+                  </View>
+                  <Image
+                    source={{ uri: item.imageUrl }}
+                    style={styles.image}
+                  />
                 </View>
               </Collapsible>
             </View>
@@ -49,7 +56,7 @@ const GlossarioVulcao = () => {
   );
 };
 
-const {height} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -88,6 +95,7 @@ const styles = StyleSheet.create({
     color: "#FFF",
   },
   descriptionContainer: {
+    flexDirection: 'row',
     backgroundColor: "#f6f6f6",
     padding: 15,
     borderBottomLeftRadius: 5,
@@ -96,10 +104,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderTopWidth: 0,
   },
+  descriptionContent: {
+    flex: 1,
+    marginRight: 10,
+  },
   descriptionText: {
     fontSize: 16,
     color: "#000",
     lineHeight: 24,
+  },
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 5,
   },
 });
 export default GlossarioVulcao;
