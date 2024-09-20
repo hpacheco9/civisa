@@ -73,7 +73,7 @@ const Inicio = () => {
           />
         </TouchableOpacity>
         <Image
-          source={require("../assets/CIVISA_logo.png")}
+          source={require("../assets/IVAR.png")}
           style={styles.logo}
           resizeMode="contain"
         />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Collapsible from "react-native-collapsible";
 import Voltar from "../components/Voltar.jsx";
+import axios from "axios";
 
 const Comunicados = () => {
   const [comunicadoData, setComunicadoData] = useState(null);
@@ -16,18 +17,23 @@ const Comunicados = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://www.ivar.azores.gov.pt/seismic/comunicado.txt")
-      .then((response) => response.text())
-      .then((text) => {
-        const data = JSON.parse(text);
-        setComunicadoData(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching comunicado data:", error);
-        setLoading(false);
-      });
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://www.ivar.azores.gov.pt/seismic/comunicado.txt");
+        const text = await response.text();
+        const jsonData = JSON.parse(text);
+        console.log(text);
+        setComunicadoData(jsonData);
+       setLoading(false);
+      }catch{
+        console.log("erro");
+      
+      }
+    }
+      fetchData();
+   
+     
+  }, [comunicadoData]);
 
   const toggleExpand = () => {
     setExpanded(!expanded);

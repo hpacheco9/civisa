@@ -40,12 +40,13 @@ const GlossarioVulcao = () => {
               <Collapsible collapsed={expandedIndex !== index}>
                 <View style={styles.descriptionContainer}>
                   <View style={styles.descriptionContent}>
-                    <Text style={styles.descriptionText}>{item.description}</Text>
-                  </View>
                   <Image
                     source={{ uri: item.imageUrl }}
                     style={styles.image}
                   />
+                    <Text style={styles.descriptionText}>{item.description}</Text>
+                  </View>
+             
                 </View>
               </Collapsible>
             </View>
@@ -96,6 +97,7 @@ const styles = StyleSheet.create({
   },
   descriptionContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: "#f6f6f6",
     padding: 15,
     borderBottomLeftRadius: 5,
@@ -112,6 +114,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#000",
     lineHeight: 24,
+    textAlign: 'justify',
   },
   image: {
     width: 80,
