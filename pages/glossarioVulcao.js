@@ -14,6 +14,7 @@ import glossario from "../services/glossarioVulcao.json";
 import Voltar from "../components/Voltar.jsx";
 
 const glossarioData = glossario.glossario;
+const { height, width } = Dimensions.get('window');
 
 const GlossarioVulcao = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -26,7 +27,7 @@ const GlossarioVulcao = () => {
     <SafeAreaView style={styles.safeArea}>
       <Voltar />
       <Text style={styles.title}>Glossário Vulcanologia</Text>
-      <View style={{backgroundColor: '#ffffff', height: height * 0.02}}></View>
+      <View style={{ backgroundColor: "#ffffff", height: height * 0.02 }}></View>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.container}>
           {glossarioData.map((item, index) => (
@@ -39,14 +40,8 @@ const GlossarioVulcao = () => {
               </TouchableOpacity>
               <Collapsible collapsed={expandedIndex !== index}>
                 <View style={styles.descriptionContainer}>
-                  <View style={styles.descriptionContent}>
-                  <Image
-                    source={{ uri: item.imageUrl }}
-                    style={styles.image}
-                  />
-                    <Text style={styles.descriptionText}>{item.description}</Text>
-                  </View>
-             
+                  <Image source={{ uri: item.imageUrl }} style={styles.image} />
+                  <Text style={styles.descriptionText}>{item.description}</Text>
                 </View>
               </Collapsible>
             </View>
@@ -56,9 +51,6 @@ const GlossarioVulcao = () => {
     </SafeAreaView>
   );
 };
-
-const { height, width } = Dimensions.get('window');
-
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -88,7 +80,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "#000",
-    marginTop: '20%'
+    marginTop: "20%",
   },
   textoBold: {
     fontSize: 18,
@@ -96,8 +88,7 @@ const styles = StyleSheet.create({
     color: "#FFF",
   },
   descriptionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "column", // Ensures image and text are stacked
     backgroundColor: "#f6f6f6",
     padding: 15,
     borderBottomLeftRadius: 5,
@@ -106,20 +97,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderTopWidth: 0,
   },
-  descriptionContent: {
-    flex: 1,
-    marginRight: 10,
-  },
   descriptionText: {
     fontSize: 16,
     color: "#000",
     lineHeight: 24,
-    textAlign: 'justify',
+    textAlign: "justify",
+    marginTop: 10, // Adds spacing between the image and text
   },
   image: {
-    width: 80,
-    height: 80,
+    width: "100%", // Image takes full width
+    height: 200, // Adjust height as needed
     borderRadius: 5,
+    marginBottom: 10,
   },
 });
+
 export default GlossarioVulcao;

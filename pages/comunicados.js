@@ -13,28 +13,26 @@ import axios from "axios";
 
 const Comunicados = () => {
   const [comunicadoData, setComunicadoData] = useState(null);
+  const [comunicados, setComunicados] = useState([]);
   const [expanded, setExpanded] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://www.ivar.azores.gov.pt/seismic/comunicado.txt");
-        const text = await response.text();
-        const jsonData = JSON.parse(text);
-        console.log(text);
-        setComunicadoData(jsonData);
-       setLoading(false);
-      }catch{
-        console.log("erro");
-      
-      }
-    }
-      fetchData();
-   
-     
-  }, [comunicadoData]);
+    fetchData(); 
+}, [comunicadoData]);
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://www.ivar.azores.gov.pt/seismic/comunicado.txt");
+      const text = await response.text();
+      const jsonData = JSON.parse(text);
+      setComunicadoData(jsonData);
+     setLoading(false);
+    }catch{
+      console.log("Não foi possivel carregar comunicados");   
+    }
+  }
+  
   const toggleExpand = () => {
     setExpanded(!expanded);
   };
