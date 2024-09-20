@@ -215,14 +215,36 @@ const Inicio = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("MenuAjuda")}
+          onPress={() => navigation.navigate("MenuEscala")}
         >
           <Iconify
-            icon="material-symbols:chat-info-outline-rounded"
+            icon="material-symbols:format-list-numbered-rounded"
             size={height * 0.09}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Informações</Text>
+          <Text style={styles.buttonText}>Escalas e Códigos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("MenuGlossarios")}
+        >
+          <Iconify
+            icon="material-symbols:dictionary-outline-rounded"
+            size={height * 0.09}
+            color={"#FFF"}
+          />
+          <Text style={styles.buttonText}>Glossários</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("QuemSomos")}
+        >
+          <Iconify
+            icon="material-symbols:question-mark-rounded"
+            size={height * 0.09}
+            color={"#FFF"}
+          />
+          <Text style={styles.buttonText}>Quem somos?</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -238,7 +260,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingTop: "20%",
-    paddingBottom: 40,
+    paddingBottom: 20,
     paddingHorizontal: 20,
     backgroundColor: "#FFF",
   },
@@ -255,7 +277,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "49%",
-    height: "30%",
+    height: "24%",
     padding: 10,
     justifyContent: "center",
     alignItems: "center",
