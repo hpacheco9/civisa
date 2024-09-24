@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,32 +9,47 @@ import {
 } from "react-native";
 import Collapsible from "react-native-collapsible";
 import Voltar from "../components/Voltar.jsx";
-import axios from "axios";
 
 const Comunicados = () => {
-  const [comunicadoData, setComunicadoData] = useState(null);
   const [comunicados, setComunicados] = useState([]);
-  const [expanded, setExpanded] = useState(false);
+  const [expandedId, setExpandedId] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchData(); 
-}, [comunicadoData]);
+    fetchData();
+  }, []);
 
   const fetchData = async () => {
     try {
       const response = await fetch("http://www.ivar.azores.gov.pt/seismic/comunicado.txt");
       const text = await response.text();
       const jsonData = JSON.parse(text);
-      setComunicadoData(jsonData);
-     setLoading(false);
-    }catch{
-      console.log("Não foi possivel carregar comunicados");   
+
+      // Assuming jsonData is an array of comunicados
+      // If it's a single object, wrap it in an array: [jsonData]
+      const newComunicados = Array.isArray(jsonData) ? jsonData : [jsonData];
+
+      setComunicados(prevComunicados => {
+        // Combine new and existing comunicados
+        const allComunicados = [...newComunicados, ...prevComunicados];
+        
+        // Sort by date (assuming each comunicado has a 'date' field)
+        const sortedComunicados = allComunicados.sort((a, b) => 
+          new Date(b.date) - new Date(a.date)
+        );
+
+        return sortedComunicados.slice(0, 10);
+      });
+
+      setLoading(false);
+    } catch (error) {
+      console.log("Não foi possível carregar comunicados", error);
+      setLoading(false);
     }
-  }
-  
-  const toggleExpand = () => {
-    setExpanded(!expanded);
+  };
+
+  const toggleExpand = (id) => {
+    setExpandedId(expandedId === id ? null : id);
   };
 
   return (
@@ -44,25 +59,27 @@ const Comunicados = () => {
         <Text style={styles.title}>Comunicados</Text>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
-        ) : comunicadoData ? (
-          <View>
-            <TouchableOpacity
-              style={styles.containerValor}
-              onPress={toggleExpand}
-            >
-              <View style={styles.dateContainer}>
-                <Text style={styles.date}>{comunicadoData.date}</Text>
-              </View>
-              <View style={styles.textContainer}>
-                <Text style={styles.textoBold}>{comunicadoData.title}</Text>
-              </View>
-            </TouchableOpacity>
-            <Collapsible collapsed={!expanded}>
-              <View style={styles.descriptionContainer}>
-                <Text style={styles.descriptionText}>{comunicadoData.text}</Text>
-              </View>
-            </Collapsible>
-          </View>
+        ) : comunicados.length > 0 ? (
+          comunicados.map((comunicado, index) => (
+            <View key={index}>
+              <TouchableOpacity
+                style={styles.containerValor}
+                onPress={() => toggleExpand(index)}
+              >
+                <View style={styles.dateContainer}>
+                  <Text style={styles.date}>{comunicado.date}</Text>
+                </View>
+                <View style={styles.textContainer}>
+                  <Text style={styles.textoBold}>{comunicado.title}</Text>
+                </View>
+              </TouchableOpacity>
+              <Collapsible collapsed={expandedId !== index}>
+                <View style={styles.descriptionContainer}>
+                  <Text style={styles.descriptionText}>{comunicado.text}</Text>
+                </View>
+              </Collapsible>
+            </View>
+          ))
         ) : (
           <Text>Sem Comunicados</Text>
         )}

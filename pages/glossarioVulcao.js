@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     color: "#FFF",
   },
   descriptionContainer: {
-    flexDirection: "column", // Ensures image and text are stacked
+    flexDirection: "column", 
     backgroundColor: "#f6f6f6",
     padding: 15,
     borderBottomLeftRadius: 5,
@@ -102,11 +102,11 @@ const styles = StyleSheet.create({
     color: "#000",
     lineHeight: 24,
     textAlign: "justify",
-    marginTop: 10, // Adds spacing between the image and text
+    marginTop: 10, 
   },
   image: {
-    width: "100%", // Image takes full width
-    height: 200, // Adjust height as needed
+    width: "100%", 
+    height: 200,
     borderRadius: 5,
     marginBottom: 10,
   },
