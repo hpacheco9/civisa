@@ -31,7 +31,7 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const navigation = useNavigation();
-  const auth = getAuth();
+  const auth2 = getAuth();
 
   const formikRef = React.useRef();
 
@@ -53,7 +53,7 @@ const Login = () => {
   const handleLogin = async (values, { setSubmitting }) => {
     try {
       const { email, password } = values;
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth2, email, password);
       if (rememberMe) {
         await AsyncStorage.setItem("@loggedOut", JSON.stringify(false));
       } 

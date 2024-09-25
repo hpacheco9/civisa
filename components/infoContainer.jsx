@@ -19,7 +19,6 @@ const InfoContainer = ({
   const containerBackgroundColor = iswhite
     ? "rgba(0, 0, 0, 0.7)"
     : "rgba(255, 255, 255, 0.5)";
-
   return (
     <View
       style={[
@@ -145,6 +144,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: "95%",
     borderRadius: 5,
+    padding: 4
   },
   magnitude: {
     color: "black",

@@ -9,6 +9,7 @@ import { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId,
 import Voltar from '../components/Voltar';
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from 'react-native-gesture-handler';
+import CustomCheckbox from '../components/accept';
 
 const firebaseConfig = {
   apiKey,
@@ -158,28 +159,14 @@ const Register = () => {
                         </View>
                     </View>
                 </View>
+                <CustomCheckbox
+                  value={acceptTerms}
+                  onValueChange={setAcceptTerms}
+                />
 
                
 
-                <View style={styles.checkboxContainer}>
-                  <TouchableOpacity
-                    style={[
-                      styles.checkbox,
-                      values.acceptTerms && styles.checkedBoxBackground,
-                    ]}
-                    onPress={() => setFieldValue('acceptTerms', !values.acceptTerms)}
-                  >
-                    {values.acceptTerms && <Text style={styles.checkedBoxText}>✓</Text>}
-                  </TouchableOpacity>
-                  <View style={{flexDirection: 'row'}}>
-                    <Text>  Li e aceitos os</Text>
-                    <TouchableOpacity onPress={() =>{
-                      navigation.navigate('RGPD');
-                    }}>
-                      <Text style={styles.checkboxLabel}>termos e condições</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+               
                 <View style={styles.errorContainer}>
                   {touched.acceptTerms && errors.acceptTerms && (
                     <Text style={styles.errorText}>{errors.acceptTerms}</Text>
@@ -279,32 +266,7 @@ const styles = StyleSheet.create({
     marginTop: '3%',
     fontSize: height * 0.017,
   },
-  checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  checkbox: {
-    width: 20,
-    height: 20,
-    borderWidth: 1,
-    borderColor: '#000',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-  },
-  checkedBoxBackground: {
-    backgroundColor: '#000',
-  },
-  checkedBoxText: {
-    color: '#fff',
-    fontSize: 14,
-  },
-  checkboxLabel: {
-    marginLeft: 8,
-    textDecorationLine: 'underline',
-    fontWeight: 'bold'
-  },
+
 });
 
 export default Register;

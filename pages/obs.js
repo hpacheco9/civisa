@@ -6,27 +6,21 @@ import { useNavigation } from '@react-navigation/native';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import firebaseConfig from "../services/Database.js";
-import NetInfo from "@react-native-community/netinfo";
+import CustomCheckbox from "../components/accept.jsx";
 
 const Obs = () => {
     const navigation = useNavigation();
     const [observations, setObservations] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [acceptTerms, setAcceptTerms] = useState(false);
+    const [showError, setShowError] = useState(false);
 
     const handleSubmit = async () => {
-      setIsSubmitting(true);
-
-      const netInfo = await NetInfo.fetch();
-      if (!netInfo.isConnected) {
-          Alert.alert(
-              "Sem internet",
-              "Por favor verifique a sua ligação à internet",
-              [{ text: "OK" }]
-          );
-          setIsSubmitting(false);
-          return;
+      if (!acceptTerms) {
+        setShowError(true);
+        return;
       }
-
+      setIsSubmitting(true);
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
       const userString = await AsyncStorage.getItem('@user');
@@ -73,7 +67,6 @@ const Obs = () => {
           </View>
           <View style={styles.container}>
             <Text style={styles.header}>Observações</Text>
-            
             <TextInput
               placeholder="Digite suas observações aqui"
               onChangeText={setObservations}
@@ -83,7 +76,21 @@ const Obs = () => {
               multiline={true}
               textAlignVertical="top"
             />
-            
+            <CustomCheckbox
+              value={acceptTerms}
+              onValueChange={(newValue) => {
+                setAcceptTerms(newValue);
+                setShowError(false);
+              }}
+              label="Li e aceito os"
+              linkText="termos e condições"
+              linkDestination="RGPD"
+            />
+            {showError && (
+              <Text style={styles.errorText}>
+                Por favor, aceite os termos e condições para continuar.
+              </Text>
+            )}
             <TouchableOpacity 
               style={[styles.submitButton, isSubmitting && styles.disabledButton]}
               onPress={handleSubmit}
@@ -150,6 +157,10 @@ const styles = StyleSheet.create({
   },
   disabledButton: {
     backgroundColor: '#999',
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 5,
   },
 });
 

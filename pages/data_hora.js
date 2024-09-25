@@ -5,11 +5,13 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Voltar from "../components/Voltar";
+import { Iconify } from "react-native-iconify";
 
 const CustomDateTimePicker = () => {
   const [date, setDate] = useState(new Date());
@@ -70,7 +72,6 @@ const CustomDateTimePicker = () => {
       console.error("Failed to save the data to AsyncStorage", e);
     }
   };
-
   return (
     <>
       <View style={{ marginBottom: "20%" }}>
@@ -80,8 +81,13 @@ const CustomDateTimePicker = () => {
       <ScrollView>
         <View style={styles.container}>
           <Text style={styles.title}>Data do sismo</Text>
-          <TouchableOpacity onPress={showDatepicker} style={styles.radioButton}>
+          <TouchableOpacity onPress={showDatepicker} style={styles.inputContainer}>
             <Text style={styles.selectedValue}>{formatDate(date)}</Text>
+            <Iconify
+              icon="ph:calendar-light"
+              size={height * 0.05}
+              color={'black'}
+            />
           </TouchableOpacity>
           {showDatePicker && (
             <DateTimePicker
@@ -94,8 +100,14 @@ const CustomDateTimePicker = () => {
             />
           )}
           <Text style={styles.title}>Hora do sismo</Text>
-          <TouchableOpacity onPress={showTimepicker} style={styles.radioButton}>
+          <TouchableOpacity onPress={showTimepicker} style={styles.inputContainer}>
             <Text style={styles.selectedValue}>{formatTime(time)}</Text>
+            <Iconify
+              icon="ph:clock-light"
+              size={height * 0.05}
+              color={'black'}
+              
+            />
           </TouchableOpacity>
           {showTimePicker && (
             <DateTimePicker
@@ -116,6 +128,7 @@ const CustomDateTimePicker = () => {
   );
 };
 
+const {height} = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -164,6 +177,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 32,
     marginLeft: "12%",
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginVertical: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    width: 300,
   },
 });
 

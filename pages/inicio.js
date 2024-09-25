@@ -155,11 +155,7 @@ const Inicio = () => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            if (user){
               navigation.navigate('Data e Hora');
-            }else{
-              navigation.navigate('RGPD');
-            }
           }}
         >
           <Iconify
