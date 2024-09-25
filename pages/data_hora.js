@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
 import {
   View,
   StyleSheet,
@@ -6,72 +6,66 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
-} from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Voltar from "../components/Voltar";
-import { Iconify } from "react-native-iconify";
+  Platform,
+} from "react-native"
+import DateTimePicker from "@react-native-community/datetimepicker"
+import { useNavigation } from "@react-navigation/native"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import Voltar from "../components/Voltar"
+import { Iconify } from "react-native-iconify"
 
-const CustomDateTimePicker = () => {
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showTimePicker, setShowTimePicker] = useState(false);
-  const navigation = useNavigation();
-
-  const showDatepicker = () => {
-    setShowDatePicker(true);
-  };
-
-  const showTimepicker = () => {
-    setShowTimePicker(true);
-  };
+export default function CustomDateTimePicker() {
+  const [date, setDate] = useState(new Date())
+  const [time, setTime] = useState(new Date())
+  const [showDatePicker, setShowDatePicker] = useState(false)
+  const [showTimePicker, setShowTimePicker] = useState(false)
+  const navigation = useNavigation()
 
   const handleDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShowDatePicker(false);
+    const currentDate = selectedDate || date
+    setShowDatePicker(false)
     if (currentDate <= new Date()) {
-      setDate(currentDate);
+      setDate(currentDate)
     }
-  };
+  }
 
   const handleTimeChange = (event, selectedTime) => {
-    const currentTime = selectedTime || time;
-    setShowTimePicker(false);
-    setTime(currentTime);
-  };
+    const currentTime = selectedTime || time
+    setShowTimePicker(false)
+    setTime(currentTime)
+  }
 
   const formatDate = (date) => {
-    const day = `0${date.getDate()}`.slice(-2);
-    const month = `0${date.getMonth() + 1}`.slice(-2);
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
+    const day = `0${date.getDate()}`.slice(-2)
+    const month = `0${date.getMonth() + 1}`.slice(-2)
+    const year = date.getFullYear()
+    return `${day}/${month}/${year}`
+  }
 
   const formatTime = (time) => {
-    const hours = `0${time.getHours()}`.slice(-2);
-    const minutes = `0${time.getMinutes()}`.slice(-2);
-    return `${hours}:${minutes}`;
-  };
+    const hours = `0${time.getHours()}`.slice(-2)
+    const minutes = `0${time.getMinutes()}`.slice(-2)
+    return `${hours}:${minutes}`
+  }
 
   const handleNext = async () => {
     const selectedDateTime = {
       date: formatDate(date),
       time: formatTime(time),
-    };
+    }
 
     try {
       await AsyncStorage.setItem(
         "@selectedDateTime",
         JSON.stringify(selectedDateTime)
-      );
-      navigation.navigate("Perguntas");
-      console.log("Selected Date and Time saved:", selectedDateTime);
+      )
+      navigation.navigate("Perguntas")
+      console.log("Selected Date and Time saved:", selectedDateTime)
     } catch (e) {
-      console.error("Failed to save the data to AsyncStorage", e);
+      console.error("Failed to save the data to AsyncStorage", e)
     }
-  };
+  }
+
   return (
     <>
       <View style={{ marginBottom: "20%" }}>
@@ -81,7 +75,7 @@ const CustomDateTimePicker = () => {
       <ScrollView>
         <View style={styles.container}>
           <Text style={styles.title}>Data do sismo</Text>
-          <TouchableOpacity onPress={showDatepicker} style={styles.inputContainer}>
+          <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.inputContainer}>
             <Text style={styles.selectedValue}>{formatDate(date)}</Text>
             <Iconify
               icon="ph:calendar-light"
@@ -91,7 +85,6 @@ const CustomDateTimePicker = () => {
           </TouchableOpacity>
           {showDatePicker && (
             <DateTimePicker
-              testID="dateTimePicker"
               value={date}
               mode="date"
               display="default"
@@ -100,18 +93,16 @@ const CustomDateTimePicker = () => {
             />
           )}
           <Text style={styles.title}>Hora do sismo</Text>
-          <TouchableOpacity onPress={showTimepicker} style={styles.inputContainer}>
+          <TouchableOpacity onPress={() => setShowTimePicker(true)} style={styles.inputContainer}>
             <Text style={styles.selectedValue}>{formatTime(time)}</Text>
             <Iconify
               icon="ph:clock-light"
               size={height * 0.05}
               color={'black'}
-              
             />
           </TouchableOpacity>
           {showTimePicker && (
             <DateTimePicker
-              testID="dateTimePicker"
               value={time}
               mode="time"
               display="default"
@@ -125,8 +116,8 @@ const CustomDateTimePicker = () => {
         </View>
       </ScrollView>
     </>
-  );
-};
+  )
+}
 
 const {height} = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -191,4 +182,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomDateTimePicker;
+

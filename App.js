@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import NetInfo from "@react-native-community/netinfo";
-
+import { StatusBar } from 'react-native';
 import Inicio from "./pages/inicio.js";
 import DateInput from "./pages/data_hora.js";
 import Perguntas from "./pages/Inquerito.js";
@@ -56,6 +56,8 @@ const App = () => {
   }, []);
 
   return (
+    <>
+     <StatusBar hidden={false} />
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
@@ -112,6 +114,8 @@ const App = () => {
         )}
       </Stack.Navigator>
     </NavigationContainer>
+    </>
+   
   );
 };
 
