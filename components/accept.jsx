@@ -17,7 +17,7 @@ const CustomCheckbox = ({ value, onValueChange, label, linkText, linkDestination
         {value && <Text style={styles.checkedBoxText}>✓</Text>}
       </TouchableOpacity>
       <View style={{flexDirection: 'row'}}>
-        <Text>  {label}</Text>
+        <Text>{label}</Text>
         {linkText && (
           <TouchableOpacity onPress={() => navigation.navigate(linkDestination)}>
             <Text style={styles.checkboxLabel}>{linkText}</Text>

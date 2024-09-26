@@ -23,7 +23,7 @@ const Voltar = ({ iswhite }) => {
     >
       <Iconify
         icon="material-symbols:arrow-back-ios-rounded"
-        size={height * 0.05}
+        size={height * 0.045}
         color={iconColor}
       />
     </TouchableOpacity>

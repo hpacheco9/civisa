@@ -36,11 +36,10 @@ import SplashScreen from "./pages/splashscreen.js";
 import Recuperar from "./pages/recuperar.js";
 import NoEthernetScreen from "./pages/ethernet.js"; 
 
-const Stack = createStackNavigator();
 
 const App = () => {
   const [isCon, setCon] = useState(true);
-
+  const Stack = createStackNavigator();
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener( state => {
      if (state.isConnected === false){
@@ -49,7 +48,6 @@ const App = () => {
       setCon(true);
      }
     });
-
     return () => {
       unsubscribe();
     };
@@ -57,7 +55,7 @@ const App = () => {
 
   return (
     <>
-     <StatusBar hidden={false} />
+    <StatusBar hidden={false} />
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
@@ -114,7 +112,7 @@ const App = () => {
         )}
       </Stack.Navigator>
     </NavigationContainer>
-    </>
+  </>
    
   );
 };

@@ -160,9 +160,15 @@ const Register = () => {
                     </View>
                 </View>
                 <CustomCheckbox
-                  value={acceptTerms}
-                  onValueChange={setAcceptTerms}
-                />
+                value={values.acceptTerms}
+                onValueChange={(newValue) => {
+                  setFieldValue('acceptTerms', newValue);
+                  
+                }}
+                label="  Li e aceito os"
+                linkText="termos e condições"
+                linkDestination="RGPD"
+            />
 
                
 

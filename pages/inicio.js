@@ -68,7 +68,7 @@ const Inicio = () => {
         <TouchableOpacity onPress={() => navigation.navigate("Notificacao")}>
           <Iconify
             icon="material-symbols:notifications-outline-rounded"
-            size={height * 0.05}
+            size={height * 0.045}
             color={"black"}
           />
         </TouchableOpacity>
@@ -80,7 +80,7 @@ const Inicio = () => {
         <TouchableOpacity onPress={togglePanel}>
           <Iconify
             icon="mdi:user-outline"
-            size={height * 0.05}
+            size={height * 0.045}
             color={"black"}
           />
         </TouchableOpacity>
