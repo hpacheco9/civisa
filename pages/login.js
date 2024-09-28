@@ -59,21 +59,14 @@ const Login = () => {
       if (rememberMe) {
         await AsyncStorage.setItem("@loggedOut", JSON.stringify(false));
       }
-
       const userData = await getUserByEmail(email);
-
       if (userData) {
-        await AsyncStorage.setItem("@user", JSON.stringify(userData));
-        await AsyncStorage.setItem("@loggedOut", "false");
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Inicio' }],
-        });
-      } else {
-        setLoginError("User data not found. Please try again.");
+        const user = await AsyncStorage.setItem("@user", JSON.stringify(userData));
+        const loggedOut = await AsyncStorage.setItem("@loggedOut", "false");
+        navigation.navigate("Inicio");
       }
     } catch (error) {
-      setLoginError("Login failed. Please check your email and password.");
+      setLoginError("Por favor, verifique o seu email e password.");
       console.error(error);
     } finally {
       setSubmitting(false);

@@ -47,11 +47,7 @@ const Inicio = () => {
         setUser(null);
         await AsyncStorage.removeItem("@user");
         await AsyncStorage.setItem("@loggedOut", "true");
-        // Force a reload of the Login component
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Login' }],
-        });
+        navigation.navigate("Login");
       } catch (error) {
         console.error('Error signing out:', error.message);
       }
@@ -60,10 +56,7 @@ const Inicio = () => {
     } else if (option === "Signin") {
       await AsyncStorage.removeItem("@user");
       await AsyncStorage.setItem("@loggedOut", "true");
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Login' }],
-      });
+      navigation.navigate("Login");
     }
   };
 
