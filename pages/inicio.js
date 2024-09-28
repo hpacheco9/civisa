@@ -9,57 +9,77 @@ import {
   Modal,
   Pressable,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getAuth } from "firebase/auth";
 
 const { height } = Dimensions.get("window");
 
 const Inicio = () => {
   const navigation = useNavigation();
+
   const [isPanelVisible, setIsPanelVisible] = useState(false);
   const [user, setUser] = useState(null);
-  const auth = getAuth();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const userString = await AsyncStorage.getItem("@user");
-
-      const user_2 = JSON.parse(userString);
-      setUser(user_2);
-      console.log(user_2);
-    };
-
-    fetchUser();
-  }, []);
+  const [isLoading, setIsLoading] = useState(true);
 
   const togglePanel = () => {
     setIsPanelVisible(!isPanelVisible);
   };
 
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const userData = await AsyncStorage.getItem("@user");
+        if (userData) {
+          setUser(JSON.parse(userData));  // Parse the user data correctly
+        } else {
+          setUser(null);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getUser();
+  }, []);
+
   const handleOptionSelect = async (option) => {
     togglePanel();
-    if (option === "Logout") {
-      try {
-        await auth.signOut();
-        setUser(null);
-        await AsyncStorage.removeItem("@user");
-        await AsyncStorage.setItem("@loggedOut", "true");
-        navigation.navigate("Login");
-      } catch (error) {
-        console.error('Error signing out:', error.message);
+    try {
+      switch (option) {
+        case "Logout":
+          await AsyncStorage.setItem("@loggedOut", "true");
+          await AsyncStorage.removeItem("@user");
+          setUser(null);
+          navigation.navigate("Login");
+          break;
+        case "Perfil":
+          navigation.navigate("Perfil");
+          break;
+        case "Signin":
+          await AsyncStorage.setItem("@loggedOut", "true");
+          await AsyncStorage.removeItem("@user");
+          setUser(null);
+          navigation.navigate("Login");
+          break;
+        default:
+          console.warn("Unknown option selected:", option);
       }
-    } else if (option === "Perfil") {
-      navigation.navigate("Perfil");
-    } else if (option === "Signin") {
-      await AsyncStorage.removeItem("@user");
-      await AsyncStorage.setItem("@loggedOut", "true");
-      navigation.navigate("Login");
+    } catch (error) {
+      console.error("Error handling option:", error.message);
     }
   };
 
+  if (isLoading) {
+    return (
+      <View style={[styles.container, styles.centerContent]}>
+        <ActivityIndicator size="large" color="#781f1c" />
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <View style={styles.containerLogo}>
@@ -311,6 +331,10 @@ const styles = StyleSheet.create({
   panelButtonText: {
     fontSize: 18,
     color: "#000",
+  },
+  centerContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

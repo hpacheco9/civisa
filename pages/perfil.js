@@ -62,18 +62,22 @@ const Perfil = ({ navigation }) => {
         Alert.alert('Error', 'User data not found. Please sign in again.');
         return;
       }
+
       const user = JSON.parse(userString);
       const q = query(collection(db, 'users'), where('email', '==', user.email));
       const querySnapshot = await getDocs(q);
 
+      // Ensure you're fetching the correct document by checking if it exists
       if (!querySnapshot.empty) {
-        const docRef = doc(db, 'users', querySnapshot.docs[0].id);
+        const docRef = querySnapshot.docs[0].ref;  // Get the document reference directly
+
+        // Update the user data in Firestore
         await updateDoc(docRef, {
           Name: userData.name,
           phone: userData.phone,
         });
 
-        // Update AsyncStorage
+        // Update the local storage with the new data
         user.Name = userData.name;
         user.phone = userData.phone;
         await AsyncStorage.setItem('@user', JSON.stringify(user));
@@ -88,6 +92,7 @@ const Perfil = ({ navigation }) => {
       Alert.alert('Error', 'Failed to update profile. Please try again.');
     }
   };
+
 
   const deleteAccount = async (inputPassword) => {
     const auth = getAuth();
@@ -262,6 +267,7 @@ const styles = StyleSheet.create({
   input: {
     fontSize: height * 0.02,
     width: '90%',
+    height: height * 0.055,
     marginBottom: 15,
     borderWidth: 1,
     borderColor: '#ccc',

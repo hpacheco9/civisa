@@ -4,7 +4,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { auth } from './firebase';
+import { auth } from './firebase';  // assuming firebase config is here
 import {
   View,
   StyleSheet,
@@ -18,6 +18,7 @@ import {
 import { getFirestore } from "firebase/firestore";
 import getUserByEmail from "../services/getuser";
 
+// Validation schema for the form
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Email inválido").required("Email é obrigatório"),
   password: Yup.string()
@@ -32,7 +33,6 @@ const Login = () => {
   const [loginError, setLoginError] = useState(null);
   const navigation = useNavigation();
   const auth2 = getAuth();
-
   const formikRef = React.useRef();
 
   const resetLoginForm = useCallback(() => {
@@ -43,10 +43,10 @@ const Login = () => {
     setRememberMe(false);
   }, []);
 
+  // Reset form and error on component focus
   useFocusEffect(
     useCallback(() => {
       resetLoginForm();
-
     }, [resetLoginForm])
   );
 
@@ -55,15 +55,21 @@ const Login = () => {
       const { email, password } = values;
       const userCredential = await signInWithEmailAndPassword(auth2, email, password);
       const user = userCredential.user;
+      const user2 = await getUserByEmail(email);
+
+      // Store user in AsyncStorage
+      await AsyncStorage.setItem("@user", JSON.stringify(user2));
 
       if (rememberMe) {
         await AsyncStorage.setItem("@loggedOut", JSON.stringify(false));
       }
-      const userData = await getUserByEmail(email);
-      if (userData) {
-        const user = await AsyncStorage.setItem("@user", JSON.stringify(userData));
-        const loggedOut = await AsyncStorage.setItem("@loggedOut", "false");
+
+      // Check if user is stored successfully and navigate
+      const storedUser = await AsyncStorage.getItem("@user");
+      if (storedUser) {
         navigation.navigate("Inicio");
+      } else {
+        throw new Error("Failed to retrieve user data.");
       }
     } catch (error) {
       setLoginError("Por favor, verifique o seu email e password.");
@@ -122,75 +128,63 @@ const Login = () => {
                   {touched.password && errors.password ? errors.password : " "}
                 </Text>
 
-                <View style={{ flexDirection: 'row', alignItems: 'space-between' }}>
-                  <View style={styles.checkboxContainer}>
-                    <TouchableOpacity
-                      style={[
-                        styles.checkbox,
-                        rememberMe && styles.checkedBoxBackground,
-                      ]}
-                      onPress={() => setRememberMe(!rememberMe)}
-                    >
-                      {rememberMe && (
-                        <Text style={styles.checkedBoxText}>✓</Text>
-                      )}
-                    </TouchableOpacity>
-                    <Text style={styles.checkboxLabel}>lembrar</Text>
-                  </View>
-                  <View style={{ marginLeft: '30%' }}>
-                    <TouchableOpacity onPress={() => {
-                      navigation.navigate('Recuperar')
-                    }}>
-                      <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>Recuperar password</Text>
-                    </TouchableOpacity>
-                  </View>
+                <View style={styles.checkboxContainer}>
+                  <TouchableOpacity
+                    style={[
+                      styles.checkbox,
+                      rememberMe && styles.checkedBoxBackground,
+                    ]}
+                    onPress={() => setRememberMe(!rememberMe)}
+                  >
+                    {rememberMe && (
+                      <Text style={styles.checkedBoxText}>✓</Text>
+                    )}
+                  </TouchableOpacity>
+                  <Text style={styles.checkboxLabel}>Lembrar</Text>
+
+                  <TouchableOpacity onPress={() => navigation.navigate('Recuperar')} style={styles.forgotPassword}>
+                    <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>Recuperar password</Text>
+                  </TouchableOpacity>
                 </View>
 
                 {loginError && <Text style={styles.errorText}>{loginError}</Text>}
-                <View style={{ alignItems: 'center', marginRight: '17%' }}>
-                  <TouchableOpacity
-                    style={[
-                      styles.button,
-                      isSubmitting && styles.disabledButton,
-                    ]}
-                    onPress={handleSubmit}
-                    disabled={isSubmitting}
-                  >
-                    <Text style={styles.buttonText}>
-                      {isSubmitting ? "Logging in..." : "Login"}
-                    </Text>
-                  </TouchableOpacity>
 
-                </View>
-
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    isSubmitting && styles.disabledButton,
+                  ]}
+                  onPress={handleSubmit}
+                  disabled={isSubmitting}
+                >
+                  <Text style={styles.buttonText}>
+                    {isSubmitting ? "Logging in..." : "Login"}
+                  </Text>
+                </TouchableOpacity>
               </View>
             )}
           </Formik>
         </View>
+
         <TouchableOpacity
-          style={{ marginTop: "10%", marginLeft: "5%" }}
+          style={styles.guestLink}
           onPress={async () => {
-            await AsyncStorage.setItem(
-              "@user",
-              "null"
-            );
+            await AsyncStorage.removeItem("@user");
             navigation.navigate("Inicio");
           }}
         >
-          <Text style={{ textDecorationLine: "underline", textAlign: 'center', marginRight: 2 }}>
+          <Text style={{ textDecorationLine: "underline", textAlign: 'center' }}>
             Entrar como convidado
           </Text>
         </TouchableOpacity>
-        <View style={{ flexDirection: "row", marginTop: "8%", marginLeft: "5%" }}>
+
+        <View style={styles.registerContainer}>
           <Text>Ainda não tem conta? </Text>
           <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Registo");
-            }}
+            onPress={() => navigation.navigate("Registo")}
           >
-            <Text style={{ textDecorationLine: "underline", fontWeight: "bold" }}>
-              {" "}
-              Registe-se
+            <Text style={styles.registerLink}>
+              {" "} Registe-se
             </Text>
           </TouchableOpacity>
         </View>
@@ -200,6 +194,7 @@ const Login = () => {
 };
 
 const { height } = Dimensions.get("window");
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -215,10 +210,12 @@ const styles = StyleSheet.create({
   },
   form: {
     width: "90%",
+
   },
   input: {
     backgroundColor: "white",
     height: 50,
+    width: 300,
     padding: 10,
     borderRadius: 5,
     borderWidth: 1,
@@ -228,14 +225,14 @@ const styles = StyleSheet.create({
     color: "red",
     height: 20,
     marginBottom: 10,
-    marginTop: 10
+    marginTop: 10,
   },
   button: {
-    justifyContent: 'center',
+    justifyContent: "center",
+    alignSelf: "center",
     marginTop: "15%",
     backgroundColor: "#000000",
     width: 150,
-    marginLeft: "25%",
     padding: 15,
     borderRadius: 5,
     alignItems: "center",
@@ -256,6 +253,7 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: "row",
     alignItems: "center",
+    marginTop: 10,
   },
   checkbox: {
     width: 20,
@@ -275,12 +273,23 @@ const styles = StyleSheet.create({
   },
   checkboxLabel: {
     marginLeft: 8,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+  forgotPassword: {
+    marginLeft: 'auto',
+  },
+  guestLink: {
+    marginTop: "10%",
+    marginLeft: "5%",
+  },
+  registerContainer: {
+    flexDirection: "row",
+    marginTop: "8%",
+    marginLeft: "5%",
+  },
+  registerLink: {
+    textDecorationLine: "underline",
+    fontWeight: "bold",
   },
 });
 
