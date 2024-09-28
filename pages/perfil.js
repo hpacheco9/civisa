@@ -204,7 +204,7 @@ const Perfil = ({ navigation }) => {
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Introduza a password</Text>
             <TextInput
-              style={styles.input}
+              style={styles.modalInput}
               secureTextEntry
               placeholder="Password"
               value={password}
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: height * 0.02,
     fontWeight: 'bold',
-    color: '#781f1c',
+    color: '#000000',
     marginBottom: '3%',
   },
   info: {
@@ -261,6 +261,7 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: height * 0.02,
+    width: '90%',
     marginBottom: 15,
     borderWidth: 1,
     borderColor: '#ccc',
@@ -297,11 +298,21 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    width: '80%',
   },
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
     fontSize: 18,
+  },
+  modalInput: {
+    fontSize: height * 0.024,
+    width: '100%',
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    padding: 12,
   },
   modalButtons: {
     flexDirection: 'row',

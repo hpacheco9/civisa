@@ -53,14 +53,25 @@ const Login = () => {
   const handleLogin = async (values, { setSubmitting }) => {
     try {
       const { email, password } = values;
-      await signInWithEmailAndPassword(auth2, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth2, email, password);
+      const user = userCredential.user;
+
       if (rememberMe) {
         await AsyncStorage.setItem("@loggedOut", JSON.stringify(false));
-      } 
-      const user = await getUserByEmail(email);
-      await AsyncStorage.setItem("@user", JSON.stringify(user));
-      navigation.navigate("Inicio");
-      return;
+      }
+
+      const userData = await getUserByEmail(email);
+
+      if (userData) {
+        await AsyncStorage.setItem("@user", JSON.stringify(userData));
+        await AsyncStorage.setItem("@loggedOut", "false");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Inicio' }],
+        });
+      } else {
+        setLoginError("User data not found. Please try again.");
+      }
     } catch (error) {
       setLoginError("Login failed. Please check your email and password.");
       console.error(error);
@@ -69,100 +80,99 @@ const Login = () => {
     }
   };
 
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <Text style={{ fontSize: height * 0.06, fontWeight: "bold", marginBottom: "30%" }}>CIVISA</Text>
         <Text style={styles.title}>Login</Text>
         <View>
-        <Formik
-          innerRef={formikRef}
-          initialValues={{ email: "", password: "" }}
-          validationSchema={validationSchema}
-          onSubmit={handleLogin}
-        >
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched,
-            isSubmitting,
-          }) => (
-            <View style={styles.form}>
-              <Text style={styles.label}>Email</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Introduza o seu email"
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
-                value={values.email}
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-              <Text style={styles.errorText}>
-                {touched.email && errors.email ? errors.email : " "}
-              </Text>
+          <Formik
+            innerRef={formikRef}
+            initialValues={{ email: "", password: "" }}
+            validationSchema={validationSchema}
+            onSubmit={handleLogin}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              errors,
+              touched,
+              isSubmitting,
+            }) => (
+              <View style={styles.form}>
+                <Text style={styles.label}>Email</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Introduza o seu email"
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  value={values.email}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
+                <Text style={styles.errorText}>
+                  {touched.email && errors.email ? errors.email : " "}
+                </Text>
 
-              <Text style={styles.label}>Password</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Introduza a sua password"
-                onChangeText={handleChange("password")}
-                onBlur={handleBlur("password")}
-                value={values.password}
-                secureTextEntry
-              />
-              <Text style={styles.errorText}>
-                {touched.password && errors.password ? errors.password : " "}
-              </Text>
+                <Text style={styles.label}>Password</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Introduza a sua password"
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  value={values.password}
+                  secureTextEntry
+                />
+                <Text style={styles.errorText}>
+                  {touched.password && errors.password ? errors.password : " "}
+                </Text>
 
-              <View style={{ flexDirection: 'row', alignItems: 'space-between'}}>
-                <View style={styles.checkboxContainer}>
+                <View style={{ flexDirection: 'row', alignItems: 'space-between' }}>
+                  <View style={styles.checkboxContainer}>
+                    <TouchableOpacity
+                      style={[
+                        styles.checkbox,
+                        rememberMe && styles.checkedBoxBackground,
+                      ]}
+                      onPress={() => setRememberMe(!rememberMe)}
+                    >
+                      {rememberMe && (
+                        <Text style={styles.checkedBoxText}>✓</Text>
+                      )}
+                    </TouchableOpacity>
+                    <Text style={styles.checkboxLabel}>lembrar</Text>
+                  </View>
+                  <View style={{ marginLeft: '30%' }}>
+                    <TouchableOpacity onPress={() => {
+                      navigation.navigate('Recuperar')
+                    }}>
+                      <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>Recuperar password</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                {loginError && <Text style={styles.errorText}>{loginError}</Text>}
+                <View style={{ alignItems: 'center', marginRight: '17%' }}>
                   <TouchableOpacity
                     style={[
-                      styles.checkbox,
-                      rememberMe && styles.checkedBoxBackground,
+                      styles.button,
+                      isSubmitting && styles.disabledButton,
                     ]}
-                    onPress={() => setRememberMe(!rememberMe)}
+                    onPress={handleSubmit}
+                    disabled={isSubmitting}
                   >
-                    {rememberMe && (
-                      <Text style={styles.checkedBoxText}>✓</Text>
-                    )}
+                    <Text style={styles.buttonText}>
+                      {isSubmitting ? "Logging in..." : "Login"}
+                    </Text>
                   </TouchableOpacity>
-                  <Text style={styles.checkboxLabel}>lembrar</Text>
-                </View>
-                <View style={{ marginLeft: '30%' }}>
-                  <TouchableOpacity onPress={() =>{
-                    navigation.navigate('Recuperar')
-                  }}>  
-                    <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>Recuperar password</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
 
-              {loginError && <Text style={styles.errorText}>{loginError}</Text>}
-              <View style={{alignItems: 'center', marginRight: '17%'}}>
-              <TouchableOpacity
-                style={[
-                  styles.button,
-                  isSubmitting && styles.disabledButton,
-                ]}
-                onPress={handleSubmit}
-                disabled={isSubmitting}
-              >
-                <Text style={styles.buttonText}>
-                  {isSubmitting ? "Logging in..." : "Login"}
-                </Text>
-              </TouchableOpacity>
+                </View>
 
               </View>
-
-            </View>
-          )}
-        </Formik>
+            )}
+          </Formik>
         </View>
         <TouchableOpacity
           style={{ marginTop: "10%", marginLeft: "5%" }}
@@ -174,7 +184,7 @@ const Login = () => {
             navigation.navigate("Inicio");
           }}
         >
-          <Text style={{ textDecorationLine: "underline", textAlign: 'center', marginRight: 2}}>
+          <Text style={{ textDecorationLine: "underline", textAlign: 'center', marginRight: 2 }}>
             Entrar como convidado
           </Text>
         </TouchableOpacity>
@@ -223,7 +233,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: "red",
-    height: 20, 
+    height: 20,
     marginBottom: 10,
     marginTop: 10
   },

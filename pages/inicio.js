@@ -13,7 +13,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getAuth} from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 const { height } = Dimensions.get("window");
 
@@ -26,8 +26,10 @@ const Inicio = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const userString = await AsyncStorage.getItem("@user");
+
       const user_2 = JSON.parse(userString);
       setUser(user_2);
+      console.log(user_2);
     };
 
     fetchUser();
@@ -45,22 +47,25 @@ const Inicio = () => {
         setUser(null);
         await AsyncStorage.removeItem("@user");
         await AsyncStorage.setItem("@loggedOut", "true");
-        navigation.navigate("Login");
-        return;
+        // Force a reload of the Login component
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Login' }],
+        });
       } catch (error) {
         console.error('Error signing out:', error.message);
       }
     } else if (option === "Perfil") {
       navigation.navigate("Perfil");
-      return;
     } else if (option === "Signin") {
       await AsyncStorage.removeItem("@user");
       await AsyncStorage.setItem("@loggedOut", "true");
-      navigation.navigate('Login');
-      return;
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Login' }],
+      });
     }
   };
-  
 
   return (
     <View style={styles.container}>
@@ -155,7 +160,7 @@ const Inicio = () => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-              navigation.navigate('Data e Hora');
+            navigation.navigate('Data e Hora');
           }}
         >
           <Iconify
