@@ -4,7 +4,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { auth } from './firebase';  // assuming firebase config is here
+import { auth } from './firebase';
 import {
   View,
   StyleSheet,
@@ -18,7 +18,6 @@ import {
 import { getFirestore } from "firebase/firestore";
 import getUserByEmail from "../services/getuser";
 
-// Validation schema for the form
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Email inválido").required("Email é obrigatório"),
   password: Yup.string()
@@ -43,39 +42,35 @@ const Login = () => {
     setRememberMe(false);
   }, []);
 
-  // Reset form and error on component focus
   useFocusEffect(
     useCallback(() => {
       resetLoginForm();
     }, [resetLoginForm])
   );
 
-  const handleLogin = async (values, { setSubmitting }) => {
+  const handleLogin = async (userData) => {
     try {
-      const { email, password } = values;
-      const userCredential = await signInWithEmailAndPassword(auth2, email, password);
+
+      const userCredential = await signInWithEmailAndPassword(auth2, userData.email, userData.password);
       const user = userCredential.user;
-      const user2 = await getUserByEmail(email);
+      const userDataFromFirestore = await getUserByEmail(user.email);
 
-      // Store user in AsyncStorage
-      await AsyncStorage.setItem("@user", JSON.stringify(user2));
+      if (userDataFromFirestore) {
+        await AsyncStorage.setItem("@user", JSON.stringify(userDataFromFirestore));
 
-      if (rememberMe) {
-        await AsyncStorage.setItem("@loggedOut", JSON.stringify(false));
-      }
+        if (rememberMe) {
+          await AsyncStorage.setItem("@loggedOut", "false");
+        }
 
-      // Check if user is stored successfully and navigate
-      const storedUser = await AsyncStorage.getItem("@user");
-      if (storedUser) {
-        navigation.navigate("Inicio");
+        navigation.replace("Inicio");
+
       } else {
-        throw new Error("Failed to retrieve user data.");
+        console.error('User data not found in Firestore');
+        setLoginError("User data not found");
       }
     } catch (error) {
-      setLoginError("Por favor, verifique o seu email e password.");
-      console.error(error);
-    } finally {
-      setSubmitting(false);
+      setLoginError("Invalid email or password. Please try again.");
+      console.error("Login error:", error);
     }
   };
 
@@ -147,7 +142,7 @@ const Login = () => {
                   </TouchableOpacity>
                 </View>
 
-                {loginError && <Text style={styles.errorText}>{loginError}</Text>}
+                {loginError && <Text style={styles.loginErrorText}>{loginError}</Text>}
 
                 <TouchableOpacity
                   style={[
@@ -210,16 +205,16 @@ const styles = StyleSheet.create({
   },
   form: {
     width: "90%",
-
   },
   input: {
     backgroundColor: "white",
     height: 50,
-    width: 300,
+    width: 330,
     padding: 10,
     borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "#ddd",
+    borderWidth: 0.5,
+    borderColor: "#000",
+    color: "black",
   },
   errorText: {
     color: "red",
@@ -227,10 +222,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 10,
   },
+  loginErrorText: {
+    color: "red",
+    textAlign: "center",
+    marginBottom: 10, // Add some space below the error message
+  },
   button: {
     justifyContent: "center",
     alignSelf: "center",
-    marginTop: "15%",
+    marginTop: 10, // Reduced top margin
     backgroundColor: "#000000",
     width: 150,
     padding: 15,
@@ -253,7 +253,6 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 10,
   },
   checkbox: {
     width: 20,

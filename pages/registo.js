@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, Toucha
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId } from '@env';
 import Voltar from '../components/Voltar';
@@ -62,69 +62,69 @@ const Register = () => {
   };
 
   return (
-      <>  
-        <Voltar />
-        <View style={{backgroundColor: '#ffffff', height: height * 0.15}}></View>
-        <ScrollView>
+    <>
+      <Voltar />
+      <View style={{ backgroundColor: '#ffffff', height: height * 0.15 }}></View>
+      <ScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <Text style={styles.title}>Registo</Text>
-          <Formik
-            initialValues={{Name: '', email: '', password: '', confirmPassword: '', phone: '', acceptTerms: false }}
-            validationSchema={validationSchema}
-            onSubmit={handleRegister}
-          >
-            {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched, isSubmitting }) => (
-              <View style={styles.form}>
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Nome</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Introduza o seu nome completo"
-                    onChangeText={handleChange("Name")}
-                    onBlur={handleBlur("Name")}
-                    value={values.Name}
-                  />
-                  <View style={styles.errorContainer}>
-                    {touched.Name && errors.Name && (
-                      <Text style={styles.errorText}>{errors.Name}</Text>
-                    )}
+          <View style={styles.container}>
+            <Text style={styles.title}>Registo</Text>
+            <Formik
+              initialValues={{ Name: '', email: '', password: '', confirmPassword: '', phone: '', acceptTerms: false }}
+              validationSchema={validationSchema}
+              onSubmit={handleRegister}
+            >
+              {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched, isSubmitting }) => (
+                <View style={styles.form}>
+                  <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Nome</Text>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Introduza o seu nome completo"
+                      onChangeText={handleChange("Name")}
+                      onBlur={handleBlur("Name")}
+                      value={values.Name}
+                    />
+                    <View style={styles.errorContainer}>
+                      {touched.Name && errors.Name && (
+                        <Text style={styles.errorText}>{errors.Name}</Text>
+                      )}
+                    </View>
                   </View>
-                </View>
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Email</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Introduza o seu email"
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    value={values.email}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                  />
-                  <View style={styles.errorContainer}>
-                    {touched.email && errors.email && (
-                      <Text style={styles.errorText}>{errors.email}</Text>
-                    )}
+                  <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Email</Text>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Introduza o seu email"
+                      onChangeText={handleChange("email")}
+                      onBlur={handleBlur("email")}
+                      value={values.email}
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                    />
+                    <View style={styles.errorContainer}>
+                      {touched.email && errors.email && (
+                        <Text style={styles.errorText}>{errors.email}</Text>
+                      )}
+                    </View>
                   </View>
-                </View>
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Telemóvel</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Introduza o seu número de telemóvel"
-                    onChangeText={handleChange("phone")}
-                    onBlur={handleBlur("phone")}
-                    value={values.phone}
-                    keyboardType="phone-pad"
-                  />
-                  <View style={styles.errorContainer}>
-                    {touched.phone && errors.phone && (
-                      <Text style={styles.errorText}>{errors.phone}</Text>
-                    )}
+                  <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Telemóvel</Text>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Introduza o seu número de telemóvel"
+                      onChangeText={handleChange("phone")}
+                      onBlur={handleBlur("phone")}
+                      value={values.phone}
+                      keyboardType="phone-pad"
+                    />
+                    <View style={styles.errorContainer}>
+                      {touched.phone && errors.phone && (
+                        <Text style={styles.errorText}>{errors.phone}</Text>
+                      )}
+                    </View>
                   </View>
-                </View>
-                <View style={{marginTop: '10%'}}>
+                  <View style={{ marginTop: '10%' }}>
                     <View style={styles.inputContainer}>
                       <Text style={styles.label}>Password</Text>
                       <TextInput
@@ -139,70 +139,70 @@ const Register = () => {
                         {touched.password && errors.password && (
                           <Text style={styles.errorText}>{errors.password}</Text>
                         )}
-                    </View>
-                  
-                    </View>
-                        <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Confirmar Password</Text>
-                        <TextInput
-                          style={styles.input}
-                          placeholder="Confirme a sua password"
-                          onChangeText={handleChange("confirmPassword")}
-                          onBlur={handleBlur("confirmPassword")}
-                          value={values.confirmPassword}
-                          secureTextEntry
-                        />
-                        <View style={styles.errorContainer}>
-                          {touched.confirmPassword && errors.confirmPassword && (
-                            <Text style={styles.errorText}>{errors.confirmPassword}</Text>
-                          )}
-                        </View>
-                    </View>
-                </View>
-                <CustomCheckbox
-                value={values.acceptTerms}
-                onValueChange={(newValue) => {
-                  setFieldValue('acceptTerms', newValue);
-                  
-                }}
-                label="  Li e aceito os"
-                linkText="termos e condições"
-                linkDestination="RGPD"
-            />
+                      </View>
 
-               
+                    </View>
+                    <View style={styles.inputContainer}>
+                      <Text style={styles.label}>Confirmar Password</Text>
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Confirme a sua password"
+                        onChangeText={handleChange("confirmPassword")}
+                        onBlur={handleBlur("confirmPassword")}
+                        value={values.confirmPassword}
+                        secureTextEntry
+                      />
+                      <View style={styles.errorContainer}>
+                        {touched.confirmPassword && errors.confirmPassword && (
+                          <Text style={styles.errorText}>{errors.confirmPassword}</Text>
+                        )}
+                      </View>
+                    </View>
+                  </View>
+                  <CustomCheckbox
+                    value={values.acceptTerms}
+                    onValueChange={(newValue) => {
+                      setFieldValue('acceptTerms', newValue);
 
-               
-                <View style={styles.errorContainer}>
-                  {touched.acceptTerms && errors.acceptTerms && (
-                    <Text style={styles.errorText}>{errors.acceptTerms}</Text>
+                    }}
+                    label="  Li e aceito os"
+                    linkText="termos e condições"
+                    linkDestination="RGPD"
+                  />
+
+
+
+
+                  <View style={styles.errorContainer}>
+                    {touched.acceptTerms && errors.acceptTerms && (
+                      <Text style={styles.errorText}>{errors.acceptTerms}</Text>
+                    )}
+                  </View>
+
+                  {registerError && (
+                    <Text style={styles.errorText}>{registerError}</Text>
                   )}
+
+                  <TouchableOpacity
+                    style={[styles.button, isSubmitting && styles.disabledButton]}
+                    onPress={handleSubmit}
+                    disabled={isSubmitting}
+                  >
+                    <Text style={styles.buttonText}>
+                      {isSubmitting ? "Registando..." : "Registar"}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
+              )}
+            </Formik>
 
-                {registerError && (
-                  <Text style={styles.errorText}>{registerError}</Text>
-                )}
+          </View>
 
-                <TouchableOpacity 
-                  style={[styles.button, isSubmitting && styles.disabledButton]} 
-                  onPress={handleSubmit}
-                  disabled={isSubmitting}
-                >
-                  <Text style={styles.buttonText}>
-                    {isSubmitting ? "Registando..." : "Registar"}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          </Formik>
-        
-        </View>
-        
         </TouchableWithoutFeedback>
-        </ScrollView>
-        <View style={{backgroundColor: '#ffffff', height: 20}}></View>
-      </>
-  
+      </ScrollView>
+      <View style={{ backgroundColor: '#ffffff', height: 20 }}></View>
+    </>
+
   );
 };
 
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     marginRight: '65%'
   },
   form: {
-    width: "90%",
+    width: "95%",
   },
   input: {
     backgroundColor: "white",
@@ -237,18 +237,19 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: "#ddd",
+    width: '100%',
+    borderColor: "#000000",
   },
   errorContainer: {
-    height: 20, 
-    justifyContent: 'center', 
+    height: 20,
+    justifyContent: 'center',
   },
   inputContainer: {
-    marginBottom: 10, 
+    marginBottom: 10,
   },
   errorText: {
     color: "red",
-    marginTop: 5, 
+    marginTop: 5,
   },
   button: {
     marginTop: '5%',

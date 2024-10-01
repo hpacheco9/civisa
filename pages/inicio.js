@@ -14,6 +14,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from '@react-navigation/native';
 
 const { height } = Dimensions.get("window");
 
@@ -23,63 +24,62 @@ const Inicio = () => {
   const [isPanelVisible, setIsPanelVisible] = useState(false);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDataFetched, setIsDataFetched] = useState(false);
 
   const togglePanel = () => {
     setIsPanelVisible(!isPanelVisible);
   };
 
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const userData = await AsyncStorage.getItem("@user");
-        if (userData) {
-          setUser(JSON.parse(userData));  // Parse the user data correctly
-        } else {
+  useFocusEffect(
+    React.useCallback(() => {
+      const checkLoginState = async () => {
+        setIsLoading(true);
+        try {
+          const userData = await AsyncStorage.getItem("@user");
+          const loggedOut = await AsyncStorage.getItem("@loggedOut");
+          if (userData) {
+            setUser(JSON.parse(userData));
+          } else {
+            setUser(null);
+          }
+          console.log(userData);
+        } catch (error) {
+          console.error('Error checking login state:', error);
           setUser(null);
+        } finally {
+          setIsLoading(false);
+          setIsDataFetched(true);
         }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    getUser();
-  }, []);
+      };
+
+      checkLoginState();
+    }, [])
+  );
 
   const handleOptionSelect = async (option) => {
     togglePanel();
     try {
-      switch (option) {
-        case "Logout":
-          await AsyncStorage.setItem("@loggedOut", "true");
-          await AsyncStorage.removeItem("@user");
-          setUser(null);
-          navigation.navigate("Login");
-          break;
-        case "Perfil":
-          navigation.navigate("Perfil");
-          break;
-        case "Signin":
-          await AsyncStorage.setItem("@loggedOut", "true");
-          await AsyncStorage.removeItem("@user");
-          setUser(null);
-          navigation.navigate("Login");
-          break;
-        default:
-          console.warn("Unknown option selected:", option);
+      if (option === "Logout" || option === "Signin") {
+        await AsyncStorage.setItem("@loggedOut", "true");
+        await AsyncStorage.removeItem("@user");
+        setUser(null);
+        navigation.navigate("Login");
+      } else if (option === "Perfil") {
+        navigation.navigate("Perfil");
       }
     } catch (error) {
-      console.error("Error handling option:", error.message);
+      console.error('Error handling option:', error.message);
     }
   };
 
-  if (isLoading) {
+  if (isLoading || !isDataFetched) {
     return (
       <View style={[styles.container, styles.centerContent]}>
         <ActivityIndicator size="large" color="#781f1c" />
       </View>
     );
   }
+
   return (
     <View style={styles.container}>
       <View style={styles.containerLogo}>
@@ -103,55 +103,43 @@ const Inicio = () => {
           />
         </TouchableOpacity>
       </View>
-      {user ? (
-        <Modal
-          transparent={true}
-          animationType="fade"
-          visible={isPanelVisible}
-          onRequestClose={togglePanel}
-        >
-          <TouchableWithoutFeedback onPress={togglePanel}>
-            <View style={styles.modalOverlay}>
-              <TouchableWithoutFeedback>
-                <View style={styles.panel}>
-                  <Pressable
-                    style={styles.panelButton}
-                    onPress={() => handleOptionSelect("Perfil")}
-                  >
-                    <Iconify
-                      icon="mdi:user-outline"
-                      size={height * 0.03}
-                      color={"black"}
-                    />
-                    <Text style={styles.panelButtonText}>Perfil</Text>
-                  </Pressable>
-                  <Pressable
-                    style={styles.panelButton}
-                    onPress={() => handleOptionSelect("Logout")}
-                  >
-                    <Iconify
-                      icon="mdi:logout"
-                      size={height * 0.03}
-                      color={"black"}
-                    />
-                    <Text style={styles.panelButtonText}>Logout</Text>
-                  </Pressable>
-                </View>
-              </TouchableWithoutFeedback>
-            </View>
-          </TouchableWithoutFeedback>
-        </Modal>
-      ) : (
-        <Modal
-          transparent={true}
-          animationType="fade"
-          visible={isPanelVisible}
-          onRequestClose={togglePanel}
-        >
-          <TouchableWithoutFeedback onPress={togglePanel}>
-            <View style={styles.modalOverlay}>
-              <TouchableWithoutFeedback>
-                <View style={styles.panel}>
+
+      <Modal
+        transparent={true}
+        animationType="fade"
+        visible={isPanelVisible}
+        onRequestClose={togglePanel}
+      >
+        <TouchableWithoutFeedback onPress={togglePanel}>
+          <View style={styles.modalOverlay}>
+            <TouchableWithoutFeedback>
+              <View style={styles.panel}>
+                {user ? (
+                  <>
+                    <Pressable
+                      style={styles.panelButton}
+                      onPress={() => handleOptionSelect("Perfil")}
+                    >
+                      <Iconify
+                        icon="mdi:user-outline"
+                        size={height * 0.03}
+                        color={"black"}
+                      />
+                      <Text style={styles.panelButtonText}>Perfil</Text>
+                    </Pressable>
+                    <Pressable
+                      style={styles.panelButton}
+                      onPress={() => handleOptionSelect("Logout")}
+                    >
+                      <Iconify
+                        icon="mdi:logout"
+                        size={height * 0.03}
+                        color={"black"}
+                      />
+                      <Text style={styles.panelButtonText}>Logout</Text>
+                    </Pressable>
+                  </>
+                ) : (
                   <Pressable
                     style={styles.panelButton}
                     onPress={() => handleOptionSelect("Signin")}
@@ -163,12 +151,13 @@ const Inicio = () => {
                     />
                     <Text style={styles.panelButtonText}>Sign in</Text>
                   </Pressable>
-                </View>
-              </TouchableWithoutFeedback>
-            </View>
-          </TouchableWithoutFeedback>
-        </Modal>
-      )}
+                )}
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.button}

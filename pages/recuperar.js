@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { 
-    StyleSheet, 
-    Text, 
-    View, 
-    Dimensions, 
-    TextInput, 
-    TouchableOpacity, 
-    Alert 
+import {
+    StyleSheet,
+    Text,
+    View,
+    Dimensions,
+    TextInput,
+    TouchableOpacity,
+    Alert
 } from "react-native";
 import Voltar from "../components/Voltar.jsx";
 import { useNavigation } from '@react-navigation/native';
 import { auth } from './firebase.js';
-import { sendPasswordResetEmail, getAuth  } from "firebase/auth";
+import { sendPasswordResetEmail, getAuth } from "firebase/auth";
 import getUserByEmail from "../services/getuser.js";
 
 
@@ -68,7 +68,7 @@ const Recuperar = () => {
                     <TouchableOpacity onPress={() => {
                         navigation.navigate('Registo');
                     }}>
-                        <Text style={{fontWeight: 'bold', textDecorationLine: 'underline'}}> Registe-se</Text>
+                        <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}> Registe-se</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: height * 0.04   
+        marginBottom: height * 0.04
     },
     title: {
         fontSize: height * 0.035,
@@ -104,13 +104,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         paddingHorizontal: 10,
-        fontSize: height * 0.02,
+
         marginBottom: height * 0.03,
     },
     button: {
         backgroundColor: '#000000',
         width: '50%',
-        height: height * 0.065,  
+        height: height * 0.065,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     },
     signupContainer: {
         flexDirection: 'row',
-        marginTop: height * 0.03,   
+        marginTop: height * 0.03,
     },
 });
 
