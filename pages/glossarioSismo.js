@@ -5,11 +5,12 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
-  Dimensions,
+  SafeAreaView,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
 import glossario from "../services/glossarioSismo.json";
-import Voltar from "../components/Voltar.jsx";
+import TopBar from "../components/topBar.jsx";
+
 const glossarioData = glossario.glossario;
 
 const GlossarioSismo = () => {
@@ -20,12 +21,11 @@ const GlossarioSismo = () => {
   };
 
   return (
-    <>
-    <Voltar />
-    <View style={{backgroundColor: '#ffffff', height: height * 0.15}}></View>
+    <SafeAreaView style={styles.safeArea}>
+    <TopBar />
     <ScrollView style={styles.scrollView}>
+    <Text style={styles.title}>Glossário Sismologia</Text>
       <View style={styles.container}>
-        <Text style={styles.title}>Glossário Sismologia</Text>
         {glossarioData.map((item, index) => (
           <View key={index} style={styles.itemContainer}>
             <TouchableOpacity
@@ -45,15 +45,18 @@ const GlossarioSismo = () => {
         ))}
       </View>
     </ScrollView>
-    </>
-    
+    </SafeAreaView>
   );
 };
-const {height} = Dimensions.get('window');
+
 const styles = StyleSheet.create({
-  scrollView: {
+  safeArea: {
     flex: 1,
     backgroundColor: "#FFF",
+  },
+  scrollView: {
+    flexGrow: 1,
+    paddingBottom: 20,
   },
   container: {
     padding: 16,
@@ -79,7 +82,6 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 20,
   },
   textoBold: {
     fontSize: 18,
@@ -99,6 +101,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#000",
     lineHeight: 24,
+    textAlign: "justify",
   },
 });
 

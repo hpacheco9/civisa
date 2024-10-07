@@ -4,12 +4,11 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image,
   Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
-import Voltar from "../components/Voltar";
+import TopBar from "../components/topBar.jsx";
 
 const { height } = Dimensions.get("window");
 
@@ -18,14 +17,7 @@ const MenuEscala = () => {
 
   return (
     <View style={styles.container}>
-      <Voltar />
-      <View style={styles.containerLogo}>
-        <Image
-          source={require("../assets/CIVISA_logo.png")}
-          style={styles.logo}
-          resizeMode="contain"
-        />
-      </View>
+      <TopBar />
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.button}
@@ -81,16 +73,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFF",
   },
-  containerLogo: {
-    alignItems: "center",
-    paddingTop: "40%",
-    paddingBottom: 40,
-    backgroundColor: "#FFF",
-  },
-  logo: {
-    width: "85%",
-    height: 40,
-  },
   buttonsContainer: {
     flex: 1,
     flexDirection: "row",
@@ -100,7 +82,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "49%",
-    height: "30%",
+    height: "22%",
     padding: 10,
     justifyContent: "center",
     alignItems: "center",

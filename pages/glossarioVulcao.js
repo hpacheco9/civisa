@@ -6,15 +6,13 @@ import {
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
-  Dimensions,
   Image,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
 import glossario from "../services/glossarioVulcao.json";
-import Voltar from "../components/Voltar.jsx";
+import TopBar from "../components/topBar.jsx";
 
 const glossarioData = glossario.glossario;
-const { height, width } = Dimensions.get('window');
 
 const GlossarioVulcao = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -25,10 +23,9 @@ const GlossarioVulcao = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Voltar />
+      <TopBar />
+      <ScrollView style={styles.scrollView}>
       <Text style={styles.title}>Glossário Vulcanologia</Text>
-      <View style={{ backgroundColor: "#ffffff", height: height * 0.02 }}></View>
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.container}>
           {glossarioData.map((item, index) => (
             <View key={index} style={styles.itemContainer}>
@@ -51,12 +48,13 @@ const GlossarioVulcao = () => {
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: "#FFF",
   },
-  scrollViewContent: {
+  scrollView: {
     flexGrow: 1,
     paddingBottom: 20,
   },
@@ -79,8 +77,6 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "bold",
     textAlign: "center",
-    color: "#000",
-    marginTop: "20%",
   },
   textoBold: {
     fontSize: 18,
