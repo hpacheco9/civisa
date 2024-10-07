@@ -10,9 +10,9 @@ import axios from "axios";
 import { parseString } from "react-native-xml2js";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import InfoContainer from "../components/infoContainer.jsx";
-import Voltar from "../components/Voltar.jsx";
 import Ajuda from "../components/ajuda_icon.jsx";
 import backGround from "../services/background.js";
+import TopBar from "../components/topBar.jsx";
 
 const Lista = () => {
   const [events, setEvents] = useState([]);
@@ -159,10 +159,8 @@ const Lista = () => {
 
   return (
     <>
-      <View style={styles.contHelp}>
-        <Voltar />
-        <Ajuda />
-      </View>
+      <TopBar/>
+      <Ajuda />
       <View style={styles.contButton}>
         <TouchableOpacity style={styles.button} onPress={showAllEvents}>
           <Text>ALL</Text>
@@ -207,20 +205,11 @@ const Lista = () => {
 
 const styles = StyleSheet.create({
   contButton: {
-    marginTop: "10%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     marginRight: "5%",
     height: 50,
-  },
-  contHelp: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    paddingHorizontal: 20,
-    marginTop: "20%",
   },
   button: {
     marginLeft: "4%",

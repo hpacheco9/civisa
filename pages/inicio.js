@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image,
   Dimensions,
   Modal,
   Pressable,
@@ -15,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from '@react-navigation/native';
+import Logo from "../components/logo";
 
 const { height } = Dimensions.get("window");
 
@@ -82,26 +82,39 @@ const Inicio = () => {
 
   return (
     <View style={styles.container}>
+      <Logo />
       <View style={styles.containerLogo}>
-        <TouchableOpacity onPress={() => navigation.navigate("Notificacao")}>
-          <Iconify
-            icon="material-symbols:notifications-outline-rounded"
-            size={height * 0.045}
-            color={"black"}
-          />
-        </TouchableOpacity>
-        <Image
-          source={require("../assets/IVAR.png")}
-          style={styles.logo}
-          resizeMode="contain"
-        />
-        <TouchableOpacity onPress={togglePanel}>
-          <Iconify
-            icon="mdi:user-outline"
-            size={height * 0.045}
-            color={"black"}
-          />
-        </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                marginLeft: "10%",
+                position: "absolute",
+                zIndex: 1,
+              }}
+              onPress={() => {
+                navigation.navigate("Notificacao");
+              }}
+            >
+              <Iconify
+                icon="material-symbols:notifications-outline-rounded"
+                size={height * 0.045}
+                color="black"
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                marginRight: "10%",
+                right: 0,
+                position: "absolute",
+                zIndex: 1,
+              }}
+              onPress={togglePanel}
+            >
+              <Iconify
+                icon="mdi:user-outline"
+                size={height * 0.045}
+                color="black"
+              />
+            </TouchableOpacity>
       </View>
 
       <Modal
@@ -260,16 +273,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
   },
   containerLogo: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingTop: "20%",
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-    backgroundColor: "#FFF",
-  },
-  logo: {
-    width: "75%",
-    height: 40,
+    marginTop: "25%",
+    marginBottom: "10%",
   },
   buttonsContainer: {
     flex: 1,
