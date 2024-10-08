@@ -258,11 +258,11 @@ const Inicio = () => {
           onPress={() => navigation.navigate("QuemSomos")}
         >
           <Iconify
-            icon="material-symbols:question-mark-rounded"
+            icon="material-symbols:chat-info-outline-rounded"
             size={height * 0.09}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Quem somos?</Text>
+          <Text style={styles.buttonText}>Informações</Text>
         </TouchableOpacity>
       </View>
     </View>
