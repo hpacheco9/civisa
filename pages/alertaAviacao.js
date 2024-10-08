@@ -4,11 +4,13 @@ import {
   Text,
   View,
   ScrollView,
+  SafeAreaView,
   TouchableOpacity,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
 import alerta from "../services/alertaAviacao.json";
-import Voltar from "../components/Voltar.jsx";
+import TopBar from "../components/topBar.jsx";
+
 const alertData = alerta.alerta;
 
 const AlertaAviacao = () => {
@@ -19,8 +21,9 @@ const AlertaAviacao = () => {
   };
 
   return (
+    <SafeAreaView style={styles.safeArea}>
+      <TopBar/>
     <ScrollView>
-      <Voltar />
       <View style={styles.container}>
         <Text style={styles.title}>
           Código de Cores de Alerta Vulcânico para a Aviação (ICAO)
@@ -58,14 +61,18 @@ const AlertaAviacao = () => {
         ))}
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#FFF",
+  },
   container: {
     backgroundColor: "#FFF",
     padding: 16,
-    marginTop: "34%",
     marginBottom: "5%",
   },
   containerValor: {

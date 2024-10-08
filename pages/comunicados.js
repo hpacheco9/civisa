@@ -4,11 +4,12 @@ import {
   Text,
   View,
   ScrollView,
+  SafeAreaView,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
-import Voltar from "../components/Voltar.jsx";
+import TopBar from "../components/topBar";
 
 const Comunicados = () => {
   const [comunicados, setComunicados] = useState([]);
@@ -51,8 +52,9 @@ const Comunicados = () => {
   };
 
   return (
+    <SafeAreaView style={styles.safeArea}>
+      <TopBar/>
     <ScrollView>
-      <Voltar />
       <View style={styles.container}>
         <Text style={styles.title}>Comunicados</Text>
         {loading ? (
@@ -83,14 +85,18 @@ const Comunicados = () => {
         )}
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#FFF",
+  },
   container: {
     backgroundColor: "#FFF",
     padding: 16,
-    marginTop: "34%",
     marginBottom: "5%",
   },
   containerValor: {

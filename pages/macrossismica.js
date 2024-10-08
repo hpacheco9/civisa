@@ -4,11 +4,12 @@ import {
   Text,
   View,
   ScrollView,
+  SafeAreaView,
   TouchableOpacity,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
 import escala from "../services/macrossismica.json";
-import Voltar from "../components/Voltar.jsx";
+import TopBar from "../components/topBar.jsx";
 
 const escalaData = escala.escala;
 
@@ -19,27 +20,10 @@ const Macrossismica = () => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
 
-  const lastButtons = [
-    {
-      level: "X",
-      title: "Muito destrutivo",
-      color: "#ff6600",
-    },
-    {
-      level: "XI",
-      title: "Devastador",
-      color: "#e84d00",
-    },
-    {
-      level: "XII",
-      title: "Completamente devastador",
-      color: "#ba3e00",
-    },
-  ];
-
   return (
+    <SafeAreaView style={styles.safeArea}>
+      <TopBar/>
     <ScrollView>
-      <Voltar />
       <View style={styles.container}>
         <Text style={styles.title}>Escala Macrossísmica Europeia (1998)</Text>
         {escalaData.map((item, index) => (
@@ -55,43 +39,50 @@ const Macrossismica = () => {
                 <Text style={styles.textoBold}>{item.title}</Text>
               </View>
             </TouchableOpacity>
-            <Collapsible collapsed={expandedIndex !== index}>
-              <View style={styles.descriptionContainer}>
-                <Text style={[styles.descriptionText, { fontWeight: "bold" }]}>
-                  Efeitos nos seres humanos:
-                </Text>
-                <Text style={styles.descriptionText}>{item.description}</Text>
-                <Text style={[styles.descriptionText, { fontWeight: "bold" }]}>
-                  Efeitos sobre os objectos e a natureza:
-                </Text>
-                <Text style={styles.descriptionText}>{item.description2}</Text>
-              </View>
-            </Collapsible>
+            {index < 9 && (
+              <Collapsible collapsed={expandedIndex !== index}>
+                <View style={styles.descriptionContainer}>
+                  <Text style={[styles.descriptionText, { fontWeight: "bold" }]}>
+                    Efeitos nos seres humanos:
+                  </Text>
+                  <Text style={styles.descriptionText}>{item.description}</Text>
+                  <Text style={[styles.descriptionText, { fontWeight: "bold" }]}>
+                    Efeitos sobre os objetos e a natureza:
+                  </Text>
+                  <Text style={styles.descriptionText}>{item.description2}</Text>
+                  <Text style={[styles.descriptionText, { fontWeight: "bold" }]}>
+                    Efeitos nas construções:
+                  </Text>
+                  <Text style={styles.descriptionText}>{item.description3}</Text>
+                </View>
+              </Collapsible>
+            )}
+            {index >= 9 && (
+              <Collapsible collapsed={expandedIndex !== index}>
+                <View style={styles.descriptionContainer}>
+                  <Text style={[styles.descriptionText, { fontWeight: "bold" }]}>
+                    Efeitos nas construções:
+                  </Text>
+                  <Text style={styles.descriptionText}>{item.description3}</Text>
+                </View>
+              </Collapsible>
+            )}
           </View>
-        ))}
-        {lastButtons.map((button) => (
-          <TouchableOpacity
-            key={button.level}
-            style={[styles.containerValor, { backgroundColor: button.color }]}
-          >
-            <View style={styles.escalaContainer}>
-              <Text style={styles.escala}>{button.level}</Text>
-            </View>
-            <View style={styles.textContainer}>
-              <Text style={styles.textoBold}>{button.title}</Text>
-            </View>
-          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#FFF",
+  },
   container: {
     backgroundColor: "#FFF",
     padding: 16,
-    marginTop: "34%",
     marginBottom: "5%",
   },
   containerValor: {
