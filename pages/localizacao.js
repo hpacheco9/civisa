@@ -1,14 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Text, Keyboard, TouchableWithoutFeedback, Dimensions, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity, ScrollView, SafeAreaView } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import InputDropdown from "../components/dropDown";
-import Voltar from "../components/Voltar";
+import TopBar from "../components/topBar.jsx";
 import locais from "../services/Locais.json";
-
-const { width, height } = Dimensions.get('window');
 
 const concelhos = locais.concelhos;
 const freguesias = locais.freguesias;
@@ -47,10 +45,9 @@ const Localizacao = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.wrapper}>
-        <View style={styles.voltarContainer}>
-          <Voltar />
-        </View>
+      <SafeAreaView style={styles.safeArea}>
+        <TopBar/>
+      <ScrollView>
         <View style={styles.container}>
           <Text style={styles.header}>{`Localização \ndo sismo`}</Text>
           <Formik
@@ -114,28 +111,20 @@ const Localizacao = () => {
             )}
           </Formik>
         </View>
-      </View>
+        </ScrollView>
+      </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
+  safeArea: {
     flex: 1,
-    width: '100%',
-  },
-  voltarContainer: {
-    marginBottom: "5%",
-    position: 'absolute',
-    flexDirection: 'row',
-    width: '100%',
-    paddingHorizontal: 20,
-    zIndex: 10,
+    backgroundColor: "#FFF",
   },
   container: {
     flex: 1,
     alignItems: "center",
-    marginTop: '25%',
     width: '100%',
   },
   form: {
@@ -145,12 +134,11 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   header: {
-    fontSize: width * 0.08,
+    fontSize: 32,
     fontWeight: "bold",
-    marginBottom: height * 0.03,
-    marginLeft: '25%',
-    marginTop: '20%',
+    textAlign: "center",
     width: '100%',
+    marginBottom: "5%",
   },
   errorText: {
     color: "#8B0000",
@@ -166,6 +154,7 @@ const styles = StyleSheet.create({
     marginLeft: "10%",
     marginRight: "10%",
     marginTop: "15%",
+    marginBottom: "5%",
   },
   buttonText: {
     color: 'white',

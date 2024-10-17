@@ -6,13 +6,13 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
-  Platform,
+  SafeAreaView,
 } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { useNavigation } from "@react-navigation/native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import Voltar from "../components/Voltar"
 import { Iconify } from "react-native-iconify"
+import TopBar from "../components/topBar.jsx";
 
 export default function CustomDateTimePicker() {
   const [date, setDate] = useState(new Date())
@@ -67,13 +67,11 @@ export default function CustomDateTimePicker() {
   }
 
   return (
-    <>
-      <View style={{ marginBottom: "20%" }}>
-        <Voltar />
-      </View>
-      <Text style={styles.header}>Data e Hora</Text>
-      <ScrollView>
-        <View style={styles.container}>
+    <SafeAreaView style={styles.safeArea}>
+      <TopBar/>
+    <ScrollView>
+      <View style={styles.container}>
+        <Text style={styles.header}>Data e Hora</Text>
           <Text style={styles.title}>Data do sismo</Text>
           <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.inputContainer}>
             <Text style={styles.selectedValue}>{formatDate(date)}</Text>
@@ -115,19 +113,23 @@ export default function CustomDateTimePicker() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </>
+    </SafeAreaView>
   )
 }
 
 const {height} = Dimensions.get('window');
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#FFF",
+  },
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
     paddingTop: "5%",
     alignItems: "center",
     overflow: "scroll",
-    
+    paddingVertical: "5%",
   },
   title: {
     fontWeight: "bold",
@@ -164,10 +166,8 @@ const styles = StyleSheet.create({
     width: 300,
   },
   header: {
-    marginTop: "20%",
     fontWeight: "bold",
     fontSize: 32,
-    marginLeft: "12%",
   },
   inputContainer: {
     flexDirection: "row",
