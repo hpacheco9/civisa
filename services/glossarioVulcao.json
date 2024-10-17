@@ -76,8 +76,18 @@
       "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Puu_Oo_-_boulder_Royal_Gardens_1983.jpg"
     },
     {
+      "title": "Escoada piroclástica",
+      "description": "Fluxo de gases, rochas e cinzas vulcânicas a elevada temperatura, geralmente acima de 500º C, que progride a grande velocidade ao longo do terreno, especialmente em zonas topograficamente deprimidas. É gerada em erupções explosivas pelo colapso de colunas eruptivas, por explosões laterais ou pelo colapso gravitacional de domos.",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Puu_Oo_-_boulder_Royal_Gardens_1983.jpg"
+    },
+    {
       "title": "Explosão hidrotermal",
       "description": "Explosão de vapor que se caracteriza pela emissão de jatos de água e de vapor, de lama, e de fragmentos de rocha numa área com diâmetro variável, desde alguns metros a vários quilómetros. A explosão é causada quando a água aquecida em reservatórios geotérmicos rapidamente se converte em vapor quebrando violentamente as rochas encaixantes. Uma explosão hidrotermal não necessita de qualquer contribuição de massa ou energia diretamente do magma, distinguindo-se, assim, das explosões freáticas e hidromagmáticas.",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Puu_Oo_-_boulder_Royal_Gardens_1983.jpg"
+    },
+    {
+      "title": "Índice de Explosividade Vulcânica (Volcanic Explosivity Index, VEI)",
+      "description": "Escala semiquantitativa da dimensão da explosividade de erupções vulcânicas com base no volume de produtos emitidos e altura da coluna eruptiva.",
       "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Puu_Oo_-_boulder_Royal_Gardens_1983.jpg"
     },
     {
@@ -103,11 +113,6 @@
     {
       "title": "Vulcão ativo",
       "description": "Vulcão que teve pelo menos uma erupção nos últimos 10.000 anos.",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Puu_Oo_-_boulder_Royal_Gardens_1983.jpg"
-    },
-    {
-      "title": "Escoada piroclástica",
-      "description": "Fluxo de gases, rochas e cinzas vulcânicas a elevada temperatura, geralmente acima de 500º C, que progride a grande velocidade ao longo do terreno, especialmente em zonas topograficamente deprimidas. É gerada em erupções explosivas pelo colapso de colunas eruptivas, por explosões laterais ou pelo colapso gravitacional de domos.",
       "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Puu_Oo_-_boulder_Royal_Gardens_1983.jpg"
     }
   ]

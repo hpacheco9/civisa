@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -87,6 +87,7 @@ const Inicio = () => {
             <TouchableOpacity
               style={{
                 marginLeft: "10%",
+                marginTop: "5%",
                 position: "absolute",
                 zIndex: 1,
               }}
@@ -103,6 +104,7 @@ const Inicio = () => {
             <TouchableOpacity
               style={{
                 marginRight: "10%",
+                marginTop: "5%",
                 right: 0,
                 position: "absolute",
                 zIndex: 1,
@@ -256,11 +258,11 @@ const Inicio = () => {
           onPress={() => navigation.navigate("QuemSomos")}
         >
           <Iconify
-            icon="material-symbols:question-mark-rounded"
+            icon="material-symbols:chat-info-outline-rounded"
             size={height * 0.09}
             color={"#FFF"}
           />
-          <Text style={styles.buttonText}>Quem somos?</Text>
+          <Text style={styles.buttonText}>Informações</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -273,8 +275,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
   },
   containerLogo: {
-    marginTop: "25%",
-    marginBottom: "10%",
+    marginTop: "20%",
+    marginBottom: "15%",
   },
   buttonsContainer: {
     flex: 1,

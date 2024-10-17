@@ -1,12 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 import InfoContainer from "../components/infoContainer";
-import Voltar from "../components/Voltar";
+import TopBar from "../components/topBar.jsx";
 
 const ListaEventos = () => {
   return (
+    <SafeAreaView style={styles.safeArea}>
+      <TopBar/>
     <ScrollView>
-      <Voltar />
       <View style={styles.container}>
         <Text style={styles.title}>Lista de Eventos</Text>
         <Text style={styles.texto}>
@@ -37,22 +38,26 @@ const ListaEventos = () => {
           Mercalli Modificada.
         </Text>
       </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#FFF",
+  },
   container: {
     flex: 1,
     paddingHorizontal: 30,
     backgroundColor: "#ffffff",
-    marginTop: "36%",
     overflow: "scroll",
   },
   title: {
-    fontSize: 26,
+    fontSize: 32,
     fontWeight: "bold",
-    textAlign: "left",
+    textAlign: "center",
     marginBottom: "5%",
   },
   texto: {

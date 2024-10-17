@@ -1,13 +1,11 @@
 import React from "react";
-import { View, StyleSheet, Text, Keyboard, TouchableWithoutFeedback, Dimensions, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity, ScrollView, SafeAreaView } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import InputText from "../components/inputText";
-import Voltar from "../components/Voltar";
+import TopBar from "../components/topBar.jsx";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-
-const { width, height } = Dimensions.get('window');
 
 const validationSchema = Yup.object().shape({
   name: Yup.string(),
@@ -36,10 +34,9 @@ const Contactos = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.wrapper}>
-        <View style={styles.voltarContainer}>
-          <Voltar />
-        </View>
+      <SafeAreaView style={styles.safeArea}>
+        <TopBar/>
+      <ScrollView>
         <View style={styles.container}>
           <Text style={styles.header}>Contactos</Text>
           <Formik
@@ -66,7 +63,7 @@ const Contactos = () => {
             }) => (
               <View style={styles.form}>
                 <InputText
-                  label="Introduza seu Nome"
+                  label="Introduza o seu Nome"
                   keyboardType="default"
                   placeholder="Nome"
                   onChangeText={handleChange("name")}
@@ -76,10 +73,10 @@ const Contactos = () => {
                 {touched.name && errors.name && (
                   <Text style={styles.errorText}>{errors.name}</Text>
                 )}
-                <Text style={styles.label}>Telemóvel</Text>
                 <InputText
-                  label="Introduza seu contato"
+                  label="Introduza o seu Contacto"
                   keyboardType="phone-pad"
+                  placeholder="Telemóvel"
                   onChangeText={handleChange("phone")}
                   onBlur={handleBlur("phone")}
                   value={values.phone}
@@ -88,7 +85,7 @@ const Contactos = () => {
                   <Text style={styles.errorText}>{errors.phone}</Text>
                 )}
                 <InputText
-                  label="Introduza seu email"
+                  label="Introduza o seu Email"
                   keyboardType="email-address"
                   placeholder="Email"
                   onChangeText={handleChange("email")}
@@ -112,28 +109,20 @@ const Contactos = () => {
             )}
           </Formik>
         </View>
-      </View>
+        </ScrollView>
+      </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
+  safeArea: {
     flex: 1,
-    width: '100%',
-  },
-  voltarContainer: {
-    marginBottom: "5%",
-    position: 'absolute',
-    flexDirection: 'row',
-    width: '100%',
-    paddingHorizontal: 20,
-    zIndex: 10,
+    backgroundColor: "#FFF",
   },
   container: {
     flex: 1,
     alignItems: "center",
-    marginTop: '25%',
     width: '100%',
   },
   form: {
@@ -143,25 +132,16 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   header: {
-    fontSize: width * 0.08,
+    fontSize: 32,
     fontWeight: "bold",
-    marginLeft: '25%',
-    marginBottom: height * 0.02,
-    marginTop: '15%',
+    textAlign: "center",
     width: '100%',
+    marginBottom: "5%",
   },
   errorText: {
     color: "#8B0000",
     marginTop: 5,
     width: '75%',
-  },
-  label: {
-    fontWeight: 'bold',
-    marginTop: '5%',
-    marginBottom: '-9%',
-    width: '100%',
-    textAlign: 'left',
-    marginLeft: '24%'
   },
   button: {
     backgroundColor: "#000000",
@@ -172,6 +152,7 @@ const styles = StyleSheet.create({
     marginLeft: "10%",
     marginRight: "10%",
     marginTop: "15%",
+    marginBottom: "5%",
   },
   buttonText: {
     color: 'white',

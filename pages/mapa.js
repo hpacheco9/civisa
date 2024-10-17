@@ -5,6 +5,7 @@ import Voltar from "../components/Voltar";
 import { useNavigation } from "@react-navigation/native";
 import backGround from "../services/background.js";
 import { useLista } from "../hooks/useLista.jsx";
+import LogoMap from "../components/logoMap.jsx";
 
 const OverlayComponent = (props) => (
   <View style={[styles.overlay, props.style]}>
@@ -200,6 +201,7 @@ const Mapa = () => {
         ))}
       </MapView>
       <Voltar iswhite={true} />
+      <LogoMap/>
       <OverlayComponent style={styles.overlayComponent} />
     </View>
   );

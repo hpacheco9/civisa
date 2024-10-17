@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import InfoContainer from "../components/infoContainer.jsx";
 import Voltar from "../components/Voltar.jsx";
+import LogoMap from "../components/logoMap.jsx";
 
 const Sismo = ({ route }) => {
   const {
@@ -41,6 +42,7 @@ const Sismo = ({ route }) => {
         />
       </MapView>
       <Voltar style={styles.voltar} iswhite={true} />
+      <LogoMap/>
       <View style={styles.infoContainerWrapper}>
         <InfoContainer
           date={date}

@@ -5,55 +5,63 @@
       "title": "Não sentido",
       "description": "Não sentido, mesmo nas circunstâncias mais favoráveis.",
       "description2": "Nenhum efeito.",
+      "description3": "Nenhum efeito.",
       "color": "#ffffff"
     },
     {
       "level": "II",
       "title": "Escassamente sentido",
-      "description": "O tremor apenas é sentido em casos isolados (<1%) de indivíduos em repouso no interior de edifícios e em lugares especialmente receptivos.",
+      "description": "O tremor apenas é sentido em casos isolados (<1%) de indivíduos em repouso no interior de edifícios e em lugares especialmente recetivos.",
       "description2": "Nenhum efeito.",
+      "description3": "Nenhum efeito.",
       "color": "#ffffc0"
     },
     {
       "level": "III",
       "title": "Fraco",
       "description": "O tremor é sentido dentro de casa por poucas pessoas. Pessoas em repouso sentem um balanceamento ou um ligeiro estremecimento.",
-      "description2": "Objectos suspensos oscilam ligeiramente.",
+      "description2": "Objetos suspensos oscilam ligeiramente.",
+      "description3": "Nenhum efeito.",
       "color": "#fffa65"
     },
     {
       "level": "IV",
       "title": "Amplamente observado",
       "description": "O tremor é sentido por muitas pessoas dentro de casa e por raras no exterior. Poucas pessoas são acordadas. A vibração é moderada e não é assustadora. As pessoas sentem um ligeiro estremecimento ou balanceamento do edifício, quarto ou mobiliário.",
-      "description2": "Loiça, vidros, janelas e portas chocalham. Objectos suspensos oscilam. Nalguns casos (poucos), o mobiliário leve treme visivelmente e as estruturas de madeira rangem.",
+      "description2": "Loiça, vidros, janelas e portas chocalham. Objetos suspensos oscilam. Nalguns casos (poucos), o mobiliário leve treme visivelmente e as estruturas de madeira rangem.",
+      "description3": "Nenhum efeito.",
       "color": "#ffea35"
     },
     {
       "level": "V",
       "title": "Forte",
       "description": "O tremor de terra é sentido pela maioria das pessoas dentro de casa e por poucas no exterior. Poucas assustam-se e fogem para a rua. Muitas pessoas adormecidas acordam. Certas pessoas sentem um estremecimento forte ou um abanão do edifício, quarto ou mobiliário.",
-      "description2": "Objectos suspensos oscilam consideravelmente. Loiças e vidros fazem ruído. Objectos pequenos, de topo pesado e/ou precariamente apoiados, podem ser deslocados ou cair. Portas e janelas balançam abrindo ou fechando. Em poucos casos os vidros das janelas partem-se. Líquidos oscilam e podem derramar de recipientes bem cheios. Dentro de casa os animais podem ficar inquietos.",
+      "description2": "Objetos suspensos oscilam consideravelmente. Loiças e vidros fazem ruído. Objetos pequenos, de topo pesado e/ou precariamente apoiados, podem ser deslocados ou cair. Portas e janelas balançam abrindo ou fechando. Em poucos casos os vidros das janelas partem-se. Líquidos oscilam e podem derramar de recipientes bem cheios. Dentro de casa os animais podem ficar inquietos.",
+      "description3": "Alguns edifícios mais vulneráveis à ação sísmica sofrem danos não-estruturais ligeiros, como fissuras em paredes e queda de pequenas porções de estuque/caliça.",
       "color": "#ffd735"
     },
     {
       "level": "VI",
       "title": "Ligeiramente danificante",
       "description": "Sentido pela maioria das pessoas dentro de casa e por muitas no exterior. Algumas pessoas perdem o equilíbrio, muitas assustam-se e fogem para o exterior.",
-      "description2": "Pequenos objectos normalmente estáveis podem cair e o mobiliário pode ser deslocado. Em poucos casos pratos e objectos de vidro podem partir-se. Animais domésticos, mesmo no exterior, podem assustar-se.",
+      "description2": "Pequenos objetos normalmente estáveis podem cair e o mobiliário pode ser deslocado. Em poucos casos pratos e objetos de vidro podem partir-se. Animais domésticos, mesmo no exterior, podem assustar-se.",
+      "description3": "Muitos edifícios mais vulneráveis à ação sísmica sofrem danos não-estruturais ligeiros, como fissuras em paredes e queda de pequenas porções de estuque/caliça.",
       "color": "#ffc21d"
     },
     {
       "level": "VII",
       "title": "Danificante",
       "description": "A maioria das pessoas assusta-se e tenta fugir para o exterior. Muitas têm dificuldade em manter-se de pé, especialmente nos andares superiores.",
-      "description2": "O mobiliário é deslocado e os móveis que têm topo pesado podem tombar. Grande quantidade de objectos cai das prateleiras. A água extravasa de recipientes, tanques e piscinas.",
+      "description2": "O mobiliário é deslocado e os móveis que têm topo pesado podem tombar. Grande quantidade de objetos cai das prateleiras. A água extravasa de recipientes, tanques e piscinas.",
+      "description3": "Muitos edifícios comuns, de boa construção, sofrem danos moderados, como fendas nas paredes, queda de estuque, e colapso parcial de chaminés. Os edifícios mais antigos e mais vulneráveis à ação sísmica podem apresentar grandes fendas na maioria das paredes, deslocação de telhas, fraturação de chaminés ao nível dos telhados e queda de paredes interiores (de enchimento).",
       "color": "#fcac20"
     },
     {
       "level": "VIII",
       "title": "Fortemente danificante",
       "description": "Muitas pessoas têm dificuldade em manter-se de pé, mesmo no exterior.",
-      "description2": "O mobiliário pode tombar. Objectos como aparelhos de televisão, máquinas de escrever, etc. caem ao chão. Lápides (pedras tumulares) podem ser deslocadas, rodadas ou voltadas. Podem observar-se ondulações em solos brandos.",
+      "description2": "O mobiliário pode tombar. Objetos como aparelhos de televisão, máquinas de escrever, etc. caem ao chão. Lápides (pedras tumulares) podem ser deslocadas, rodadas ou voltadas. Podem observar-se ondulações em solos brandos.",
+      "description3": "Muitos edifícios apresentam grandes fendas nas paredes. Muitos edifícios comuns, de boa construção, sofrem queda de paredes, enquanto que estruturas mais vulneráveis à ação sísmica e antigas podem colapsar parcial ou totalmente.",
       "color": "#ff9933"
     },
     {
@@ -61,7 +69,32 @@
       "title": "Destrutivo",
       "description": "Pânico generalizado. As pessoas podem ser energeticamente lançadas ao chão.",
       "description2": "Muitos monumentos e colunas caem ou são rodados. Observam-se ondulações em solos brandos.",
+      "description3": "Muitas construções mais vulneráveis à ação sísmica colapsam. Mesmo os edifícios comuns de boa construção apresentam danos muito severos, como colapso parcial de paredes e colapsos estruturais parciais",
       "color": "#ff8431"
+    },
+    {
+      "level": "X",
+      "title": "Muito destrutivo",
+      "description": "",
+      "description2": "",
+      "description3": "Muitos edifícios comuns de boa construção colapsam.",
+      "color": "#ff6600"
+    },
+    {
+      "level": "XI",
+      "title": "Devastador",
+      "description": "",
+      "description2": "",
+      "description3": "A maioria dos edifícios comuns de boa construção colapsa. Mesmo alguns edifícios com construção sismo-resistente são destruídos.",
+      "color": "#e84d00"
+    },
+    {
+      "level": "XII",
+      "title": "Completamente devastador",
+      "description": "",
+      "description2": "",
+      "description3": "Praticamente todos os edifícios são destruídos.",
+      "color": "#ba3e00"
     }
   ]
 }

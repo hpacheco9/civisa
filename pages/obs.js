@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity, ActivityIndicator, TextInput, Alert } from "react-native";
-import Voltar from "../components/Voltar";
+import { View, StyleSheet, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity, ActivityIndicator, TextInput, Alert, ScrollView, SafeAreaView } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import firebaseConfig from "../services/Database.js";
 import CustomCheckbox from "../components/accept.jsx";
+import TopBar from "../components/topBar.jsx";
 
 const Obs = () => {
   const navigation = useNavigation();
@@ -61,14 +61,13 @@ const Obs = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.wrapper}>
-        <View style={styles.voltarContainer}>
-          <Voltar />
-        </View>
+      <SafeAreaView style={styles.safeArea}>
+        <TopBar/>
+      <ScrollView>
         <View style={styles.container}>
           <Text style={styles.header}>Observações</Text>
           <TextInput
-            placeholder="Digite suas observações aqui"
+            placeholder="Digite as suas observações aqui"
             onChangeText={setObservations}
             value={observations}
             style={styles.input}
@@ -102,40 +101,33 @@ const Obs = () => {
               <Text style={styles.submitButtonText}>Submeter</Text>
             )}
           </TouchableOpacity>
-        </View>
-      </View>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
+  safeArea: {
     flex: 1,
-    padding: 16,
+    backgroundColor: "#FFF",
   },
   container: {
     flex: 1,
-    marginTop: '20%',
     alignItems: 'center',
+    paddingHorizontal: 30,
   },
   header: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginRight: '40%',
-    marginTop: '20%',
-    marginBottom: '10%'
-  },
-  voltarContainer: {
-    marginBottom: "5%",
-    position: 'absolute',
-    flexDirection: 'row',
+    fontSize: 32,
+    fontWeight: "bold",
+    textAlign: "center",
     width: '100%',
-    paddingHorizontal: 20,
-    zIndex: 10,
+    marginBottom: "5%",
   },
   input: {
     width: '100%',
-    height: 100,
+    height: 200,
     padding: 12,
     borderColor: 'gray',
     borderWidth: 1,

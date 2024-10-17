@@ -165,8 +165,7 @@ const Lista = () => {
           flexGrow: 1,
           justifyContent: "center",
           alignItems: "center",
-          marginTop: "5%",
-          marginBottom: "5%",
+          paddingVertical: "5%",
         }}
         ListEmptyComponent={
           <Text style={styles.noEventsText}>

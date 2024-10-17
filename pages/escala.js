@@ -1,14 +1,16 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 import backGround from "../services/background.js";
 import escala from "../services/escala.json";
-import Voltar from "../components/Voltar.jsx";
+import TopBar from "../components/topBar.jsx";
+
 const intensityData = escala.escala;
 
 const Escala = () => {
   return (
+    <SafeAreaView style={styles.safeArea}>
+      <TopBar/>
     <ScrollView>
-      <Voltar />
       <View style={styles.container}>
         <Text style={styles.title}>Escala de Mercalli Modificada (1956)</Text>
         {intensityData.map((item, index) => (
@@ -28,15 +30,19 @@ const Escala = () => {
           </View>
         ))}
       </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#FFF",
+  },
   container: {
     backgroundColor: "#ffffff",
     padding: 16,
-    marginTop: "34%",
     marginBottom: "5%",
   },
   containerValor: {

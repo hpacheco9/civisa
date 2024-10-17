@@ -9,11 +9,12 @@ import {
   ScrollView,
   Modal,
   TouchableWithoutFeedback,
+  SafeAreaView,
 } from "react-native";
 import data from "../services/dataset.json";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Voltar from "../components/Voltar";
+import TopBar from "../components/topBar.jsx";
 
 const Perguntas = ({ route }) => {
   const resetIndex = route.params?.resetIndex ?? 0;
@@ -198,16 +199,16 @@ const Perguntas = ({ route }) => {
   };
 
   return (
+    <SafeAreaView style={styles.safeArea}>
+      <TopBar/>
     <ScrollView>
       {currentIndex === 0 && (
         <Animated.View
           style={{
-            marginBottom: "10%",
             transform: [{ translateX: slideAnim }],
             opacity: fadeAnim,
           }}
         >
-          <Voltar />
         </Animated.View>
       )}
       <Animated.View
@@ -263,19 +264,23 @@ const Perguntas = ({ route }) => {
         </TouchableWithoutFeedback>
       </Modal>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#FFF",
+  },
   container: {
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#ffffff",
     overflow: "scroll",
-    marginTop: "40%",
   },
   title: {
-    fontSize: 30,
+    fontSize: 32,
     fontWeight: "bold",
     marginBottom: 50,
   },
@@ -319,18 +324,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  voltar: {
-    marginTop: "15%",
-    marginLeft: "2%",
-    textDecorationLine: "underline",
-    fontWeight: "bold",
-    paddingBottom: 2,
-  },
   cont_butt: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: "30%",
+    marginBottom: "5%",
   },
   modalBackground: {
     flex: 1,

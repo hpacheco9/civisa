@@ -4,11 +4,13 @@ import {
   Text,
   View,
   ScrollView,
+  SafeAreaView,
   TouchableOpacity,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
 import alerta from "../services/alertaRAA.json";
-import Voltar from "../components/Voltar.jsx";
+import TopBar from "../components/topBar.jsx";
+
 const alertData = alerta.alerta;
 
 const AlertaVulcanico = () => {
@@ -19,8 +21,9 @@ const AlertaVulcanico = () => {
   };
 
   return (
-    <ScrollView style={styles.scrollView} removeClippedSubviews={false}>
-      <Voltar/>
+    <SafeAreaView style={styles.safeArea}>
+      <TopBar/>
+    <ScrollView>
       <View style={styles.container}>
         <Text style={styles.title}>
           Código de Alerta Vulcânico para a Região dos Açores (2023)
@@ -48,21 +51,21 @@ const AlertaVulcanico = () => {
         ))}
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollView: {
+  safeArea: {
     flex: 1,
     backgroundColor: "#FFF",
   },
   container: {
-    padding: 16,
-    paddingTop: "34%", // Adjust based on your needs
-    paddingBottom: "5%",
+    backgroundColor: "#FFF",
   },
-  alertItem: {
-    marginBottom: 10,
+  container: {
+    padding: 16,
+    marginBottom: "5%",
   },
   containerValor: {
     flexDirection: "row",

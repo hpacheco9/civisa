@@ -4,6 +4,7 @@ import {
   Text,
   View,
   ScrollView,
+  SafeAreaView,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
@@ -12,6 +13,7 @@ import Voltar from "../components/Voltar.jsx";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 
 const MAX_COMUNICADOS = 10;
+import TopBar from "../components/topBar";
 
 const Comunicados = () => {
   const [comunicados, setComunicados] = useState([]);
@@ -84,8 +86,9 @@ const Comunicados = () => {
   };
 
   return (
+    <SafeAreaView style={styles.safeArea}>
+      <TopBar/>
     <ScrollView>
-      <Voltar />
       <View style={styles.container}>
         <Text style={styles.title}>Comunicados</Text>
         {loading ? (
@@ -116,14 +119,18 @@ const Comunicados = () => {
         )}
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#FFF",
+  },
   container: {
     backgroundColor: "#FFF",
     padding: 16,
-    marginTop: "34%",
     marginBottom: "5%",
   },
   containerValor: {

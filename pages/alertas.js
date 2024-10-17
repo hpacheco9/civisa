@@ -4,11 +4,12 @@ import {
   Text,
   View,
   ScrollView,
+  SafeAreaView,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
-import Voltar from "../components/Voltar.jsx";
+import TopBar from "../components/topBar";
 
 const Alerta = () => {
   const [alertData, setAlertData] = useState([]);
@@ -41,8 +42,9 @@ const Alerta = () => {
   };
 
   return (
+    <SafeAreaView style={styles.safeArea}>
+      <TopBar/>
     <ScrollView>
-      <Voltar />
       <View style={styles.container}>
         <Text style={styles.title}>Alertas Vulcânicos</Text>
         {loading ? (
@@ -74,6 +76,7 @@ const Alerta = () => {
         )}
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -101,10 +104,13 @@ const getColor = (level) => {
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#FFF",
+  },
   container: {
     backgroundColor: "#FFF",
     padding: 16,
-    marginTop: "34%",
     marginBottom: "5%",
   },
   containerValor: {

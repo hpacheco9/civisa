@@ -2,7 +2,7 @@
   "escala": [
     {
       "level": "I",
-      "title": "Imperceptível",
+      "title": "Impercetível",
       "description": "Não sentido. Apenas registado pelos sismógrafos."
     },
     {
@@ -33,7 +33,7 @@
     {
       "level": "VII",
       "title": "Muito forte",
-      "description": "Estragos limitados em edifícios de boa construção, mas importantes e generalizados nas construções mais frágeis. Facilmente perceptível pelos condutores de veículos automóveis em trânsito. Desencadeia pânico geral nas populações."
+      "description": "Estragos limitados em edifícios de boa construção, mas importantes e generalizados nas construções mais frágeis. Facilmente percetível pelos condutores de veículos automóveis em trânsito. Desencadeia pânico geral nas populações."
     },
     {
       "level": "VIII",

@@ -1,64 +1,79 @@
-import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
-import Voltar from "../components/Voltar.jsx";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
+import Collapsible from "react-native-collapsible";
+import info from "../services/info.json";
+import TopBar from "../components/topBar.jsx";
+
+const infoData = info.info;
 
 const QuemSomos = () => {
+  const [expandedIndex, setExpandedIndex] = useState(null);
+
+  const toggleExpand = (index) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
   return (
-    <ScrollView>
-      <Voltar />
+    <SafeAreaView style={styles.safeArea}>
+    <TopBar />
+    <ScrollView style={styles.scrollView}>
+    <Text style={styles.title}>Informações</Text>
       <View style={styles.container}>
-        {/* <Text style={styles.title}>Quem somos?</Text> */}
-        <Text style={styles.textoBold}>
-          O Instituto de Vulcanologia e Avaliação de Riscos Geológicos (IVAR)
-        </Text>
-        <Text style={styles.texto}>
-          É uma unidade orgânica de investigação da Universidade dos Açores
-          dotada de autonomia administrativa e científica. Integra o Sistema
-          Científico e Tecnológico Nacional, tendo sido classificado com
-          Excelente no último processo de avaliação internacional, e é membro do
-          World Organization Volcano Observatories.
-        </Text>
-        <Text style={styles.textoBold}>
-          O Centro de Informação e Vigilância Sismovulcânica dos Açores (CIVISA)
-        </Text>
-        <Text style={styles.texto}>
-          É uma associação privada sem fins lucrativos, constituída pela
-          Universidade dos Açores e pela Região Autónoma dos Açores. Trata-se da
-          estrutura que garante a monitorização sismovulcânica permanente da
-          região dos Açores e a assessoria técnico-científica às autoridades de
-          proteção civl.
-        </Text>
+        {infoData.map((item, index) => (
+          <View key={index} style={styles.itemContainer}>
+            <TouchableOpacity
+              style={styles.containerValor}
+              onPress={() => toggleExpand(index)}
+            >
+              <View style={styles.textContainer}>
+                <Text style={styles.textoBold}>{item.title}</Text>
+              </View>
+            </TouchableOpacity>
+            <Collapsible collapsed={expandedIndex !== index}>
+              <View style={styles.descriptionContainer}>
+                <Text style={styles.descriptionText}>{item.description}</Text>
+              </View>
+            </Collapsible>
+          </View>
+        ))}
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#FFF",
+  },
+  scrollView: {
+    flexGrow: 1,
+    paddingBottom: 20,
+  },
   container: {
-    backgroundColor: "#ffffff",
     padding: 16,
-    marginTop: "34%",
-    marginBottom: "25%",
+    paddingTop: "5%",
+    paddingBottom: "5%",
+  },
+  itemContainer: {
+    marginBottom: 10,
   },
   containerValor: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
-  },
-  magContainer: {
-    width: 40,
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 10,
+    padding: 15,
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "black",
-  },
-  magnitude: {
-    color: "black",
-    fontSize: 16,
-    fontWeight: "bold",
+    backgroundColor: "#781f1c",
   },
   textContainer: {
     flex: 1,
@@ -66,17 +81,27 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: "bold",
-    textAlign: "left",
-    marginBottom: 20,
-  },
-  texto: {
-    fontSize: 16,
-    textAlign: "justify",
-    marginBottom: 10,
+    textAlign: "center",
   },
   textoBold: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "#FFF",
+  },
+  descriptionContainer: {
+    backgroundColor: "#f6f6f6",
+    padding: 10,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    borderColor: "black",
+    borderWidth: 1,
+    borderTopWidth: 0,
+  },
+  descriptionText: {
+    fontSize: 16,
+    color: "#000",
+    lineHeight: 24,
+    textAlign: "justify",
   },
 });
 
