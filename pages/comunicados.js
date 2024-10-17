@@ -9,6 +9,9 @@ import {
 } from "react-native";
 import Collapsible from "react-native-collapsible";
 import Voltar from "../components/Voltar.jsx";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
+
+const MAX_COMUNICADOS = 10;
 
 const Comunicados = () => {
   const [comunicados, setComunicados] = useState([]);
@@ -16,8 +19,20 @@ const Comunicados = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    loadStoredComunicados(); // Load stored comunicados on component mount
     fetchData();
   }, []);
+
+  const loadStoredComunicados = async () => {
+    try {
+      const storedComunicados = await AsyncStorage.getItem("comunicados");
+      if (storedComunicados) {
+        setComunicados(JSON.parse(storedComunicados));
+      }
+    } catch (error) {
+      console.error("Error loading stored comunicados", error);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -26,17 +41,21 @@ const Comunicados = () => {
       const jsonData = JSON.parse(text);
       const newComunicados = Array.isArray(jsonData) ? jsonData : [jsonData];
 
-      setComunicados(prevComunicados => {
+      setComunicados((prevComunicados) => {
+        // Combine and remove duplicates, but allow same date with different times
         const combinedComunicados = [
           ...prevComunicados,
-          ...newComunicados.filter(newComunicado =>
-            !prevComunicados.some(comunicado => comunicado.date === newComunicado.date)
+          ...newComunicados.filter((newComunicado) =>
+            !prevComunicados.some((comunicado) => isSameDateAndTime(comunicado, newComunicado))
           ),
-        ];
+        ]
+          .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort by date (newest first)
+          .slice(0, MAX_COMUNICADOS); // Keep only the most recent 10
 
-        return combinedComunicados
-          .sort((a, b) => new Date(b.date) - new Date(a.date))
-          .slice(0, 10);
+        // Save to AsyncStorage
+        storeComunicados(combinedComunicados);
+
+        return combinedComunicados;
       });
 
       setLoading(false);
@@ -46,8 +65,22 @@ const Comunicados = () => {
     }
   };
 
+  const isSameDateAndTime = (comunicadoA, comunicadoB) => {
+    const dateA = new Date(comunicadoA.date).getTime();
+    const dateB = new Date(comunicadoB.date).getTime();
+    return dateA === dateB;
+  };
+
+  const storeComunicados = async (comunicados) => {
+    try {
+      await AsyncStorage.setItem("comunicados", JSON.stringify(comunicados));
+    } catch (error) {
+      console.error("Error storing comunicados", error);
+    }
+  };
+
   const toggleExpand = (id) => {
-    setExpandedId(prevId => prevId === id ? null : id);
+    setExpandedId((prevId) => (prevId === id ? null : id));
   };
 
   return (
@@ -136,7 +169,7 @@ const styles = StyleSheet.create({
   descriptionText: {
     fontSize: 16,
     textAlign: "justify",
-    marginLeft: '5%',
+    marginLeft: "5%",
     width: "90%",
   },
 });

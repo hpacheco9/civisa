@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import axios from "axios";
-import { parseString } from "react-native-xml2js";
 import Voltar from "../components/Voltar";
 import { useNavigation } from "@react-navigation/native";
 import backGround from "../services/background.js";
+import { useLista } from "../hooks/useLista.jsx";
 
 const OverlayComponent = (props) => (
   <View style={[styles.overlay, props.style]}>
@@ -59,32 +58,11 @@ const OverlayComponent = (props) => (
 );
 
 const Mapa = () => {
-  const [events, setEvents] = useState([]);
   const [form, setForm] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const navigator = useNavigation();
-
-  useEffect(() => {
-    const fetchXmlData = async () => {
-      try {
-        const response = await axios.get(
-          "http://www.ivar.azores.gov.pt/seismic/eventgroup.xml?1721035364517"
-        );
-        parseString(response.data, (err, result) => {
-          if (err) {
-            console.error("Error parsing XML:", err);
-          } else {
-            const eventsArray = result.EventGroup?.Event || [];
-            const uniqueEvents = filterUniqueEvents(eventsArray);
-            setEvents(uniqueEvents);
-          }
-        });
-      } catch (error) {
-        console.error("Error fetching XML:", error);
-      }
-    };
-    fetchXmlData();
-  }, []);
+  const { events } = useLista();
+ 
 
   useEffect(() => {
     const formattedEvents = events.map((event) => {

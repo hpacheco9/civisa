@@ -22,8 +22,10 @@ const GlossarioVulcao = () => {
   };
 
   return (
+    <>
+    <TopBar />
     <SafeAreaView style={styles.safeArea}>
-      <TopBar />
+      
       <ScrollView style={styles.scrollView}>
       <Text style={styles.title}>Glossário Vulcanologia</Text>
         <View style={styles.container}>
@@ -46,6 +48,8 @@ const GlossarioVulcao = () => {
         </View>
       </ScrollView>
     </SafeAreaView>
+    </>
+    
   );
 };
 
@@ -56,18 +60,18 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flexGrow: 1,
-    paddingBottom: 20,
+
   },
   container: {
     flex: 1,
     padding: 16,
-    paddingTop: "5%",
+ 
   },
   itemContainer: {
     marginBottom: 10,
   },
   containerValor: {
-    padding: 15,
+      padding: 15,
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "black",
