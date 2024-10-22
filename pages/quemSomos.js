@@ -21,10 +21,12 @@ const QuemSomos = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <>
     <TopBar />
-    <ScrollView style={styles.scrollView}>
-    <Text style={styles.title}>Informações</Text>
+    <SafeAreaView style={styles.safeArea}>
+   
+      <ScrollView style={styles.scrollView}>
+    < Text style={styles.title}>Informações</Text>
       <View style={styles.container}>
         {infoData.map((item, index) => (
           <View key={index} style={styles.itemContainer}>
@@ -44,8 +46,10 @@ const QuemSomos = () => {
           </View>
         ))}
       </View>
-    </ScrollView>
+      </ScrollView>
     </SafeAreaView>
+    </>
+    
   );
 };
 

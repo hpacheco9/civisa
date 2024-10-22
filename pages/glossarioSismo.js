@@ -21,8 +21,9 @@ const GlossarioSismo = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <>
     <TopBar />
+    <SafeAreaView style={styles.safeArea}>
     <ScrollView style={styles.scrollView}>
     <Text style={styles.title}>Glossário Sismologia</Text>
       <View style={styles.container}>
@@ -46,6 +47,7 @@ const GlossarioSismo = () => {
       </View>
     </ScrollView>
     </SafeAreaView>
+    </>
   );
 };
 

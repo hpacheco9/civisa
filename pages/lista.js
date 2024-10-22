@@ -6,43 +6,19 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import axios from "axios";
-import { parseString } from "react-native-xml2js";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useNavigation} from "@react-navigation/native";
 import InfoContainer from "../components/infoContainer.jsx";
 import Ajuda from "../components/ajuda_icon.jsx";
 import backGround from "../services/background.js";
 import TopBar from "../components/topBar.jsx";
+import { useLista } from "../hooks/useLista.jsx";
 
 const Lista = () => {
-  const [events, setEvents] = useState([]);
   const [form, setForm] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const navigator = useNavigation();
-
-  useFocusEffect(
-    useCallback(() => {
-      const fetchXmlData = async () => {
-        try {
-          const response = await axios.get(
-            "http://www.ivar.azores.gov.pt/seismic/eventgroup.xml?1721035364517"
-          );
-          parseString(response.data, (err, result) => {
-            if (err) {
-              console.error("Error parsing XML:", err);
-            } else {
-              const eventsArray = result.EventGroup?.Event || [];
-              const uniqueEvents = filterUniqueEvents(eventsArray);
-              setEvents(uniqueEvents);
-            }
-          });
-        } catch (error) {
-          console.error("Error fetching XML:", error);
-        }
-      };
-      fetchXmlData();
-    }, [])
-  );
+  const { events } = useLista();
+ 
 
   useEffect(() => {
     const formattedEvents = events.map((event) => ({
@@ -70,7 +46,6 @@ const Lista = () => {
       const dateB = new Date(`${b.eventDate}T${b.utcTime}`);
       return dateB - dateA;
     });
-
     setForm(sortedEvents);
     setFilteredEvents(sortedEvents);
   }, [events]);
@@ -81,7 +56,6 @@ const Lista = () => {
         new Date(b.Origin[0].originTime[0]) -
         new Date(a.Origin[0].originTime[0])
     );
-
     const uniqueEventIds = new Set();
     return eventsArray.filter((event) => {
       const eventId = event.$.EventID;
@@ -189,7 +163,8 @@ const Lista = () => {
           flexGrow: 1,
           justifyContent: "center",
           alignItems: "center",
-          paddingVertical: "5%",
+          marginTop: "5%",
+          marginBottom: "5%",
         }}
         ListEmptyComponent={
           <Text style={styles.noEventsText}>

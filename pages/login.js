@@ -14,9 +14,11 @@ import {
   Dimensions,
   TouchableOpacity,
   TextInput,
+  Switch,
 } from "react-native";
 import { getFirestore } from "firebase/firestore";
 import getUserByEmail from "../services/getuser";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Email inválido").required("Email é obrigatório"),
@@ -31,6 +33,7 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const navigation = useNavigation();
+  const [showPassword, setShowPassword] = useState(false);
   const auth2 = getAuth();
   const formikRef = React.useRef();
 
@@ -50,7 +53,6 @@ const Login = () => {
 
   const handleLogin = async (userData) => {
     try {
-
       const userCredential = await signInWithEmailAndPassword(auth2, userData.email, userData.password);
       const user = userCredential.user;
       const userDataFromFirestore = await getUserByEmail(user.email);
@@ -109,34 +111,32 @@ const Login = () => {
                 <Text style={styles.errorText}>
                   {touched.email && errors.email ? errors.email : " "}
                 </Text>
-
                 <Text style={styles.label}>Password</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Introduza a sua password"
-                  onChangeText={handleChange("password")}
-                  onBlur={handleBlur("password")}
-                  value={values.password}
-                  secureTextEntry
-                />
+                <View style={styles.passwordContainer}>
+                  <TextInput
+                    style={{ flex: 1 }} 
+                    placeholder="Introduza a sua password"
+                    onChangeText={handleChange("password")}
+                    onBlur={handleBlur("password")}
+                    value={values.password}
+                    secureTextEntry={!showPassword}
+                  />
+                  <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                    <Icon name={showPassword ? "eye-off" : "eye"} size={24} color="gray" />
+                  </TouchableOpacity>
+                </View>
                 <Text style={styles.errorText}>
                   {touched.password && errors.password ? errors.password : " "}
                 </Text>
-
-                <View style={styles.checkboxContainer}>
-                  <TouchableOpacity
-                    style={[
-                      styles.checkbox,
-                      rememberMe && styles.checkedBoxBackground,
-                    ]}
-                    onPress={() => setRememberMe(!rememberMe)}
-                  >
-                    {rememberMe && (
-                      <Text style={styles.checkedBoxText}>✓</Text>
-                    )}
-                  </TouchableOpacity>
-                  <Text style={styles.checkboxLabel}>Lembrar</Text>
-
+                <View style={styles.switchContainer}>
+                  <Switch
+                    value={rememberMe}
+                    onValueChange={setRememberMe}
+                    trackColor={{ false: "#767577", true: "#000000" }}
+                    thumbColor={rememberMe ? "#ffffff" : "#f4f3f4"}  
+                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }} 
+                  />
+                  <Text style={styles.checkboxLabel}>   Lembrar-me</Text>
                   <TouchableOpacity onPress={() => navigation.navigate('Recuperar')} style={styles.forgotPassword}>
                     <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>Recuperar password</Text>
                   </TouchableOpacity>
@@ -225,12 +225,12 @@ const styles = StyleSheet.create({
   loginErrorText: {
     color: "red",
     textAlign: "center",
-    marginBottom: 10, // Add some space below the error message
+    marginBottom: 10, 
   },
   button: {
     justifyContent: "center",
     alignSelf: "center",
-    marginTop: 10, // Reduced top margin
+    marginTop: '10%', 
     backgroundColor: "#000000",
     width: 150,
     padding: 15,
@@ -250,29 +250,29 @@ const styles = StyleSheet.create({
     marginTop: "2%",
     fontSize: height * 0.017,
   },
-  checkboxContainer: {
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    backgroundColor: "white",
+    height: 50,
+    width: 330,
+    padding: 10,
+    borderRadius: 5,
+    borderWidth: 0.5,
+    borderColor: "#000",
+    color: "black",
+  },
+  switchContainer: {
     flexDirection: "row",
     alignItems: "center",
-  },
-  checkbox: {
-    width: 20,
-    height: 20,
-    borderWidth: 1,
-    borderColor: "#000",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 5,
-  },
-  checkedBoxBackground: {
-    backgroundColor: "#000",
-  },
-  checkedBoxText: {
-    fontSize: 14,
-    color: "#fff",
+    marginBottom: 10,
   },
   checkboxLabel: {
-    marginLeft: 8,
     fontWeight: "bold",
+    marginRight: 10, // Adjust spacing between the label and switch
   },
   forgotPassword: {
     marginLeft: 'auto',

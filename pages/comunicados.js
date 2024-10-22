@@ -9,6 +9,9 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const MAX_COMUNICADOS = 10;
 import TopBar from "../components/topBar";
 
 const Comunicados = () => {
@@ -17,27 +20,40 @@ const Comunicados = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    loadStoredComunicados();
     fetchData();
   }, []);
 
-  const fetchData = async () => {
+  const loadStoredComunicados = async () => {
     try {
+      const storedComunicados = await AsyncStorage.getItem("comunicados");
+      if (storedComunicados) {
+        setComunicados(JSON.parse(storedComunicados));
+      }
+    } catch (error) {
+      console.error("Error loading stored comunicados", error);
+    }
+  };
+
+  const fetchData = async () => {
+   try {
       const response = await fetch("http://www.ivar.azores.gov.pt/seismic/comunicado.txt");
       const text = await response.text();
       const jsonData = JSON.parse(text);
       const newComunicados = Array.isArray(jsonData) ? jsonData : [jsonData];
-
-      setComunicados(prevComunicados => {
+      setComunicados((prevComunicados) => {
         const combinedComunicados = [
           ...prevComunicados,
-          ...newComunicados.filter(newComunicado =>
-            !prevComunicados.some(comunicado => comunicado.date === newComunicado.date)
+          ...newComunicados.filter((newComunicado) =>
+            !prevComunicados.some((comunicado) =>
+              isSameDateAndTime(comunicado, newComunicado) 
+            )
           ),
-        ];
-
-        return combinedComunicados
+        ]
           .sort((a, b) => new Date(b.date) - new Date(a.date))
-          .slice(0, 10);
+          .slice(0, MAX_COMUNICADOS);
+        storeComunicados(combinedComunicados);
+        return combinedComunicados;
       });
 
       setLoading(false);
@@ -46,46 +62,64 @@ const Comunicados = () => {
       setLoading(false);
     }
   };
+  const isSameDateAndTime = (comunicadoA, comunicadoB) => {
+    // Create Date objects from the date strings
+    const dateA = new Date(comunicadoA.date);
+    const dateB = new Date(comunicadoB.date);
+
+    // Compare the two Date objects
+    return dateA.getTime() === dateB.getTime(); // Compare timestamps
+  };
+
+  const storeComunicados = async (comunicados) => {
+    try {
+      await AsyncStorage.setItem("comunicados", JSON.stringify(comunicados));
+    } catch (error) {
+      console.error("Error storing comunicados", error);
+    }
+  };
 
   const toggleExpand = (id) => {
-    setExpandedId(prevId => prevId === id ? null : id);
+    setExpandedId((prevId) => (prevId === id ? null : id));
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <TopBar/>
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.title}>Comunicados</Text>
-        {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : comunicados.length > 0 ? (
-          comunicados.map((comunicado, index) => (
-            <View key={index}>
-              <TouchableOpacity
-                style={styles.containerValor}
-                onPress={() => toggleExpand(index)}
-              >
-                <View style={styles.dateContainer}>
-                  <Text style={styles.date}>{comunicado.date}</Text>
+    <>
+      <TopBar />
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView>
+          <View style={styles.container}>
+            <Text style={styles.title}>Comunicados</Text>
+            {loading ? (
+              <ActivityIndicator size="large" color="#0000ff" />
+            ) : comunicados.length > 0 ? (
+              comunicados.map((comunicado, index) => (
+                <View key={index}>
+                  <TouchableOpacity
+                    style={styles.containerValor}
+                    onPress={() => toggleExpand(index)}
+                  >
+                    <View style={styles.dateContainer}>
+                      <Text style={styles.date}>{comunicado.date}</Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.textoBold}>{comunicado.title}</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <Collapsible collapsed={expandedId !== index}>
+                    <View style={styles.descriptionContainer}>
+                      <Text style={styles.descriptionText}>{comunicado.text}</Text>
+                    </View>
+                  </Collapsible>
                 </View>
-                <View style={styles.textContainer}>
-                  <Text style={styles.textoBold}>{comunicado.title}</Text>
-                </View>
-              </TouchableOpacity>
-              <Collapsible collapsed={expandedId !== index}>
-                <View style={styles.descriptionContainer}>
-                  <Text style={styles.descriptionText}>{comunicado.text}</Text>
-                </View>
-              </Collapsible>
-            </View>
-          ))
-        ) : (
-          <Text>Sem Comunicados</Text>
-        )}
-      </View>
-    </ScrollView>
-    </SafeAreaView>
+              ))
+            ) : (
+              <Text>Sem Comunicados</Text>
+            )}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 };
 
@@ -142,7 +176,7 @@ const styles = StyleSheet.create({
   descriptionText: {
     fontSize: 16,
     textAlign: "justify",
-    marginLeft: '5%',
+    marginLeft: "5%",
     width: "90%",
   },
 });

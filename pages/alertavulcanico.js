@@ -29,10 +29,11 @@ const AlertaVulcanico = () => {
           Código de Alerta Vulcânico para a Região dos Açores (2023)
         </Text>
         {alertData.map((item, index) => (
-          <View key={index}>
+          <View key={index} style={styles.alertItem}>
             <TouchableOpacity
               style={[styles.containerValor, { backgroundColor: item.color }]}
               onPress={() => toggleExpand(index)}
+              activeOpacity={0.7}
             >
               <View style={styles.alertaContainer}>
                 <Text style={styles.alerta}>{item.level}</Text>
@@ -61,14 +62,15 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: "#FFF",
+  },
+  container: {
     padding: 16,
     marginBottom: "5%",
   },
   containerValor: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 15,
-    padding: 5,
+    padding: 12,
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "black",
@@ -100,18 +102,21 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   descriptionContainer: {
+    flexDirection: "column", 
     backgroundColor: "#f6f6f6",
-    padding: 10,
+    padding: 15,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     borderColor: "black",
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderTopWidth: 0,
   },
   descriptionText: {
     fontSize: 16,
+    color: "#000",
+    lineHeight: 24,
     textAlign: "justify",
-    width: "90%",
+    marginTop: 10, 
   },
 });
 
