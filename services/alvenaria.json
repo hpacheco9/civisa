@@ -1,0 +1,20 @@
+{
+  "alvenaria": [
+    {
+      "title": "Alvenaria do Tipo A",
+      "description": "Bem executada, bem argamassada e bem projetada; reforçada especialmente contra reforços laterais; projetada para resistir às forças horizontais."
+    },
+    {
+      "title": "Alvenaria do Tipo B",
+      "description": "Bem executada e argamassada; reforçada, mas não projetada para resistir às forças horizontais."
+    },
+    {
+      "title": "Alvenaria do Tipo C",
+      "description": "De execução ordinária e ordinariamente argamassada, sem zonas de menor resistência tais como ligação nos cantos (cunhais), mas não é reforçada nem projetada para resistir às forças horizontais."
+    },
+    {
+      "title": "Alvenaria do Tipo D",
+      "description": "Construída com materiais fracos tais como os adobes; argamassas fracas; execução de baixa qualidade; fraca para resistir às forças horizontais."
+    }
+  ]
+}
