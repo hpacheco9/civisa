@@ -23,7 +23,7 @@ const Alerta = () => {
         const volcanicAlert = data.find((alert) => alert.Type === "Volcanic");
         if (volcanicAlert && volcanicAlert.Markers) {
           const sortedMarkers = volcanicAlert.Markers.sort(
-            (a, b) => b.Level - a.Level
+            (a, b) => getLevelValue(b.Level) - getLevelValue(a.Level)
           );
           setAlertData(sortedMarkers);
         } else {
@@ -36,6 +36,20 @@ const Alerta = () => {
         setLoading(false);
       });
   }, []);
+
+  const getLevelValue = (level) => {
+    const levelMap = {
+      V0: 0,
+      V1: 1,
+      V2: 2,
+      V3: 3,
+      V4: 4,
+      V5: 5,
+      V6: 6,
+      V7: 7
+    };
+    return levelMap[level] || -1;
+  };
 
   const toggleExpand = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index);
@@ -82,24 +96,24 @@ const Alerta = () => {
 
 const getColor = (level) => {
   switch (level) {
-    case "0":
+    case "V0":
       return "#daf2d0";
-    case "1":
+    case "V1":
       return "#ffffcd";
-    case "2":
+    case "V2":
       return "#ffff00";
-    case "3":
+    case "V3":
       return "#ffcc99";
-    case "4":
+    case "V4":
       return "#ffc000";
-    case "5":
+    case "V5":
       return "#ff0000";
-    case "6":
+    case "V6":
       return "#c00000";
-    case "7":
+    case "V7":
       return "#a50021";
     default:
-      return "#000";
+      return "#FFF";
   }
 };
 

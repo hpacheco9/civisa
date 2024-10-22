@@ -29,6 +29,16 @@ const Escala = () => {
             </View>
           </View>
         ))}
+        <View style={{alignItems: 'center'}}>
+        <Text style={{color: '#000000'}}> ___________________________ </Text>
+        </View>
+        <View style={{ marginTop: '10%'}}>
+          <Text style={{fontSize: 18, fontWeight:'bold'}}>Alvenaria Tipo A </Text>
+          <Text style={{marginTop: '3%', textAlign: 'justify', fontSize: 16}}>Bem executada, bem argamassada e bem projetada; reforçada especialmente contra reforços laterais; projetada
+            para resistir às forças horizontais.
+          </Text>
+      </View> 
+
       </View>
       </ScrollView>
     </SafeAreaView>

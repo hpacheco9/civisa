@@ -111,8 +111,6 @@ const Login = () => {
                 <Text style={styles.errorText}>
                   {touched.email && errors.email ? errors.email : " "}
                 </Text>
-
-                {/* Password Field */}
                 <Text style={styles.label}>Password</Text>
                 <View style={styles.passwordContainer}>
                   <TextInput
@@ -130,7 +128,6 @@ const Login = () => {
                 <Text style={styles.errorText}>
                   {touched.password && errors.password ? errors.password : " "}
                 </Text>
-
                 <View style={styles.switchContainer}>
                   <Switch
                     value={rememberMe}

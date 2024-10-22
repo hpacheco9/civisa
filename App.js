@@ -34,6 +34,9 @@ import Comunicados from "./pages/comunicados.js";
 import SplashScreen from "./pages/splashscreen.js";
 import Recuperar from "./pages/recuperar.js";
 import NoEthernetScreen from "./pages/ethernet.js"; 
+import { NotificationProvider } from "./pages/NotificationContext.js";
+
+
 
 
 const App = () => {
@@ -55,8 +58,9 @@ const App = () => {
   return (
     <>
     <StatusBar hidden={false} />
-    <NavigationContainer>
-      <Stack.Navigator
+    <NotificationProvider>
+      <NavigationContainer>
+        <Stack.Navigator
         screenOptions={{
           headerShown: false,
           gestureEnabled: true,
@@ -108,8 +112,9 @@ const App = () => {
             <Stack.Screen name="Recuperar" component={Recuperar} />
           </>
         )}
-      </Stack.Navigator>
-    </NavigationContainer>
+          </Stack.Navigator>
+      </NavigationContainer>
+    </NotificationProvider>
   </>
    
   );

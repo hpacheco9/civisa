@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,22 +9,27 @@ import {
   Pressable,
   TouchableWithoutFeedback,
   ActivityIndicator,
+  Animated,
+  Easing,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from '@react-navigation/native';
 import Logo from "../components/logo";
+import { NotificationContext } from "./NotificationContext";
 
 const { height } = Dimensions.get("window");
 
 const Inicio = () => {
   const navigation = useNavigation();
-
+  const { notification } = useContext(NotificationContext);
   const [isPanelVisible, setIsPanelVisible] = useState(false);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isDataFetched, setIsDataFetched] = useState(false);
+  const modalSlideAnim = useRef(new Animated.Value(-200)).current;
+  const [hasNewNotification, setHasNewNotification] = useState(false);
 
   const togglePanel = () => {
     setIsPanelVisible(!isPanelVisible);
@@ -37,14 +42,15 @@ const Inicio = () => {
         try {
           const userData = await AsyncStorage.getItem("@user");
           const loggedOut = await AsyncStorage.getItem("@loggedOut");
+          const storedHasNewNotification = await AsyncStorage.getItem("@hasNewNotification");
           if (userData) {
             setUser(JSON.parse(userData));
           } else {
             setUser(null);
           }
-          console.log(userData);
+          setHasNewNotification(storedHasNewNotification == "true");
         } catch (error) {
-          console.error('Error checking login state:', error);
+          console.error("Error checking login state:", error);
           setUser(null);
         } finally {
           setIsLoading(false);
@@ -55,6 +61,18 @@ const Inicio = () => {
       checkLoginState();
     }, [])
   );
+  useEffect(() => {
+    if (notification) {
+      console.log(notification);
+      setHasNewNotification(true); 
+    }
+  }, [notification]);;
+
+  const handleNotificationPress = async () => {
+    setHasNewNotification(false);
+    await AsyncStorage.setItem("@hasNewNotification", "false");
+    navigation.navigate("Notificacao");
+  };
 
   const handleOptionSelect = async (option) => {
     togglePanel();
@@ -68,7 +86,7 @@ const Inicio = () => {
         navigation.navigate("Perfil");
       }
     } catch (error) {
-      console.error('Error handling option:', error.message);
+      console.error("Error handling option:", error.message);
     }
   };
 
@@ -84,39 +102,38 @@ const Inicio = () => {
     <View style={styles.container}>
       <Logo />
       <View style={styles.containerLogo}>
-            <TouchableOpacity
-              style={{
-                marginLeft: "10%",
-                marginTop: "5%",
-                position: "absolute",
-                zIndex: 1,
-              }}
-              onPress={() => {
-                navigation.navigate("Notificacao");
-              }}
-            >
-              <Iconify
-                icon="material-symbols:notifications-outline-rounded"
-                size={height * 0.045}
-                color="black"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                marginRight: "10%",
-                marginTop: "5%",
-                right: 0,
-                position: "absolute",
-                zIndex: 1,
-              }}
-              onPress={togglePanel}
-            >
-              <Iconify
-                icon="mdi:user-outline"
-                size={height * 0.045}
-                color="black"
-              />
-            </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            marginLeft: "10%",
+            marginTop: "5%",
+            position: "absolute",
+            zIndex: 1,
+          }}
+          onPress={handleNotificationPress}
+        >
+          <Iconify
+            icon="material-symbols:notifications-outline-rounded"
+            size={height * 0.045}
+            color="black"
+          />
+          {hasNewNotification && <View style={styles.notificationBadge} />}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            marginRight: "10%",
+            marginTop: "5%",
+            right: 0,
+            position: "absolute",
+            zIndex: 1,
+          }}
+          onPress={togglePanel}
+        >
+          <Iconify
+            icon="mdi:user-outline"
+            size={height * 0.045}
+            color="black"
+          />
+        </TouchableOpacity>
       </View>
 
       <Modal
@@ -177,7 +194,7 @@ const Inicio = () => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            navigation.navigate('Data e Hora');
+            navigation.navigate("Data e Hora");
           }}
         >
           <Iconify
@@ -331,6 +348,15 @@ const styles = StyleSheet.create({
   centerContent: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  notificationBadge: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: 'red',
+    position: 'absolute',
+    top: -2,
+    right: -2,
   },
 });
 

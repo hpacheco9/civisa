@@ -24,7 +24,6 @@ const GlossarioSismo = () => {
     <>
     <TopBar />
     <SafeAreaView style={styles.safeArea}>
-   
     <ScrollView style={styles.scrollView}>
     <Text style={styles.title}>Glossário Sismologia</Text>
       <View style={styles.container}>

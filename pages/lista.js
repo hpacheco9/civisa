@@ -46,7 +46,6 @@ const Lista = () => {
       const dateB = new Date(`${b.eventDate}T${b.utcTime}`);
       return dateB - dateA;
     });
-
     setForm(sortedEvents);
     setFilteredEvents(sortedEvents);
   }, [events]);
@@ -57,7 +56,6 @@ const Lista = () => {
         new Date(b.Origin[0].originTime[0]) -
         new Date(a.Origin[0].originTime[0])
     );
-
     const uniqueEventIds = new Set();
     return eventsArray.filter((event) => {
       const eventId = event.$.EventID;
@@ -165,7 +163,8 @@ const Lista = () => {
           flexGrow: 1,
           justifyContent: "center",
           alignItems: "center",
-          paddingVertical: "5%",
+          marginTop: "5%",
+          marginBottom: "5%",
         }}
         ListEmptyComponent={
           <Text style={styles.noEventsText}>

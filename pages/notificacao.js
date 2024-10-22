@@ -1,52 +1,64 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ScrollView, ActivityIndicator } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { StyleSheet, Text, View, ScrollView, ActivityIndicator, RefreshControl } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NotificationContext } from "../pages/NotificationContext.js";
 import Voltar from "../components/Voltar.jsx";
 
 const Notificacao = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // Para carregar inicialmente
   const [error, setError] = useState(null);
+  const [refreshing, setRefreshing] = useState(false); // Estado para controlar o pull-to-refresh
+  const { notification, addNotification, markAsSeen } = useContext(NotificationContext);
 
   useEffect(() => {
-    fetchData();
+    // Carrega a notificação inicial
+    checkForNewNotification();
+    // Marca como vista ao carregar
+    markAsSeen();
   }, []);
 
-  const fetchData = async () => {
+  const checkForNewNotification = async () => {
+    setRefreshing(true); // Inicia o estado de refresh
     try {
-      const response = await fetch('http://www.ivar.azores.gov.pt/seismic/flashalert.txt');
-      const text = await response.text();
-      const jsonData = JSON.parse(text);
-      setData(jsonData);
-      setLoading(false);
-    } catch (err) {
-      setError('Alerta Indisponível');
-      setLoading(false);
+      const response = await fetch('http://www.ivar.azores.gov.pt/seismic/flashalert.txt?' + new Date()); 
+      const text = await response.text(); 
+      const jsonData = JSON.parse(text); // Supondo que o arquivo seja um JSON com { text, DTime }
+  
+      const lastNotificationTime = await AsyncStorage.getItem('@lastNotificationTime');
+      if (!lastNotificationTime || jsonData.DTime !== lastNotificationTime) {
+        addNotification(jsonData); // Adiciona a nova notificação ao contexto
+        await AsyncStorage.setItem("@lastNotificationTime", jsonData.DTime); // Salva o tempo da nova notificação
+      } else {
+        addNotification(jsonData); // Atualiza a notificação, mesmo que seja a mesma
+      }
+      setLoading(false); // Desativa o indicador de carregamento
+    } catch (error) {
+      setError('Erro ao buscar a notificação'); // Atualiza a mensagem de erro
+      console.error('Erro ao buscar nova notificação:', error);
+    } finally {
+      setRefreshing(false); // Finaliza o estado de refresh
     }
   };
 
-  if (loading) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>{error}</Text>
-      </View>
-    );
-  }
-
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={checkForNewNotification} />
+      }
+    >
       <Voltar />
       <View style={styles.container}>
         <Text style={styles.title}>Última Hora</Text>
-        <Text style={styles.textoBold}>{data?.text}</Text>
-        <Text style={styles.texto}>{data?.DTime}</Text>
+        {error ? (
+          <Text style={styles.errorText}>{error}</Text>
+        ) : loading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          <>
+            <Text style={styles.textoBold}>{notification?.text}</Text> 
+            <Text style={styles.texto}>{notification?.DTime}</Text> 
+          </>
+        )}
       </View>
     </ScrollView>
   );
@@ -75,6 +87,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "justify",
     marginBottom: 10,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 16,
+    textAlign: 'center',
   },
 });
 
