@@ -1,208 +1,170 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
-import MapView, { Marker } from "react-native-maps";
-import Voltar from "../components/Voltar";
-import { useNavigation } from "@react-navigation/native";
-import backGround from "../services/background.js";
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, ActivityIndicator, Text, Image } from "react-native";
+import { WebView } from "react-native-webview";
 import { useLista } from "../hooks/useLista.jsx";
+import Voltar from "../components/Voltar.jsx";
 import LogoMap from "../components/logoMap.jsx";
+import OverlayComponent from "../components/overlay.jsx";
 
-const OverlayComponent = (props) => (
-  <View style={[styles.overlay, props.style]}>
-    <Text style={styles.overlayTitleText}>Legenda</Text>
-    <View
-      style={{ flexDirection: "row", alignItems: "center", marginBottom: "3%" }}
-    >
-      <Image
-        source={require("../assets/icon_red.png")}
-        style={{ width: 15, height: 15, marginRight: "3%" }}
-      />
-      <Text style={styles.overlayText}>Eventos das últimas 24 horas</Text>
-    </View>
-    <View
-      style={{ flexDirection: "row", alignItems: "center", marginBottom: "3%" }}
-    >
-      <Image
-        source={require("../assets/icon_orange.png")}
-        style={{ width: 15, height: 15, marginRight: "3%" }}
-      />
-      <Text style={styles.overlayText}>Eventos com 1 a 5 dias</Text>
-    </View>
-    <View
-      style={{ flexDirection: "row", alignItems: "center", marginBottom: "3%" }}
-    >
-      <Image
-        source={require("../assets/icon_yellow.png")}
-        style={{ width: 15, height: 15, marginRight: "3%" }}
-      />
-      <Text style={styles.overlayText}>Eventos com mais de 5 dias</Text>
-    </View>
-    <View
-      style={{ flexDirection: "row", alignItems: "center", marginBottom: "3%" }}
-    >
-      <Image
-        source={require("../assets/icon_yellow_f.png")}
-        style={{ width: 15, height: 15, marginRight: "3%" }}
-      />
-      <Text style={styles.overlayText}>Evento sentido</Text>
-    </View>
-    <View
-      style={{ flexDirection: "row", alignItems: "center", marginBottom: "3%" }}
-    >
-      <Image
-        source={require("../assets/map_marker.png")}
-        style={{ width: 15, height: 15, marginRight: "3%" }}
-      />
-      <Text style={styles.overlayText}>Último evento</Text>
-    </View>
-  </View>
-);
 
 const Mapa = () => {
-  const [form, setForm] = useState([]);
-  const [filteredEvents, setFilteredEvents] = useState([]);
-  const navigator = useNavigation();
+  const [loading, setLoading] = useState(true);
+  const [formattedEvents, setFormattedEvents] = useState([]);
   const { events } = useLista();
- 
 
   useEffect(() => {
-    const formattedEvents = events.map((event) => {
-      const eventDate = event.Origin[0].originTime[0].split(" ")[0];
-      const utcTime = event.Origin[0].originTime[0].split(" ")[1].slice(0, 8);
+    if (!events || events.length === 0) {
+      setFormattedEvents([]);
+      setLoading(false);
+      return;
+    }
+
+    const currentDate = new Date();
+
+    const formattedEvents = events.map((event, index) => {
+      const originTime = event.Origin[0].originTime[0];
+      const [eventDate, utcTime] = originTime.split(" ");
+      const eventDateTime = new Date(`${eventDate}T${utcTime}`);
+      const timeDifference = (currentDate - eventDateTime) / (1000 * 60 * 60 * 24);
+
       const region =
         event.CommentCommand.find(
           (comment) => comment.$.Parameter === "REGIAO:"
         )?.value[0] || "Não especificada";
-      const magnitude = parseFloat(event.Magnitude[0].value[0]);
+
       const intensidade =
         event.CommentCommand.find(
           (comment) => comment.$.Parameter === "SENTIDO:"
         )?.value[0]?.split(" -")[0] || "Não sentido";
+
       const regiao =
         event.CommentCommand.find(
           (comment) => comment.$.Parameter === "SENTIDO:"
         )?.value[0]?.split(" -")[1] || "Não especificada";
+
       const locationString = event.Origin[0].location[0]._;
-      const locationParts = locationString.split(",");
-      const latitude = locationParts[0].trim();
-      const longitude = locationParts[1].trim();
+      const [latitude, longitude] = locationString
+        .split(",")
+        .map((coord) => parseFloat(coord.trim()));
+
+      // Determine color based on logic
+      let color;
+      if (index === 0) {
+        color = "green"; // Highlight the first event
+      } else if (intensidade !== "Não sentido") {
+        color = "pink"; // Special category
+      } else if (timeDifference <= 1) {
+        color = "red"; // Recent events
+      } else if (timeDifference <= 5) {
+        color = "orange"; // Moderate age events
+      } else {
+        color = "yellow"; // Older events
+      }
 
       return {
-        eventDate,
-        utcTime,
-        region,
-        magnitude,
-        intensidade,
-        regiao,
         latitude,
         longitude,
+        title: `Evento - ${region}`,
+        description: `Data: ${eventDate}, Hora: ${utcTime}, Magnitude: ${event.Magnitude[0].value[0]}`,
+        color,
       };
     });
 
+    // Sort by most recent first
     const sortedEvents = formattedEvents.sort((a, b) => {
-      const dateA = new Date(`${a.eventDate}T${a.utcTime}`);
-      const dateB = new Date(`${b.eventDate}T${b.utcTime}`);
+      const dateA = new Date(a.eventDate + "T" + a.utcTime);
+      const dateB = new Date(b.eventDate + "T" + b.utcTime);
       return dateB - dateA;
     });
 
-    setForm(sortedEvents);
-    setFilteredEvents(sortedEvents);
+    setFormattedEvents(sortedEvents);
+    setLoading(false);
   }, [events]);
 
-  const filterUniqueEvents = (eventsArray) => {
-    eventsArray.sort((a, b) => {
-      const dateA = new Date(a.Origin[0].originTime[0]);
-      const dateB = new Date(b.Origin[0].originTime[0]);
-      return dateB - dateA;
-    });
+  const arcGISMapHtml = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
+      <script src="https://js.arcgis.com/4.25/"></script>
+      <style>
+        html, body, #viewDiv {
+          padding: 0;
+          margin: 0;
+          height: 100%;
+          width: 100%;
+        }
+      </style>
+    </head>
+    <body>
+      <div id="viewDiv"></div>
+      <script>
+        require([
+          "esri/Map",
+          "esri/views/MapView",
+          "esri/Graphic"
+        ], function(Map, MapView, Graphic) {
+          const map = new Map({
+            basemap: "hybrid"
+          });
 
-    const uniqueEventIds = new Set();
-    const uniqueEvents = [];
+          const view = new MapView({
+            container: "viewDiv",
+            map: map,
+            center: [-28.2, 38],
+            zoom: 8
+          });
 
-    eventsArray.forEach((event) => {
-      const eventId = event.$.EventID;
-      if (!uniqueEventIds.has(eventId)) {
-        uniqueEventIds.add(eventId);
-        uniqueEvents.push(event);
-      }
-    });
+          const points = ${JSON.stringify(formattedEvents)};
 
-    return uniqueEvents;
-  };
+          points.forEach(point => {
+            const graphic = new Graphic({
+              geometry: {
+                type: "point",
+                longitude: point.longitude,
+                latitude: point.latitude
+              },
+              symbol: {
+                type: "simple-marker",
+                color: point.color,
+                size: 12, // Numeric value
+                outline: {
+                  color: "black",
+                  width: 1
+                }
+              },
+              popupTemplate: {
+                title: point.title,
+                content: point.description
+              }
+            });
 
-  const toggleEventDetails = useCallback(
-    (eventIndex) => {
-      const event = filteredEvents[eventIndex];
-      navigator.navigate("Sismo", {
-        latitude: event.latitude,
-        longitude: event.longitude,
-        region: event.region,
-        date: event.eventDate,
-        time: event.utcTime,
-        intensidade: event.intensidade,
-        mag: event.magnitude,
-        regiao: event.regiao,
-        backGround: backGround(event.intensidade?.trim()),
-      });
-    },
-    [filteredEvents, navigator]
-  );
-
-  const getMarkerIcon = (event, index) => {
-    const eventDate = new Date(`${event.eventDate}T${event.utcTime}`);
-    const currentDate = new Date();
-    const timeDifference = (currentDate - eventDate) / (1000 * 60 * 60 * 24);
-
-    if (index === 0) {
-      return require("../assets/map_marker.png");
-    }
-
-    if (event.intensidade !== "Não sentido") {
-      return require("../assets/icon_yellow_f.png");
-    }
-
-    if (timeDifference <= 1) {
-      return require("../assets/icon_red.png");
-    }
-
-    if (timeDifference <= 5) {
-      return require("../assets/icon_orange.png");
-    }
-
-    return require("../assets/icon_yellow.png");
-  };
+            view.graphics.add(graphic);
+          });
+        });
+      </script>
+    </body>
+    </html>
+  `;
 
   return (
     <View style={styles.container}>
-      <MapView
-        provider={undefined}
-        style={styles.map}
-        region={{
-          latitude: 38,
-          longitude: -28.2,
-          latitudeDelta: 9,
-          longitudeDelta: 9,
-        }}
-        mapType="hybrid"
-        showsCompass={false}
-        rotateEnabled={false}
-        toolbarEnabled={false}
-      >
-        {filteredEvents.map((event, index) => (
-          <Marker
-            key={index}
-            coordinate={{
-              latitude: parseFloat(event.latitude),
-              longitude: parseFloat(event.longitude),
-            }}
-            image={getMarkerIcon(event, index)}
-            onPress={(e) => toggleEventDetails(index)}
-          />
-        ))}
-      </MapView>
+      {loading && (
+        <ActivityIndicator size={50} color="#0000ff" style={styles.loader} />
+      )}
       <Voltar iswhite={true} />
-      <LogoMap/>
+
+      <WebView
+        originWhitelist={["*"]}
+        source={{ html: arcGISMapHtml }}
+        style={styles.webview}
+        javaScriptEnabled={true}
+        domStorageEnabled={true}
+        onLoad={() => setLoading(false)}
+      />
+    
       <OverlayComponent style={styles.overlayComponent} />
+      <LogoMap />
     </View>
   );
 };
@@ -211,27 +173,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: "100%",
+    width: "100%",
   },
-  map: {
+  webview: {
     flex: 1,
+    height: "100%",
+    width: "100%",
   },
-  voltar: {
+  loader: {
     position: "absolute",
-    top: "7%",
-    left: "7%",
-    zIndex: 1,
-  },
-  voltarText: {
-    fontWeight: "bold",
-    fontSize: 15,
-    textDecorationLine: "underline",
-    color: "#FFFFFF",
+    top: "50%",
+    left: "50%",
+    transform: [{ translateX: -25 }, { translateY: -25 }], // Adjusted for size 50
   },
   overlay: {
     marginTop: "5%",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     borderRadius: 10,
-    alignItems: "left",
+    alignItems: "flex-start", // Changed from "left" to "flex-start"
   },
   overlayTitleText: {
     fontSize: 16,
