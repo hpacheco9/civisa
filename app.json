@@ -1,5 +1,7 @@
 {
   "expo": {
+    "main": "index.js",
+    "newArchEnabled": true,
     "name": "CIVISA",
     "slug": "CIVISA",
     "version": "1.0.0",
@@ -18,6 +20,13 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/splash_civisa.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.francisco.a.CIVISA",
+      "permissions": ["INTERNET"]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "85bc0f0e-2632-4519-98a8-5f17a800fc51"
       }
     }
   }

@@ -11,7 +11,7 @@ export const useLista = () => {
       const fetchXmlData = async () => {
         try {
           const response = await axios.get(
-            "http://www.ivar.azores.gov.pt/seismic/eventgroup.xml?1721035364517"
+            "https://www.ivar.azores.gov.pt/seismic/eventgroup.xml?1721035364517"
           );
           parseString(response.data, (err, result) => {
             if (err) {

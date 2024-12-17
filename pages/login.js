@@ -18,7 +18,6 @@ import {
 } from "react-native";
 import { getFirestore } from "firebase/firestore";
 import getUserByEmail from "../services/getuser";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Email inválido").required("Email é obrigatório"),
@@ -121,9 +120,9 @@ const Login = () => {
                     value={values.password}
                     secureTextEntry={!showPassword}
                   />
-                  <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                  {/* <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
                     <Icon name={showPassword ? "eye-off" : "eye"} size={24} color="gray" />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
                 <Text style={styles.errorText}>
                   {touched.password && errors.password ? errors.password : " "}

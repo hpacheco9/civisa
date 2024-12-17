@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { initializeApp } from 'firebase/app';
@@ -8,7 +8,6 @@ import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId } from '@env';
 import Voltar from '../components/Voltar';
 import { useNavigation } from "@react-navigation/native";
-import { ScrollView } from 'react-native-gesture-handler';
 import CustomCheckbox from '../components/accept';
 
 const firebaseConfig = {
