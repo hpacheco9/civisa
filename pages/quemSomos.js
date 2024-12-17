@@ -19,37 +19,56 @@ const QuemSomos = () => {
   const toggleExpand = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
+  
+  const renderQuestionText = (text) => {
+    const parts = text.split(/(_)/);
+    let isBold = false;
+    return parts.map((part, index) => {
+      if (part === "_") {
+        isBold = !isBold;
+        return null;
+      }
+      return (
+        <Text
+          key={index}
+          style={isBold ? { fontWeight: "bold" } : {}}
+        >
+          {part}
+        </Text>
+      );
+    });
+  };
 
   return (
     <>
-    <TopBar />
-    <SafeAreaView style={styles.safeArea}>
-   
-      <ScrollView style={styles.scrollView}>
-    < Text style={styles.title}>Informações</Text>
-      <View style={styles.container}>
-        {infoData.map((item, index) => (
-          <View key={index} style={styles.itemContainer}>
-            <TouchableOpacity
-              style={styles.containerValor}
-              onPress={() => toggleExpand(index)}
-            >
-              <View style={styles.textContainer}>
-                <Text style={styles.textoBold}>{item.title}</Text>
+      <TopBar />
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView style={styles.scrollView}>
+          <Text style={styles.title}>Informações</Text>
+          <View style={styles.container}>
+            {infoData.map((item, index) => (
+              <View key={index} style={styles.itemContainer}>
+                <TouchableOpacity
+                  style={styles.containerValor}
+                  onPress={() => toggleExpand(index)}
+                >
+                  <View style={styles.textContainer}>
+                    <Text style={styles.textoBold}>{item.title}</Text>
+                  </View>
+                </TouchableOpacity>
+                <Collapsible collapsed={expandedIndex !== index}>
+                  <View style={styles.descriptionContainer}>
+                    <Text style={styles.descriptionText}>
+                      {renderQuestionText(item.description)}
+                    </Text>
+                  </View>
+                </Collapsible>
               </View>
-            </TouchableOpacity>
-            <Collapsible collapsed={expandedIndex !== index}>
-              <View style={styles.descriptionContainer}>
-                <Text style={styles.descriptionText}>{item.description}</Text>
-              </View>
-            </Collapsible>
+            ))}
           </View>
-        ))}
-      </View>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
     </>
-    
   );
 };
 

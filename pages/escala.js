@@ -1,45 +1,95 @@
-import React from "react";
-import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
-import backGround from "../services/background.js";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
+import Collapsible from "react-native-collapsible";
 import escala from "../services/escala.json";
+import alvenaria from "../services/alvenaria.json";
+import backGround from "../services/background.js";
 import TopBar from "../components/topBar.jsx";
 
-const intensityData = escala.escala;
+const escalaData = escala.escala;
+const alvenariaData = alvenaria.alvenaria;
 
 const Escala = () => {
+  const [expandedIndex, setExpandedIndex] = useState(null);
+  const [expandedIndex2, setExpandedIndex2] = useState(null);
+
+  const toggleExpand = (index) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
+  const toggleExpand2 = (index) => {
+    setExpandedIndex2(expandedIndex2 === index ? null : index);
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
-      <TopBar/>
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.title}>Escala de Mercalli Modificada (1956)</Text>
-        {intensityData.map((item, index) => (
-          <View key={index} style={styles.containerValor}>
-            <View
-              style={[
-                styles.magContainer,
-                { backgroundColor: backGround(item.level) },
-              ]}
-            >
-              <Text style={styles.magnitude}>{item.level}</Text>
+      <TopBar />
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.title}>Escala de Mercalli Modificada (1956)</Text>
+          {escalaData.map((item, index) => (
+            <View key={index}>
+              <TouchableOpacity
+                style={[
+                  styles.containerValor,
+                  { backgroundColor: backGround(item.level) },
+                ]}
+                onPress={() => toggleExpand(index)}
+              >
+                <View style={styles.escalaContainer}>
+                  <Text style={styles.escala}>{item.level}</Text>
+                </View>
+                <View style={styles.textContainer}>
+                  <Text style={styles.textoBold}>{item.title}</Text>
+                </View>
+              </TouchableOpacity>
+              {index < 12 && (
+                <Collapsible collapsed={expandedIndex !== index}>
+                  <View style={styles.descriptionContainer}>
+                    <Text style={styles.descriptionText}>
+                      {item.description}
+                    </Text>
+                  </View>
+                </Collapsible>
+              )}
             </View>
-            <View style={styles.textContainer}>
-              <Text style={styles.textoBold}>{item.title}</Text>
-              <Text style={styles.texto}>{item.description}</Text>
-            </View>
-          </View>
-        ))}
-        <View style={{alignItems: 'center'}}>
-        <Text style={{color: '#000000'}}> ___________________________ </Text>
+          ))}
+        <View style={{alignItems: 'center', paddingVertical: 10}}>
+          <Text style={{color: '#000'}}>__________</Text>
         </View>
-        <View style={{ marginTop: '10%'}}>
-          <Text style={{fontSize: 18, fontWeight:'bold'}}>Alvenaria Tipo A </Text>
-          <Text style={{marginTop: '3%', textAlign: 'justify', fontSize: 16}}>Bem executada, bem argamassada e bem projetada; reforçada especialmente contra reforços laterais; projetada
-            para resistir às forças horizontais.
-          </Text>
-      </View> 
-
-      </View>
+        <Text style={styles.alvenariaTitle}>Classificação de alvenarias</Text>
+        {alvenariaData.map((item, index) => (
+            <View key={index}>
+              <TouchableOpacity
+                style={[
+                  styles.containerValor,
+                  { backgroundColor: "#CCC" }
+                ]}
+                onPress={() => toggleExpand2(index)}
+              >
+                <View style={styles.alvenariaContainer}>
+                  <Text style={styles.textoBold}>{item.title}</Text>
+                </View>
+              </TouchableOpacity>
+              {index < 12 && (
+                <Collapsible collapsed={expandedIndex2 !== index}>
+                  <View style={styles.descriptionContainer}>
+                    <Text style={styles.descriptionText}>
+                      {item.description}
+                    </Text>
+                  </View>
+                </Collapsible>
+              )}
+            </View>
+          ))}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -51,27 +101,32 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
   },
   container: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#FFF",
     padding: 16,
     marginBottom: "5%",
   },
   containerValor: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
+    marginTop: 15,
+    padding: 5,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "black",
   },
-  magContainer: {
+  escalaContainer: {
     width: 40,
     height: 40,
     alignItems: "center",
     justifyContent: "center",
     marginRight: 10,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "black",
   },
-  magnitude: {
-    color: "black",
+  alvenariaContainer: {
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  escala: {
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -83,16 +138,29 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 20,
-    
   },
-  texto: {
-    fontSize: 16,
-    textAlign: "justify",
+  alvenariaTitle: {
+    fontSize: 26,
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 10,
   },
   textoBold: {
     fontSize: 18,
     fontWeight: "bold",
+  },
+  descriptionContainer: {
+    backgroundColor: "#f6f6f6",
+    padding: 10,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    borderColor: "black",
+    borderWidth: 0.5,
+    borderTopWidth: 0,
+  },
+  descriptionText: {
+    fontSize: 16,
+    textAlign: "justify",
   },
 });
 

@@ -1,24 +1,29 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
-import RNPickerSelect from "react-native-picker-select";
+import { Picker } from "@react-native-picker/picker";
 
 const InputDropdown = ({
   label,
   items,
   placeholder,
   onValueChange,
+  value,
   ...pickerProps
 }) => {
   return (
     <>
       <Text style={styles.header}>{label}</Text>
-      <RNPickerSelect
-        placeholder={placeholder}
-        items={items}
+      <Picker
+        style={pickerSelectStyles.inputAndroid}
+        selectedValue={value}
         onValueChange={onValueChange}
-        style={pickerSelectStyles}
         {...pickerProps}
-      />
+      >
+        <Picker.Item label={placeholder.label} value={null} />
+        {items.map((item) => (
+          <Picker.Item key={item.value} label={item.label} value={item.value} />
+        ))}
+      </Picker>
     </>
   );
 };
@@ -34,18 +39,6 @@ const styles = StyleSheet.create({
 });
 
 const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 4,
-    color: "black",
-    paddingRight: 30,
-    marginLeft: "11%",
-    width: 300,
-    height: 50,
-  },
   inputAndroid: {
     fontSize: 16,
     paddingHorizontal: 10,

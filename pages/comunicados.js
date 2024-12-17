@@ -37,7 +37,7 @@ const Comunicados = () => {
 
   const fetchData = async () => {
    try {
-      const response = await fetch("http://www.ivar.azores.gov.pt/seismic/comunicado.txt");
+      const response = await fetch("https://www.ivar.azores.gov.pt/seismic/comunicado.txt");
       const text = await response.text();
       const jsonData = JSON.parse(text);
       const newComunicados = Array.isArray(jsonData) ? jsonData : [jsonData];

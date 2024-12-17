@@ -1,4 +1,7 @@
+// @@iconify-code-gen
+
 import React, { useEffect, useState } from "react";
+import { enableScreens } from 'react-native-screens';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import NetInfo from "@react-native-community/netinfo";
@@ -33,11 +36,10 @@ import Notificacao from "./pages/notificacao.js";
 import Comunicados from "./pages/comunicados.js";
 import SplashScreen from "./pages/splashscreen.js";
 import Recuperar from "./pages/recuperar.js";
-import NoEthernetScreen from "./pages/ethernet.js"; 
+import NoEthernetScreen from "./pages/ethernet.js";
 import { NotificationProvider } from "./pages/NotificationContext.js";
 
-
-
+enableScreens();
 
 const App = () => {
   const [isCon, setCon] = useState(true);

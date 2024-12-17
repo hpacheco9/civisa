@@ -1,16 +1,16 @@
 function backGround(value) {
   const colorMap = {
-    "II": "#BFCCFF",
-    "III": "#9B9BFF",
-    "IV": "#88DCDC",
-    "V": "#7EF895",
-    "VI": "#E9DC01",
-    "VII": "#FDBE01",
-    "VIII": "#FF711F",
-    "IX": "#FF0302",
-    "X": "#DC0C0C",
-    "XI": "#880201",
-    "XII": "#440203"
+    II: "#BFCCFF",
+    III: "#9B9BFF",
+    IV: "#88DCDC",
+    V: "#7EF895",
+    VI: "#E9DC01",
+    VII: "#FDBE01",
+    VIII: "#FF711F",
+    IX: "#FF0000",
+    X: "#DD0000",
+    XI: "#BB0000",
+    XII: "#990000",
   };
 
   let n = value;

@@ -15,11 +15,17 @@ const Alerta = () => {
   const [alertData, setAlertData] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); // Added error state
 
   useEffect(() => {
-    fetch("http://www.ivar.azores.gov.pt/seismic/alarmzones.html")
-      .then((response) => response.json())
+    console.log('Starting fetch...');
+    fetch("https://www.ivar.azores.gov.pt/seismic/alarmzones.html")  // Changed to https
+      .then((response) => {
+        console.log('Response status:', response.status);
+        return response.json();
+      })
       .then((data) => {
+        console.log('Data received');
         const volcanicAlert = data.find((alert) => alert.Type === "Volcanic");
         if (volcanicAlert && volcanicAlert.Markers) {
           const sortedMarkers = volcanicAlert.Markers.sort(
@@ -29,10 +35,15 @@ const Alerta = () => {
         } else {
           setAlertData([]);
         }
+        setError(null); // Clear any previous errors
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching alert data:", error);
+        console.error("Error type:", typeof error);
+        console.error("Error name:", error.name);
+        console.error("Error message:", error.message);
+        console.error("Full error:", JSON.stringify(error));
+        setError(error.message); // Set the error message
         setLoading(false);
       });
   }, []);
@@ -58,38 +69,46 @@ const Alerta = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <TopBar/>
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.title}>Alertas Vulcânicos</Text>
-        {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-          alertData.map((item, index) => (
-            <View key={index}>
-              <TouchableOpacity
-                style={[
-                  styles.containerValor,
-                  { backgroundColor: getColor(item.Level) },
-                ]}
-                onPress={() => toggleExpand(index)}
-              >
-                <View style={styles.alertaContainer}>
-                  <Text style={styles.alerta}>{item.Level}</Text>
-                </View>
-                <View style={styles.textContainer}>
-                  <Text style={styles.textoBold}>{item.Name}</Text>
-                </View>
-              </TouchableOpacity>
-              <Collapsible collapsed={expandedIndex !== index}>
-                <View style={styles.descriptionContainer}>
-                  <Text style={styles.descriptionText}>{item.Description}</Text>
-                </View>
-              </Collapsible>
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.title}>Alertas Vulcânicos</Text>
+          
+          {/* Added error display */}
+          {error && (
+            <View style={styles.errorContainer}>
+              <Text style={styles.errorText}>Error: {error}</Text>
             </View>
-          ))
-        )}
-      </View>
-    </ScrollView>
+          )}
+
+          {loading ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : (
+            alertData.map((item, index) => (
+              <View key={index}>
+                <TouchableOpacity
+                  style={[
+                    styles.containerValor,
+                    { backgroundColor: getColor(item.Level) },
+                  ]}
+                  onPress={() => toggleExpand(index)}
+                >
+                  <View style={styles.alertaContainer}>
+                    <Text style={styles.alerta}>{item.Level}</Text>
+                  </View>
+                  <View style={styles.textContainer}>
+                    <Text style={styles.textoBold}>{item.Name}</Text>
+                  </View>
+                </TouchableOpacity>
+                <Collapsible collapsed={expandedIndex !== index}>
+                  <View style={styles.descriptionContainer}>
+                    <Text style={styles.descriptionText}>{item.Description}</Text>
+                  </View>
+                </Collapsible>
+              </View>
+            ))
+          )}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -175,6 +194,16 @@ const styles = StyleSheet.create({
   descriptionText: {
     fontSize: 16,
     textAlign: "justify",
+  },
+  errorContainer: {
+    padding: 10,
+    backgroundColor: '#ffebee',
+    marginVertical: 10,
+    borderRadius: 5,
+  },
+  errorText: {
+    color: '#c62828',
+    fontSize: 16,
   },
 });
 

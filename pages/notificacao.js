@@ -20,7 +20,7 @@ const Notificacao = () => {
   const checkForNewNotification = async () => {
     setRefreshing(true); // Inicia o estado de refresh
     try {
-      const response = await fetch('http://www.ivar.azores.gov.pt/seismic/flashalert.txt?' + new Date()); 
+      const response = await fetch('https://www.ivar.azores.gov.pt/seismic/flashalert.txt?' + new Date()); 
       const text = await response.text(); 
       const jsonData = JSON.parse(text); // Supondo que o arquivo seja um JSON com { text, DTime }
   
